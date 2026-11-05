@@ -1351,7 +1351,7 @@
       top: -25px;
       width: 250px;
       height: 310px;
-      animation: floatSlow 8s ease-in-out infinite;
+      /* animation removed for smooth stability */
     }
     #section-ads .decor-lego {
       left: -20px;
@@ -1377,7 +1377,7 @@
       width: 250px;
       height: 310px;
       filter: drop-shadow(0 15px 35px rgba(0, 0, 0, 0.65));
-      animation: floatSlow 8s ease-in-out infinite;
+      /* animation removed for smooth stability */
 
     }
 
@@ -2911,11 +2911,11 @@
     }
 
     /* Stagger column speeds for organic dynamic feel */
-    /* Calm, cinematic drift speeds */
-    .col-1 .col-track { animation-duration: 140s; }
-    .col-2 .col-track { animation-duration: 120s; }
-    .col-3 .col-track { animation-duration: 155s; }
-    .col-4 .col-track { animation-duration: 130s; }
+    /* Dynamic, smooth waterfall stream speeds */
+    .col-1 .col-track { animation-duration: 85s; }
+    .col-2 .col-track { animation-duration: 72s; }
+    .col-3 .col-track { animation-duration: 90s; }
+    .col-4 .col-track { animation-duration: 78s; }
 
     /* Stream top to bottom: from translateY(-50%) down to translateY(0) */
     @keyframes waterfallDown {
@@ -3900,42 +3900,42 @@
 
           <!-- TOP ROW: 6 THUMBNAIL CARDS (img1 - img6) -->
           <div class="abs thumb thumb-1" title="Ad Image 1">
-            <img src="./assets/collection/adds-assets-htmlpage/img1.png" alt="Ad Image 1" class="card-img" / loading="lazy" decoding="async">
+            <img data-src="./assets/collection/adds-assets-htmlpage/img1.png" alt="Ad Image 1" class="card-img" / loading="lazy" decoding="async">
           </div>
 
           <div class="abs thumb thumb-2" title="Ad Image 2">
-            <img src="./assets/collection/adds-assets-htmlpage/img2.png" alt="Ad Image 2" class="card-img" / loading="lazy" decoding="async">
+            <img data-src="./assets/collection/adds-assets-htmlpage/img2.png" alt="Ad Image 2" class="card-img" / loading="lazy" decoding="async">
           </div>
 
           <div class="abs thumb thumb-3" title="Ad Image 3">
-            <img src="./assets/collection/adds-assets-htmlpage/img3.png" alt="Ad Image 3" class="card-img" / loading="lazy" decoding="async">
+            <img data-src="./assets/collection/adds-assets-htmlpage/img3.png" alt="Ad Image 3" class="card-img" / loading="lazy" decoding="async">
           </div>
 
           <div class="abs thumb thumb-4" title="Ad Image 4">
-            <img src="./assets/collection/adds-assets-htmlpage/img4.png" alt="Ad Image 4" class="card-img" / loading="lazy" decoding="async">
+            <img data-src="./assets/collection/adds-assets-htmlpage/img4.png" alt="Ad Image 4" class="card-img" / loading="lazy" decoding="async">
           </div>
 
           <div class="abs thumb thumb-5" title="Ad Image 5">
-            <img src="./assets/collection/adds-assets-htmlpage/img5.png" alt="Ad Image 5" class="card-img" / loading="lazy" decoding="async">
+            <img data-src="./assets/collection/adds-assets-htmlpage/img5.png" alt="Ad Image 5" class="card-img" / loading="lazy" decoding="async">
           </div>
 
           <div class="abs thumb thumb-6" title="Ad Image 6">
-            <img src="./assets/collection/adds-assets-htmlpage/img6.png" alt="Ad Image 6" class="card-img" / loading="lazy" decoding="async">
+            <img data-src="./assets/collection/adds-assets-htmlpage/img6.png" alt="Ad Image 6" class="card-img" / loading="lazy" decoding="async">
           </div>
 
           <!-- BOTTOM ROW: 3 VIDEO PLAYER CARDS (vid1.mp4, vid2.mp4, vid3.mp4) -->
           <div class="abs player player-1" title="Play Ad Video 1">
-            <video src="./assets/collection/adds-assets-htmlpage/vid1.mp4" class="player-media" loop muted playsinline preload="metadata"></video>
+            <video data-src="./assets/collection/adds-assets-htmlpage/vid1.mp4" class="player-media" loop muted playsinline preload="none"></video>
             <button class="player-play-btn" type="button" aria-label="Play video 1">Play</button>
           </div>
 
           <div class="abs player player-2" title="Play Ad Video 2">
-            <video src="./assets/collection/adds-assets-htmlpage/vid2.mp4" class="player-media" loop muted playsinline preload="metadata"></video>
+            <video data-src="./assets/collection/adds-assets-htmlpage/vid2.mp4" class="player-media" loop muted playsinline preload="none"></video>
             <button class="player-play-btn" type="button" aria-label="Play video 2">Play</button>
           </div>
 
           <div class="abs player player-3" title="Play Ad Video 3">
-            <video src="./assets/collection/adds-assets-htmlpage/vid3.mp4" class="player-media" loop muted playsinline preload="metadata"></video>
+            <video data-src="./assets/collection/adds-assets-htmlpage/vid3.mp4" class="player-media" loop muted playsinline preload="none"></video>
             <button class="player-play-btn" type="button" aria-label="Play video 3">Play</button>
           </div>
 
@@ -3961,8 +3961,8 @@
           <!-- 5 VIDEO SHOWCASE CARDS (Exact 16:9 ratio, balanced 2-tier composition) -->
           <!-- Video Card 1 (Top-Left) -->
           <div class="video-card-16-9 card-pos-1" id="socialCard1" data-video="./assets/collection/social-assets-video/vid-showcase01.mp4">
-            <video class="card-video" loop muted playsinline preload="metadata" poster="./assets/collection/social-assets-video/poster-showcase01.jpg">
-              <source src="./assets/collection/social-assets-video/vid-showcase01.mp4" type="video/mp4" />
+            <video class="card-video" loop muted playsinline preload="none" poster="./assets/collection/social-assets-video/poster-showcase01.jpg">
+              <source data-src="./assets/collection/social-assets-video/vid-showcase01.mp4" type="video/mp4" />
             </video>
             <button class="player-audio-btn" type="button" aria-label="Toggle Sound" title="Unmute sound">
               <svg class="icon-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -3983,8 +3983,8 @@
 
           <!-- Video Card 2 (Top-Middle) -->
           <div class="video-card-16-9 card-pos-2" id="socialCard2" data-video="./assets/collection/social-assets-video/vid-showcase02.mp4">
-            <video class="card-video" loop muted playsinline preload="metadata" poster="./assets/collection/social-assets-video/poster-showcase02.jpg">
-              <source src="./assets/collection/social-assets-video/vid-showcase02.mp4" type="video/mp4" />
+            <video class="card-video" loop muted playsinline preload="none" poster="./assets/collection/social-assets-video/poster-showcase02.jpg">
+              <source data-src="./assets/collection/social-assets-video/vid-showcase02.mp4" type="video/mp4" />
             </video>
             <button class="player-audio-btn" type="button" aria-label="Toggle Sound" title="Unmute sound">
               <svg class="icon-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -4005,8 +4005,8 @@
 
           <!-- Video Card 3 (Top-Right) -->
           <div class="video-card-16-9 card-pos-3" id="socialCard3" data-video="./assets/collection/social-assets-video/vid-showcase03.mp4">
-            <video class="card-video" loop muted playsinline preload="metadata" poster="./assets/collection/social-assets-video/poster-showcase03.jpg">
-              <source src="./assets/collection/social-assets-video/vid-showcase03.mp4" type="video/mp4" />
+            <video class="card-video" loop muted playsinline preload="none" poster="./assets/collection/social-assets-video/poster-showcase03.jpg">
+              <source data-src="./assets/collection/social-assets-video/vid-showcase03.mp4" type="video/mp4" />
             </video>
             <button class="player-play-btn" type="button" aria-label="Play Video 3">
               <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
@@ -4016,8 +4016,8 @@
 
           <!-- Video Card 4 (Bottom Mid-Left) -->
           <div class="video-card-16-9 card-pos-4" id="socialCard4" data-video="./assets/collection/social-assets-video/vid-showcase04.mp4">
-            <video class="card-video" loop muted playsinline preload="metadata" poster="./assets/collection/social-assets-video/poster-showcase04.jpg">
-              <source src="./assets/collection/social-assets-video/vid-showcase04.mp4" type="video/mp4" />
+            <video class="card-video" loop muted playsinline preload="none" poster="./assets/collection/social-assets-video/poster-showcase04.jpg">
+              <source data-src="./assets/collection/social-assets-video/vid-showcase04.mp4" type="video/mp4" />
             </video>
             <button class="player-play-btn" type="button" aria-label="Play Video 4">
               <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
@@ -4027,8 +4027,8 @@
 
           <!-- Video Card 5 (Bottom Mid-Right) -->
           <div class="video-card-16-9 card-pos-5" id="socialCard5" data-video="./assets/collection/social-assets-video/vid-showcase05.mp4">
-            <video class="card-video" loop muted playsinline preload="metadata" poster="./assets/collection/social-assets-video/poster-showcase05.jpg">
-              <source src="./assets/collection/social-assets-video/vid-showcase05.mp4" type="video/mp4" />
+            <video class="card-video" loop muted playsinline preload="none" poster="./assets/collection/social-assets-video/poster-showcase05.jpg">
+              <source data-src="./assets/collection/social-assets-video/vid-showcase05.mp4" type="video/mp4" />
             </video>
             <button class="player-audio-btn" type="button" aria-label="Toggle Sound" title="Unmute sound">
               <svg class="icon-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -4104,7 +4104,7 @@
                 <span class="badge-tag">AI Reel</span>
                 <span class="badge-dur">0:14</span>
               </div>
-              <video src="./assets/selected-work/media/recent_car_influencer.mp4" poster="./assets/selected-work/posters/recent_car_influencer_poster.jpg" muted loop playsinline preload="none"></video>
+              <video data-src="./assets/selected-work/media/recent_car_influencer.mp4" poster="./assets/selected-work/posters/recent_car_influencer_poster.jpg" muted loop playsinline preload="none"></video>
             </div>
             <div class="card-body">
               <h3 class="card-title">Automotive Creator Reel</h3>
@@ -4121,7 +4121,7 @@
                 <span class="badge-tag">Cinematic</span>
                 <span class="badge-dur">0:45</span>
               </div>
-              <video src="./assets/selected-work/media/recent_pixielabs.mp4" poster="./assets/selected-work/posters/recent_pixielabs_poster.jpg" muted loop playsinline preload="none"></video>
+              <video data-src="./assets/selected-work/media/recent_pixielabs.mp4" poster="./assets/selected-work/posters/recent_pixielabs_poster.jpg" muted loop playsinline preload="none"></video>
             </div>
             <div class="card-body">
               <h3 class="card-title">PixieLabs Brand Film</h3>
@@ -4138,7 +4138,7 @@
                 <span class="badge-tag">Visual Kit</span>
                 <span class="badge-dur">Design</span>
               </div>
-              <img src="./assets/selected-work/media/recent_modern_muse.png" alt="Modern Muse Identity" loading="lazy" />
+              <img data-src="./assets/selected-work/media/recent_modern_muse.png" alt="Modern Muse Identity" loading="lazy" />
             </div>
             <div class="card-body">
               <h3 class="card-title">Modern Muse Identity</h3>
@@ -4155,7 +4155,7 @@
                 <span class="badge-tag">AI Reel</span>
                 <span class="badge-dur">0:06</span>
               </div>
-              <video src="./assets/selected-work/media/clipbee_subway.mp4" poster="./assets/selected-work/posters/clipbee_subway_poster.jpg" muted loop playsinline preload="none"></video>
+              <video data-src="./assets/selected-work/media/clipbee_subway.mp4" poster="./assets/selected-work/posters/clipbee_subway_poster.jpg" muted loop playsinline preload="none"></video>
             </div>
             <div class="card-body">
               <h3 class="card-title">Subway Cinematic Frame</h3>
@@ -4172,7 +4172,7 @@
                 <span class="badge-tag">Brand Motion</span>
                 <span class="badge-dur">0:10</span>
               </div>
-              <video src="./assets/selected-work/media/root_abstract_waves.mp4" poster="./assets/selected-work/posters/root_abstract_waves_poster.jpg" muted loop playsinline preload="none"></video>
+              <video data-src="./assets/selected-work/media/root_abstract_waves.mp4" poster="./assets/selected-work/posters/root_abstract_waves_poster.jpg" muted loop playsinline preload="none"></video>
             </div>
             <div class="card-body">
               <h3 class="card-title">Dynamic Motion Waves</h3>
@@ -4189,7 +4189,7 @@
                 <span class="badge-tag">Concept</span>
                 <span class="badge-dur">Still</span>
               </div>
-              <img src="./assets/selected-work/media/recent_nano_banana.png" alt="Nano Banana System" loading="lazy" />
+              <img data-src="./assets/selected-work/media/recent_nano_banana.png" alt="Nano Banana System" loading="lazy" />
             </div>
             <div class="card-body">
               <h3 class="card-title">Nano Banana System</h3>
@@ -4206,7 +4206,7 @@
                 <span class="badge-tag">Cinematic</span>
                 <span class="badge-dur">0:06</span>
               </div>
-              <video src="./assets/selected-work/media/clipbee_hollywood.mp4" poster="./assets/selected-work/posters/clipbee_hollywood_poster.jpg" muted loop playsinline preload="none"></video>
+              <video data-src="./assets/selected-work/media/clipbee_hollywood.mp4" poster="./assets/selected-work/posters/clipbee_hollywood_poster.jpg" muted loop playsinline preload="none"></video>
             </div>
             <div class="card-body">
               <h3 class="card-title">Hollywood Sign Sweep</h3>
@@ -4223,7 +4223,7 @@
                 <span class="badge-tag">AI Reel</span>
                 <span class="badge-dur">0:24</span>
               </div>
-              <video src="./assets/selected-work/media/recent_vlog_hairdress.mp4" poster="./assets/selected-work/posters/recent_vlog_hairdress_poster.jpg" muted loop playsinline preload="none"></video>
+              <video data-src="./assets/selected-work/media/recent_vlog_hairdress.mp4" poster="./assets/selected-work/posters/recent_vlog_hairdress_poster.jpg" muted loop playsinline preload="none"></video>
             </div>
             <div class="card-body">
               <h3 class="card-title">Studio Hairdresser Vlog</h3>
@@ -4240,7 +4240,7 @@
                 <span class="badge-tag">Render</span>
                 <span class="badge-dur">Still</span>
               </div>
-              <img src="./assets/selected-work/media/root_flux2pro.png" alt="Flux 2 Pro Photorealism" loading="lazy" />
+              <img data-src="./assets/selected-work/media/root_flux2pro.png" alt="Flux 2 Pro Photorealism" loading="lazy" />
             </div>
             <div class="card-body">
               <h3 class="card-title">Flux 2 Pro Photorealism</h3>
@@ -4258,7 +4258,7 @@
                 <span class="badge-tag">AI Reel</span>
                 <span class="badge-dur">0:14</span>
               </div>
-              <video src="./assets/selected-work/media/recent_car_influencer.mp4" poster="./assets/selected-work/posters/recent_car_influencer_poster.jpg" muted loop playsinline preload="none"></video>
+              <video data-src="./assets/selected-work/media/recent_car_influencer.mp4" poster="./assets/selected-work/posters/recent_car_influencer_poster.jpg" muted loop playsinline preload="none"></video>
             </div>
             <div class="card-body">
               <h3 class="card-title">Automotive Creator Reel</h3>
@@ -4275,7 +4275,7 @@
                 <span class="badge-tag">Cinematic</span>
                 <span class="badge-dur">0:45</span>
               </div>
-              <video src="./assets/selected-work/media/recent_pixielabs.mp4" poster="./assets/selected-work/posters/recent_pixielabs_poster.jpg" muted loop playsinline preload="none"></video>
+              <video data-src="./assets/selected-work/media/recent_pixielabs.mp4" poster="./assets/selected-work/posters/recent_pixielabs_poster.jpg" muted loop playsinline preload="none"></video>
             </div>
             <div class="card-body">
               <h3 class="card-title">PixieLabs Brand Film</h3>
@@ -4292,7 +4292,7 @@
                 <span class="badge-tag">Visual Kit</span>
                 <span class="badge-dur">Design</span>
               </div>
-              <img src="./assets/selected-work/media/recent_modern_muse.png" alt="Modern Muse Identity" loading="lazy" />
+              <img data-src="./assets/selected-work/media/recent_modern_muse.png" alt="Modern Muse Identity" loading="lazy" />
             </div>
             <div class="card-body">
               <h3 class="card-title">Modern Muse Identity</h3>
@@ -4309,7 +4309,7 @@
                 <span class="badge-tag">AI Reel</span>
                 <span class="badge-dur">0:06</span>
               </div>
-              <video src="./assets/selected-work/media/clipbee_subway.mp4" poster="./assets/selected-work/posters/clipbee_subway_poster.jpg" muted loop playsinline preload="none"></video>
+              <video data-src="./assets/selected-work/media/clipbee_subway.mp4" poster="./assets/selected-work/posters/clipbee_subway_poster.jpg" muted loop playsinline preload="none"></video>
             </div>
             <div class="card-body">
               <h3 class="card-title">Subway Cinematic Frame</h3>
@@ -4326,7 +4326,7 @@
                 <span class="badge-tag">Brand Motion</span>
                 <span class="badge-dur">0:10</span>
               </div>
-              <video src="./assets/selected-work/media/root_abstract_waves.mp4" poster="./assets/selected-work/posters/root_abstract_waves_poster.jpg" muted loop playsinline preload="none"></video>
+              <video data-src="./assets/selected-work/media/root_abstract_waves.mp4" poster="./assets/selected-work/posters/root_abstract_waves_poster.jpg" muted loop playsinline preload="none"></video>
             </div>
             <div class="card-body">
               <h3 class="card-title">Dynamic Motion Waves</h3>
@@ -4343,7 +4343,7 @@
                 <span class="badge-tag">Concept</span>
                 <span class="badge-dur">Still</span>
               </div>
-              <img src="./assets/selected-work/media/recent_nano_banana.png" alt="Nano Banana System" loading="lazy" />
+              <img data-src="./assets/selected-work/media/recent_nano_banana.png" alt="Nano Banana System" loading="lazy" />
             </div>
             <div class="card-body">
               <h3 class="card-title">Nano Banana System</h3>
@@ -4360,7 +4360,7 @@
                 <span class="badge-tag">Cinematic</span>
                 <span class="badge-dur">0:06</span>
               </div>
-              <video src="./assets/selected-work/media/clipbee_hollywood.mp4" poster="./assets/selected-work/posters/clipbee_hollywood_poster.jpg" muted loop playsinline preload="none"></video>
+              <video data-src="./assets/selected-work/media/clipbee_hollywood.mp4" poster="./assets/selected-work/posters/clipbee_hollywood_poster.jpg" muted loop playsinline preload="none"></video>
             </div>
             <div class="card-body">
               <h3 class="card-title">Hollywood Sign Sweep</h3>
@@ -4377,7 +4377,7 @@
                 <span class="badge-tag">AI Reel</span>
                 <span class="badge-dur">0:24</span>
               </div>
-              <video src="./assets/selected-work/media/recent_vlog_hairdress.mp4" poster="./assets/selected-work/posters/recent_vlog_hairdress_poster.jpg" muted loop playsinline preload="none"></video>
+              <video data-src="./assets/selected-work/media/recent_vlog_hairdress.mp4" poster="./assets/selected-work/posters/recent_vlog_hairdress_poster.jpg" muted loop playsinline preload="none"></video>
             </div>
             <div class="card-body">
               <h3 class="card-title">Studio Hairdresser Vlog</h3>
@@ -4394,7 +4394,7 @@
                 <span class="badge-tag">Render</span>
                 <span class="badge-dur">Still</span>
               </div>
-              <img src="./assets/selected-work/media/root_flux2pro.png" alt="Flux 2 Pro Photorealism" loading="lazy" />
+              <img data-src="./assets/selected-work/media/root_flux2pro.png" alt="Flux 2 Pro Photorealism" loading="lazy" />
             </div>
             <div class="card-body">
               <h3 class="card-title">Flux 2 Pro Photorealism</h3>
@@ -4417,7 +4417,7 @@
                 <span class="badge-tag">AI Reel</span>
                 <span class="badge-dur">0:25</span>
               </div>
-              <video src="./assets/selected-work/media/recent_bw_content.mp4" poster="./assets/selected-work/posters/recent_bw_content_poster.jpg" muted loop playsinline preload="none"></video>
+              <video data-src="./assets/selected-work/media/recent_bw_content.mp4" poster="./assets/selected-work/posters/recent_bw_content_poster.jpg" muted loop playsinline preload="none"></video>
             </div>
             <div class="card-body">
               <h3 class="card-title">Monochrome City Muse</h3>
@@ -4434,7 +4434,7 @@
                 <span class="badge-tag">Cinematic</span>
                 <span class="badge-dur">0:45</span>
               </div>
-              <video src="./assets/selected-work/media/recent_geometry_anxiety.mp4" poster="./assets/selected-work/posters/recent_geometry_anxiety_poster.jpg" muted loop playsinline preload="none"></video>
+              <video data-src="./assets/selected-work/media/recent_geometry_anxiety.mp4" poster="./assets/selected-work/posters/recent_geometry_anxiety_poster.jpg" muted loop playsinline preload="none"></video>
             </div>
             <div class="card-body">
               <h3 class="card-title">The Geometry of Anxiety</h3>
@@ -4451,7 +4451,7 @@
                 <span class="badge-tag">Editorial</span>
                 <span class="badge-dur">Design</span>
               </div>
-              <img src="./assets/selected-work/media/recent_editorial_series.png" alt="Editorial Campaign Series" loading="lazy" />
+              <img data-src="./assets/selected-work/media/recent_editorial_series.png" alt="Editorial Campaign Series" loading="lazy" />
             </div>
             <div class="card-body">
               <h3 class="card-title">Editorial Campaign Series</h3>
@@ -4468,7 +4468,7 @@
                 <span class="badge-tag">Cinematic</span>
                 <span class="badge-dur">0:06</span>
               </div>
-              <video src="./assets/selected-work/media/clipbee_souk.mp4" poster="./assets/selected-work/posters/clipbee_souk_poster.jpg" muted loop playsinline preload="none"></video>
+              <video data-src="./assets/selected-work/media/clipbee_souk.mp4" poster="./assets/selected-work/posters/clipbee_souk_poster.jpg" muted loop playsinline preload="none"></video>
             </div>
             <div class="card-body">
               <h3 class="card-title">Souk Walkthrough</h3>
@@ -4485,7 +4485,7 @@
                 <span class="badge-tag">AI Reel</span>
                 <span class="badge-dur">0:25</span>
               </div>
-              <video src="./assets/selected-work/media/recent_creative_genius.mp4" poster="./assets/selected-work/posters/recent_creative_genius_poster.jpg" muted loop playsinline preload="none"></video>
+              <video data-src="./assets/selected-work/media/recent_creative_genius.mp4" poster="./assets/selected-work/posters/recent_creative_genius_poster.jpg" muted loop playsinline preload="none"></video>
             </div>
             <div class="card-body">
               <h3 class="card-title">Creative Genius Campaign</h3>
@@ -4502,7 +4502,7 @@
                 <span class="badge-tag">Character</span>
                 <span class="badge-dur">Still</span>
               </div>
-              <img src="./assets/selected-work/media/root_pixar_3d.png" alt="3D Stylized Pixar Engine" loading="lazy" />
+              <img data-src="./assets/selected-work/media/root_pixar_3d.png" alt="3D Stylized Pixar Engine" loading="lazy" />
             </div>
             <div class="card-body">
               <h3 class="card-title">3D Stylized Pixar Engine</h3>
@@ -4519,7 +4519,7 @@
                 <span class="badge-tag">Scenic</span>
                 <span class="badge-dur">Still</span>
               </div>
-              <img src="./assets/selected-work/media/clipbee_racetrack.png" alt="Mountain Racetrack" loading="lazy" />
+              <img data-src="./assets/selected-work/media/clipbee_racetrack.png" alt="Mountain Racetrack" loading="lazy" />
             </div>
             <div class="card-body">
               <h3 class="card-title">Mountain Racetrack</h3>
@@ -4536,7 +4536,7 @@
                 <span class="badge-tag">AI Reel</span>
                 <span class="badge-dur">0:06</span>
               </div>
-              <video src="./assets/selected-work/media/clipbee_train_platform.mp4" poster="./assets/selected-work/posters/clipbee_train_platform_poster.jpg" muted loop playsinline preload="none"></video>
+              <video data-src="./assets/selected-work/media/clipbee_train_platform.mp4" poster="./assets/selected-work/posters/clipbee_train_platform_poster.jpg" muted loop playsinline preload="none"></video>
             </div>
             <div class="card-body">
               <h3 class="card-title">Metro Platform Arrival</h3>
@@ -4553,7 +4553,7 @@
                 <span class="badge-tag">Brand Motion</span>
                 <span class="badge-dur">0:12</span>
               </div>
-              <video src="./assets/selected-work/media/root_kinetic_reveal.mp4" poster="./assets/selected-work/posters/root_kinetic_reveal_poster.jpg" muted loop playsinline preload="none"></video>
+              <video data-src="./assets/selected-work/media/root_kinetic_reveal.mp4" poster="./assets/selected-work/posters/root_kinetic_reveal_poster.jpg" muted loop playsinline preload="none"></video>
             </div>
             <div class="card-body">
               <h3 class="card-title">Kinetic Product Reveal</h3>
@@ -4571,7 +4571,7 @@
                 <span class="badge-tag">AI Reel</span>
                 <span class="badge-dur">0:25</span>
               </div>
-              <video src="./assets/selected-work/media/recent_bw_content.mp4" poster="./assets/selected-work/posters/recent_bw_content_poster.jpg" muted loop playsinline preload="none"></video>
+              <video data-src="./assets/selected-work/media/recent_bw_content.mp4" poster="./assets/selected-work/posters/recent_bw_content_poster.jpg" muted loop playsinline preload="none"></video>
             </div>
             <div class="card-body">
               <h3 class="card-title">Monochrome City Muse</h3>
@@ -4588,7 +4588,7 @@
                 <span class="badge-tag">Cinematic</span>
                 <span class="badge-dur">0:45</span>
               </div>
-              <video src="./assets/selected-work/media/recent_geometry_anxiety.mp4" poster="./assets/selected-work/posters/recent_geometry_anxiety_poster.jpg" muted loop playsinline preload="none"></video>
+              <video data-src="./assets/selected-work/media/recent_geometry_anxiety.mp4" poster="./assets/selected-work/posters/recent_geometry_anxiety_poster.jpg" muted loop playsinline preload="none"></video>
             </div>
             <div class="card-body">
               <h3 class="card-title">The Geometry of Anxiety</h3>
@@ -4605,7 +4605,7 @@
                 <span class="badge-tag">Editorial</span>
                 <span class="badge-dur">Design</span>
               </div>
-              <img src="./assets/selected-work/media/recent_editorial_series.png" alt="Editorial Campaign Series" loading="lazy" />
+              <img data-src="./assets/selected-work/media/recent_editorial_series.png" alt="Editorial Campaign Series" loading="lazy" />
             </div>
             <div class="card-body">
               <h3 class="card-title">Editorial Campaign Series</h3>
@@ -4622,7 +4622,7 @@
                 <span class="badge-tag">Cinematic</span>
                 <span class="badge-dur">0:06</span>
               </div>
-              <video src="./assets/selected-work/media/clipbee_souk.mp4" poster="./assets/selected-work/posters/clipbee_souk_poster.jpg" muted loop playsinline preload="none"></video>
+              <video data-src="./assets/selected-work/media/clipbee_souk.mp4" poster="./assets/selected-work/posters/clipbee_souk_poster.jpg" muted loop playsinline preload="none"></video>
             </div>
             <div class="card-body">
               <h3 class="card-title">Souk Walkthrough</h3>
@@ -4639,7 +4639,7 @@
                 <span class="badge-tag">AI Reel</span>
                 <span class="badge-dur">0:25</span>
               </div>
-              <video src="./assets/selected-work/media/recent_creative_genius.mp4" poster="./assets/selected-work/posters/recent_creative_genius_poster.jpg" muted loop playsinline preload="none"></video>
+              <video data-src="./assets/selected-work/media/recent_creative_genius.mp4" poster="./assets/selected-work/posters/recent_creative_genius_poster.jpg" muted loop playsinline preload="none"></video>
             </div>
             <div class="card-body">
               <h3 class="card-title">Creative Genius Campaign</h3>
@@ -4656,7 +4656,7 @@
                 <span class="badge-tag">Character</span>
                 <span class="badge-dur">Still</span>
               </div>
-              <img src="./assets/selected-work/media/root_pixar_3d.png" alt="3D Stylized Pixar Engine" loading="lazy" />
+              <img data-src="./assets/selected-work/media/root_pixar_3d.png" alt="3D Stylized Pixar Engine" loading="lazy" />
             </div>
             <div class="card-body">
               <h3 class="card-title">3D Stylized Pixar Engine</h3>
@@ -4673,7 +4673,7 @@
                 <span class="badge-tag">Scenic</span>
                 <span class="badge-dur">Still</span>
               </div>
-              <img src="./assets/selected-work/media/clipbee_racetrack.png" alt="Mountain Racetrack" loading="lazy" />
+              <img data-src="./assets/selected-work/media/clipbee_racetrack.png" alt="Mountain Racetrack" loading="lazy" />
             </div>
             <div class="card-body">
               <h3 class="card-title">Mountain Racetrack</h3>
@@ -4690,7 +4690,7 @@
                 <span class="badge-tag">AI Reel</span>
                 <span class="badge-dur">0:06</span>
               </div>
-              <video src="./assets/selected-work/media/clipbee_train_platform.mp4" poster="./assets/selected-work/posters/clipbee_train_platform_poster.jpg" muted loop playsinline preload="none"></video>
+              <video data-src="./assets/selected-work/media/clipbee_train_platform.mp4" poster="./assets/selected-work/posters/clipbee_train_platform_poster.jpg" muted loop playsinline preload="none"></video>
             </div>
             <div class="card-body">
               <h3 class="card-title">Metro Platform Arrival</h3>
@@ -4707,7 +4707,7 @@
                 <span class="badge-tag">Brand Motion</span>
                 <span class="badge-dur">0:12</span>
               </div>
-              <video src="./assets/selected-work/media/root_kinetic_reveal.mp4" poster="./assets/selected-work/posters/root_kinetic_reveal_poster.jpg" muted loop playsinline preload="none"></video>
+              <video data-src="./assets/selected-work/media/root_kinetic_reveal.mp4" poster="./assets/selected-work/posters/root_kinetic_reveal_poster.jpg" muted loop playsinline preload="none"></video>
             </div>
             <div class="card-body">
               <h3 class="card-title">Kinetic Product Reveal</h3>
@@ -4730,7 +4730,7 @@
                 <span class="badge-tag">AI Reel</span>
                 <span class="badge-dur">0:15</span>
               </div>
-              <video src="./assets/selected-work/media/recent_influencer_subtitles.mp4" poster="./assets/selected-work/posters/recent_influencer_subtitles_poster.jpg" muted loop playsinline preload="none"></video>
+              <video data-src="./assets/selected-work/media/recent_influencer_subtitles.mp4" poster="./assets/selected-work/posters/recent_influencer_subtitles_poster.jpg" muted loop playsinline preload="none"></video>
             </div>
             <div class="card-body">
               <h3 class="card-title">Social Story with Subtitles</h3>
@@ -4747,7 +4747,7 @@
                 <span class="badge-tag">Cinematic</span>
                 <span class="badge-dur">0:49</span>
               </div>
-              <video src="./assets/selected-work/media/recent_halloween.mp4" poster="./assets/selected-work/posters/recent_halloween_poster.jpg" muted loop playsinline preload="none"></video>
+              <video data-src="./assets/selected-work/media/recent_halloween.mp4" poster="./assets/selected-work/posters/recent_halloween_poster.jpg" muted loop playsinline preload="none"></video>
             </div>
             <div class="card-body">
               <h3 class="card-title">Midnight Halloween Special</h3>
@@ -4764,7 +4764,7 @@
                 <span class="badge-tag">Social Kit</span>
                 <span class="badge-dur">Design</span>
               </div>
-              <img src="./assets/selected-work/media/recent_top_ai_tools.png" alt="Top 5 AI Tools Carousel" loading="lazy" />
+              <img data-src="./assets/selected-work/media/recent_top_ai_tools.png" alt="Top 5 AI Tools Carousel" loading="lazy" />
             </div>
             <div class="card-body">
               <h3 class="card-title">Top 5 AI Tools Carousel</h3>
@@ -4781,7 +4781,7 @@
                 <span class="badge-tag">Cinematic</span>
                 <span class="badge-dur">0:06</span>
               </div>
-              <video src="./assets/selected-work/media/clipbee_desert_nomad.mp4" poster="./assets/selected-work/posters/clipbee_desert_nomad_poster.jpg" muted loop playsinline preload="none"></video>
+              <video data-src="./assets/selected-work/media/clipbee_desert_nomad.mp4" poster="./assets/selected-work/posters/clipbee_desert_nomad_poster.jpg" muted loop playsinline preload="none"></video>
             </div>
             <div class="card-body">
               <h3 class="card-title">Desert Nomad Dunes</h3>
@@ -4798,7 +4798,7 @@
                 <span class="badge-tag">AI Reel</span>
                 <span class="badge-dur">0:10</span>
               </div>
-              <video src="./assets/selected-work/media/recent_car_influencer_cut.mp4" poster="./assets/selected-work/posters/recent_car_influencer_cut_poster.jpg" muted loop playsinline preload="none"></video>
+              <video data-src="./assets/selected-work/media/recent_car_influencer_cut.mp4" poster="./assets/selected-work/posters/recent_car_influencer_cut_poster.jpg" muted loop playsinline preload="none"></video>
             </div>
             <div class="card-body">
               <h3 class="card-title">Luxury Drive Teaser</h3>
@@ -4815,7 +4815,7 @@
                 <span class="badge-tag">Illustration</span>
                 <span class="badge-dur">Still</span>
               </div>
-              <img src="./assets/selected-work/media/root_charcoal_comic.png" alt="Charcoal Graphic Comic" loading="lazy" />
+              <img data-src="./assets/selected-work/media/root_charcoal_comic.png" alt="Charcoal Graphic Comic" loading="lazy" />
             </div>
             <div class="card-body">
               <h3 class="card-title">Charcoal Graphic Comic</h3>
@@ -4832,7 +4832,7 @@
                 <span class="badge-tag">VFX Still</span>
                 <span class="badge-dur">Still</span>
               </div>
-              <img src="./assets/selected-work/media/clipbee_rocket_launch.png" alt="Rocket Launch Velocity" loading="lazy" />
+              <img data-src="./assets/selected-work/media/clipbee_rocket_launch.png" alt="Rocket Launch Velocity" loading="lazy" />
             </div>
             <div class="card-body">
               <h3 class="card-title">Rocket Launch Velocity</h3>
@@ -4849,7 +4849,7 @@
                 <span class="badge-tag">AI Reel</span>
                 <span class="badge-dur">0:06</span>
               </div>
-              <video src="./assets/selected-work/media/clipbee_neon_walk.mp4" poster="./assets/selected-work/posters/clipbee_neon_walk_poster.jpg" muted loop playsinline preload="none"></video>
+              <video data-src="./assets/selected-work/media/clipbee_neon_walk.mp4" poster="./assets/selected-work/posters/clipbee_neon_walk_poster.jpg" muted loop playsinline preload="none"></video>
             </div>
             <div class="card-body">
               <h3 class="card-title">Neon City Cyberwalk</h3>
@@ -4866,7 +4866,7 @@
                 <span class="badge-tag">Cinematic</span>
                 <span class="badge-dur">0:06</span>
               </div>
-              <video src="./assets/selected-work/media/root_portrait_turn.mp4" poster="./assets/selected-work/posters/root_portrait_turn_poster.jpg" muted loop playsinline preload="none"></video>
+              <video data-src="./assets/selected-work/media/root_portrait_turn.mp4" poster="./assets/selected-work/posters/root_portrait_turn_poster.jpg" muted loop playsinline preload="none"></video>
             </div>
             <div class="card-body">
               <h3 class="card-title">Cinematic Portrait Turn</h3>
@@ -4884,7 +4884,7 @@
                 <span class="badge-tag">AI Reel</span>
                 <span class="badge-dur">0:15</span>
               </div>
-              <video src="./assets/selected-work/media/recent_influencer_subtitles.mp4" poster="./assets/selected-work/posters/recent_influencer_subtitles_poster.jpg" muted loop playsinline preload="none"></video>
+              <video data-src="./assets/selected-work/media/recent_influencer_subtitles.mp4" poster="./assets/selected-work/posters/recent_influencer_subtitles_poster.jpg" muted loop playsinline preload="none"></video>
             </div>
             <div class="card-body">
               <h3 class="card-title">Social Story with Subtitles</h3>
@@ -4901,7 +4901,7 @@
                 <span class="badge-tag">Cinematic</span>
                 <span class="badge-dur">0:49</span>
               </div>
-              <video src="./assets/selected-work/media/recent_halloween.mp4" poster="./assets/selected-work/posters/recent_halloween_poster.jpg" muted loop playsinline preload="none"></video>
+              <video data-src="./assets/selected-work/media/recent_halloween.mp4" poster="./assets/selected-work/posters/recent_halloween_poster.jpg" muted loop playsinline preload="none"></video>
             </div>
             <div class="card-body">
               <h3 class="card-title">Midnight Halloween Special</h3>
@@ -4918,7 +4918,7 @@
                 <span class="badge-tag">Social Kit</span>
                 <span class="badge-dur">Design</span>
               </div>
-              <img src="./assets/selected-work/media/recent_top_ai_tools.png" alt="Top 5 AI Tools Carousel" loading="lazy" />
+              <img data-src="./assets/selected-work/media/recent_top_ai_tools.png" alt="Top 5 AI Tools Carousel" loading="lazy" />
             </div>
             <div class="card-body">
               <h3 class="card-title">Top 5 AI Tools Carousel</h3>
@@ -4935,7 +4935,7 @@
                 <span class="badge-tag">Cinematic</span>
                 <span class="badge-dur">0:06</span>
               </div>
-              <video src="./assets/selected-work/media/clipbee_desert_nomad.mp4" poster="./assets/selected-work/posters/clipbee_desert_nomad_poster.jpg" muted loop playsinline preload="none"></video>
+              <video data-src="./assets/selected-work/media/clipbee_desert_nomad.mp4" poster="./assets/selected-work/posters/clipbee_desert_nomad_poster.jpg" muted loop playsinline preload="none"></video>
             </div>
             <div class="card-body">
               <h3 class="card-title">Desert Nomad Dunes</h3>
@@ -4952,7 +4952,7 @@
                 <span class="badge-tag">AI Reel</span>
                 <span class="badge-dur">0:10</span>
               </div>
-              <video src="./assets/selected-work/media/recent_car_influencer_cut.mp4" poster="./assets/selected-work/posters/recent_car_influencer_cut_poster.jpg" muted loop playsinline preload="none"></video>
+              <video data-src="./assets/selected-work/media/recent_car_influencer_cut.mp4" poster="./assets/selected-work/posters/recent_car_influencer_cut_poster.jpg" muted loop playsinline preload="none"></video>
             </div>
             <div class="card-body">
               <h3 class="card-title">Luxury Drive Teaser</h3>
@@ -4969,7 +4969,7 @@
                 <span class="badge-tag">Illustration</span>
                 <span class="badge-dur">Still</span>
               </div>
-              <img src="./assets/selected-work/media/root_charcoal_comic.png" alt="Charcoal Graphic Comic" loading="lazy" />
+              <img data-src="./assets/selected-work/media/root_charcoal_comic.png" alt="Charcoal Graphic Comic" loading="lazy" />
             </div>
             <div class="card-body">
               <h3 class="card-title">Charcoal Graphic Comic</h3>
@@ -4986,7 +4986,7 @@
                 <span class="badge-tag">VFX Still</span>
                 <span class="badge-dur">Still</span>
               </div>
-              <img src="./assets/selected-work/media/clipbee_rocket_launch.png" alt="Rocket Launch Velocity" loading="lazy" />
+              <img data-src="./assets/selected-work/media/clipbee_rocket_launch.png" alt="Rocket Launch Velocity" loading="lazy" />
             </div>
             <div class="card-body">
               <h3 class="card-title">Rocket Launch Velocity</h3>
@@ -5003,7 +5003,7 @@
                 <span class="badge-tag">AI Reel</span>
                 <span class="badge-dur">0:06</span>
               </div>
-              <video src="./assets/selected-work/media/clipbee_neon_walk.mp4" poster="./assets/selected-work/posters/clipbee_neon_walk_poster.jpg" muted loop playsinline preload="none"></video>
+              <video data-src="./assets/selected-work/media/clipbee_neon_walk.mp4" poster="./assets/selected-work/posters/clipbee_neon_walk_poster.jpg" muted loop playsinline preload="none"></video>
             </div>
             <div class="card-body">
               <h3 class="card-title">Neon City Cyberwalk</h3>
@@ -5020,7 +5020,7 @@
                 <span class="badge-tag">Cinematic</span>
                 <span class="badge-dur">0:06</span>
               </div>
-              <video src="./assets/selected-work/media/root_portrait_turn.mp4" poster="./assets/selected-work/posters/root_portrait_turn_poster.jpg" muted loop playsinline preload="none"></video>
+              <video data-src="./assets/selected-work/media/root_portrait_turn.mp4" poster="./assets/selected-work/posters/root_portrait_turn_poster.jpg" muted loop playsinline preload="none"></video>
             </div>
             <div class="card-body">
               <h3 class="card-title">Cinematic Portrait Turn</h3>
@@ -5043,7 +5043,7 @@
                 <span class="badge-tag">Brand Motion</span>
                 <span class="badge-dur">0:30</span>
               </div>
-              <video src="./assets/selected-work/media/recent_toonbee_easter.mp4" poster="./assets/selected-work/posters/recent_toonbee_easter_poster.jpg" muted loop playsinline preload="none"></video>
+              <video data-src="./assets/selected-work/media/recent_toonbee_easter.mp4" poster="./assets/selected-work/posters/recent_toonbee_easter_poster.jpg" muted loop playsinline preload="none"></video>
             </div>
             <div class="card-body">
               <h3 class="card-title">ToonBee Animated Feature</h3>
@@ -5060,7 +5060,7 @@
                 <span class="badge-tag">Branding</span>
                 <span class="badge-dur">Design</span>
               </div>
-              <img src="./assets/selected-work/media/recent_creator_c3.png" alt="Creator Brand Concept" loading="lazy" />
+              <img data-src="./assets/selected-work/media/recent_creator_c3.png" alt="Creator Brand Concept" loading="lazy" />
             </div>
             <div class="card-body">
               <h3 class="card-title">Creator Brand Concept</h3>
@@ -5077,7 +5077,7 @@
                 <span class="badge-tag">Brand Motion</span>
                 <span class="badge-dur">0:06</span>
               </div>
-              <video src="./assets/selected-work/media/clipbee_freefall.mp4" poster="./assets/selected-work/posters/clipbee_freefall_poster.jpg" muted loop playsinline preload="none"></video>
+              <video data-src="./assets/selected-work/media/clipbee_freefall.mp4" poster="./assets/selected-work/posters/clipbee_freefall_poster.jpg" muted loop playsinline preload="none"></video>
             </div>
             <div class="card-body">
               <h3 class="card-title">Skydiving Freefall Motion</h3>
@@ -5094,7 +5094,7 @@
                 <span class="badge-tag">Cinematic</span>
                 <span class="badge-dur">0:49</span>
               </div>
-              <video src="./assets/selected-work/media/recent_cinematic_visions.mp4" poster="./assets/selected-work/posters/recent_cinematic_visions_poster.jpg" muted loop playsinline preload="none"></video>
+              <video data-src="./assets/selected-work/media/recent_cinematic_visions.mp4" poster="./assets/selected-work/posters/recent_cinematic_visions_poster.jpg" muted loop playsinline preload="none"></video>
             </div>
             <div class="card-body">
               <h3 class="card-title">Cinematic Visions 2026</h3>
@@ -5111,7 +5111,7 @@
                 <span class="badge-tag">AI Reel</span>
                 <span class="badge-dur">0:06</span>
               </div>
-              <video src="./assets/selected-work/media/clipbee_ground_track.mp4" poster="./assets/selected-work/posters/clipbee_ground_track_poster.jpg" muted loop playsinline preload="none"></video>
+              <video data-src="./assets/selected-work/media/clipbee_ground_track.mp4" poster="./assets/selected-work/posters/clipbee_ground_track_poster.jpg" muted loop playsinline preload="none"></video>
             </div>
             <div class="card-body">
               <h3 class="card-title">Low Angle Running Reel</h3>
@@ -5128,7 +5128,7 @@
                 <span class="badge-tag">Commercial</span>
                 <span class="badge-dur">Still</span>
               </div>
-              <img src="./assets/selected-work/media/clipbee_smash_burger.png" alt="Exploded Commercial Render" loading="lazy" />
+              <img data-src="./assets/selected-work/media/clipbee_smash_burger.png" alt="Exploded Commercial Render" loading="lazy" />
             </div>
             <div class="card-body">
               <h3 class="card-title">Exploded Commercial Render</h3>
@@ -5145,7 +5145,7 @@
                 <span class="badge-tag">Cinematic</span>
                 <span class="badge-dur">Still</span>
               </div>
-              <img src="./assets/selected-work/media/clipbee_desert_moon.png" alt="Desert Moon Orb Vista" loading="lazy" />
+              <img data-src="./assets/selected-work/media/clipbee_desert_moon.png" alt="Desert Moon Orb Vista" loading="lazy" />
             </div>
             <div class="card-body">
               <h3 class="card-title">Desert Moon Orb Vista</h3>
@@ -5162,7 +5162,7 @@
                 <span class="badge-tag">AI Reel</span>
                 <span class="badge-dur">0:09</span>
               </div>
-              <video src="./assets/selected-work/media/root_cyber_awakening.mp4" poster="./assets/selected-work/posters/root_cyber_awakening_poster.jpg" muted loop playsinline preload="none"></video>
+              <video data-src="./assets/selected-work/media/root_cyber_awakening.mp4" poster="./assets/selected-work/posters/root_cyber_awakening_poster.jpg" muted loop playsinline preload="none"></video>
             </div>
             <div class="card-body">
               <h3 class="card-title">Cyber Awakening Reel</h3>
@@ -5179,7 +5179,7 @@
                 <span class="badge-tag">Visual Kit</span>
                 <span class="badge-dur">Still</span>
               </div>
-              <img src="./assets/selected-work/media/root_future_tech.png" alt="Future Tech Concept Art" loading="lazy" />
+              <img data-src="./assets/selected-work/media/root_future_tech.png" alt="Future Tech Concept Art" loading="lazy" />
             </div>
             <div class="card-body">
               <h3 class="card-title">Future Tech Concept Art</h3>
@@ -5197,7 +5197,7 @@
                 <span class="badge-tag">Brand Motion</span>
                 <span class="badge-dur">0:30</span>
               </div>
-              <video src="./assets/selected-work/media/recent_toonbee_easter.mp4" poster="./assets/selected-work/posters/recent_toonbee_easter_poster.jpg" muted loop playsinline preload="none"></video>
+              <video data-src="./assets/selected-work/media/recent_toonbee_easter.mp4" poster="./assets/selected-work/posters/recent_toonbee_easter_poster.jpg" muted loop playsinline preload="none"></video>
             </div>
             <div class="card-body">
               <h3 class="card-title">ToonBee Animated Feature</h3>
@@ -5214,7 +5214,7 @@
                 <span class="badge-tag">Branding</span>
                 <span class="badge-dur">Design</span>
               </div>
-              <img src="./assets/selected-work/media/recent_creator_c3.png" alt="Creator Brand Concept" loading="lazy" />
+              <img data-src="./assets/selected-work/media/recent_creator_c3.png" alt="Creator Brand Concept" loading="lazy" />
             </div>
             <div class="card-body">
               <h3 class="card-title">Creator Brand Concept</h3>
@@ -5231,7 +5231,7 @@
                 <span class="badge-tag">Brand Motion</span>
                 <span class="badge-dur">0:06</span>
               </div>
-              <video src="./assets/selected-work/media/clipbee_freefall.mp4" poster="./assets/selected-work/posters/clipbee_freefall_poster.jpg" muted loop playsinline preload="none"></video>
+              <video data-src="./assets/selected-work/media/clipbee_freefall.mp4" poster="./assets/selected-work/posters/clipbee_freefall_poster.jpg" muted loop playsinline preload="none"></video>
             </div>
             <div class="card-body">
               <h3 class="card-title">Skydiving Freefall Motion</h3>
@@ -5248,7 +5248,7 @@
                 <span class="badge-tag">Cinematic</span>
                 <span class="badge-dur">0:49</span>
               </div>
-              <video src="./assets/selected-work/media/recent_cinematic_visions.mp4" poster="./assets/selected-work/posters/recent_cinematic_visions_poster.jpg" muted loop playsinline preload="none"></video>
+              <video data-src="./assets/selected-work/media/recent_cinematic_visions.mp4" poster="./assets/selected-work/posters/recent_cinematic_visions_poster.jpg" muted loop playsinline preload="none"></video>
             </div>
             <div class="card-body">
               <h3 class="card-title">Cinematic Visions 2026</h3>
@@ -5265,7 +5265,7 @@
                 <span class="badge-tag">AI Reel</span>
                 <span class="badge-dur">0:06</span>
               </div>
-              <video src="./assets/selected-work/media/clipbee_ground_track.mp4" poster="./assets/selected-work/posters/clipbee_ground_track_poster.jpg" muted loop playsinline preload="none"></video>
+              <video data-src="./assets/selected-work/media/clipbee_ground_track.mp4" poster="./assets/selected-work/posters/clipbee_ground_track_poster.jpg" muted loop playsinline preload="none"></video>
             </div>
             <div class="card-body">
               <h3 class="card-title">Low Angle Running Reel</h3>
@@ -5282,7 +5282,7 @@
                 <span class="badge-tag">Commercial</span>
                 <span class="badge-dur">Still</span>
               </div>
-              <img src="./assets/selected-work/media/clipbee_smash_burger.png" alt="Exploded Commercial Render" loading="lazy" />
+              <img data-src="./assets/selected-work/media/clipbee_smash_burger.png" alt="Exploded Commercial Render" loading="lazy" />
             </div>
             <div class="card-body">
               <h3 class="card-title">Exploded Commercial Render</h3>
@@ -5299,7 +5299,7 @@
                 <span class="badge-tag">Cinematic</span>
                 <span class="badge-dur">Still</span>
               </div>
-              <img src="./assets/selected-work/media/clipbee_desert_moon.png" alt="Desert Moon Orb Vista" loading="lazy" />
+              <img data-src="./assets/selected-work/media/clipbee_desert_moon.png" alt="Desert Moon Orb Vista" loading="lazy" />
             </div>
             <div class="card-body">
               <h3 class="card-title">Desert Moon Orb Vista</h3>
@@ -5316,7 +5316,7 @@
                 <span class="badge-tag">AI Reel</span>
                 <span class="badge-dur">0:09</span>
               </div>
-              <video src="./assets/selected-work/media/root_cyber_awakening.mp4" poster="./assets/selected-work/posters/root_cyber_awakening_poster.jpg" muted loop playsinline preload="none"></video>
+              <video data-src="./assets/selected-work/media/root_cyber_awakening.mp4" poster="./assets/selected-work/posters/root_cyber_awakening_poster.jpg" muted loop playsinline preload="none"></video>
             </div>
             <div class="card-body">
               <h3 class="card-title">Cyber Awakening Reel</h3>
@@ -5333,7 +5333,7 @@
                 <span class="badge-tag">Visual Kit</span>
                 <span class="badge-dur">Still</span>
               </div>
-              <img src="./assets/selected-work/media/root_future_tech.png" alt="Future Tech Concept Art" loading="lazy" />
+              <img data-src="./assets/selected-work/media/root_future_tech.png" alt="Future Tech Concept Art" loading="lazy" />
             </div>
             <div class="card-body">
               <h3 class="card-title">Future Tech Concept Art</h3>
@@ -5463,7 +5463,7 @@
       } else {
         masterHeader.classList.remove('scrolled');
       }
-    });
+    }, { passive: true });
 
     if (scrollUpBtn) {
       scrollUpBtn.addEventListener('click', () => {
@@ -5713,8 +5713,11 @@
           player.classList.remove('video-active');
         });
 
-        // Hover: preview loop
+        // Hover: preview loop with on-demand load
         player.addEventListener('mouseenter', () => {
+          if (!video.src && video.dataset.src) {
+            video.src = video.dataset.src;
+          }
           if (video.paused) {
             video.play().catch(() => {});
           }
@@ -5864,6 +5867,9 @@
         const video = card.querySelector('video');
         if (video) {
           card.addEventListener('mouseenter', () => {
+            if (!video.src && video.dataset.src) {
+              video.src = video.dataset.src;
+            }
             video.muted = true;
             video.play().catch(() => {});
           });
