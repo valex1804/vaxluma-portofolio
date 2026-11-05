@@ -3510,6 +3510,17 @@
     .footer-bottom-row a:hover {
       color: var(--lime);
     }
+
+    /* Hide Netlify Drawer / Feedback badge */
+    netlify-drawer,
+    #netlify-drawer,
+    .netlify-drawer,
+    iframe[id*='netlify'],
+    [data-netlify-drawer] {
+      display: none !important;
+      visibility: hidden !important;
+      pointer-events: none !important;
+    }
   </style>
 </head>
 
