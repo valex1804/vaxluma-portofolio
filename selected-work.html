@@ -302,10 +302,11 @@
     }
 
     /* Stagger column speeds for organic dynamic feel */
-    .col-1 .col-track { animation-duration: 76s; }
-    .col-2 .col-track { animation-duration: 66s; }
-    .col-3 .col-track { animation-duration: 82s; }
-    .col-4 .col-track { animation-duration: 70s; }
+    /* Calm, cinematic drift speeds */
+    .col-1 .col-track { animation-duration: 140s; }
+    .col-2 .col-track { animation-duration: 120s; }
+    .col-3 .col-track { animation-duration: 155s; }
+    .col-4 .col-track { animation-duration: 130s; }
 
     /* Stream top to bottom: from translateY(-50%) down to translateY(0) */
     @keyframes waterfallDown {
@@ -317,7 +318,8 @@
       }
     }
 
-    /* Pause animation on hover */
+    /* Pause animation smoothly on hover across showcase */
+    .waterfall-container:hover .col-track,
     .waterfall-col:hover .col-track {
       animation-play-state: paused !important;
     }
@@ -343,7 +345,7 @@
     }
 
     .work-card:hover {
-      transform: translateY(-6px) scale(1.02);
+      transform: scale(1.015);
       border-color: var(--border-hover);
       box-shadow: 0 24px 50px rgba(2, 46, 33, 0.5), 0 0 24px rgba(205, 252, 138, 0.2);
       z-index: 20;
@@ -381,8 +383,8 @@
     }
 
     .work-card:hover .card-media video,
-    .card-media img {
-      transform: scale(1.04);
+    .work-card:hover .card-media img {
+      transform: scale(1.03);
     }
 
     /* Top Floating Badges */
