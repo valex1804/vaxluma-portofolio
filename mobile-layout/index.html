@@ -1,0 +1,960 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Portofolio - Mobile Showcase</title>
+
+  <!-- Google Fonts: Syne, Outfit, Plus Jakarta Sans, Fredoka -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;700;800&family=Syne:wght@700;800&display=swap"
+    rel="stylesheet" />
+
+  <style>
+    /* ==========================================================================
+       MOBILE DESIGN SYSTEM & VARIABLES
+       ========================================================================== */
+    @font-face {
+      font-family: 'Affinik';
+      src: local('Affinik'), local('Syne-Bold'), url('https://fonts.gstatic.com/s/syne/v22/8nFl6YnB45AX243Q-A.woff2') format('woff2');
+      font-weight: normal;
+      font-style: normal;
+    }
+
+    @font-face {
+      font-family: 'CF Oliviera Demo';
+      src: local('CF Oliviera Demo'), local('Outfit-Bold'), url('https://fonts.gstatic.com/s/outfit/v11/Q1dbZXZC8-_9W42CgA.woff2') format('woff2');
+      font-weight: bold;
+    }
+
+    :root {
+      --color-accent: #CDFC8A;          /* Signature Neon Lime */
+      --color-purple: #C77DFF;          /* Signature Lavender Purple */
+      --color-dark: #020024;            /* Deep Space Navy */
+      --color-card-bg: rgba(14, 12, 42, 0.72);
+      --color-card-border: rgba(255, 255, 255, 0.16);
+      --color-card-hover-border: rgba(205, 252, 138, 0.65);
+      --font-hero: 'Affinik', 'Syne', sans-serif;
+      --font-body: 'Outfit', 'Plus Jakarta Sans', sans-serif;
+      --font-pill: 'CF Oliviera Demo', 'Fredoka', 'Outfit', sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background-color: var(--color-dark);
+      color: #ffffff;
+      font-family: var(--font-body);
+      overflow-x: hidden;
+      min-height: 100vh;
+      padding-bottom: 70px;
+    }
+
+    /* Ambient Background Glows */
+    .mobile-bg-glow {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      background:
+        radial-gradient(circle at 10% 15%, rgba(153, 43, 227, 0.16) 0%, transparent 45%),
+        radial-gradient(circle at 90% 45%, rgba(199, 125, 255, 0.14) 0%, transparent 40%),
+        radial-gradient(circle at 20% 80%, rgba(205, 252, 138, 0.12) 0%, transparent 45%),
+        radial-gradient(circle at 50% 50%, rgba(2, 0, 36, 1) 0%, #020024 100%);
+    }
+
+    /* ==========================================================================
+       STICKY MOBILE HEADER & NAVIGATION PILLS
+       ========================================================================== */
+    .mobile-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(8, 6, 28, 0.85);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+      padding: 12px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .header-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand-logo {
+      font-family: var(--font-hero);
+      font-size: 20px;
+      font-weight: 800;
+      color: var(--color-accent);
+      letter-spacing: -0.5px;
+      text-decoration: none;
+      text-shadow: 0 0 16px rgba(205, 252, 138, 0.4);
+    }
+
+    .desktop-link-badge {
+      font-size: 11px;
+      font-weight: 700;
+      color: rgba(255, 255, 255, 0.75);
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      padding: 5px 12px;
+      border-radius: 999px;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+    .desktop-link-badge:hover {
+      background: var(--color-accent);
+      color: #000000;
+      border-color: var(--color-accent);
+    }
+
+    .nav-chips-container {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      padding-bottom: 2px;
+    }
+    .nav-chips-container::-webkit-scrollbar {
+      display: none;
+    }
+
+    .nav-chip {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      color: #ffffff;
+      padding: 7px 16px;
+      border-radius: 999px;
+      font-family: var(--font-pill);
+      font-size: 13px;
+      font-weight: 700;
+      text-decoration: none;
+      white-space: nowrap;
+      transition: all 0.25s ease;
+    }
+
+    .nav-chip.active,
+    .nav-chip:hover {
+      background: var(--color-accent);
+      color: #000000;
+      border-color: var(--color-accent);
+      box-shadow: 0 0 16px rgba(205, 252, 138, 0.45);
+    }
+
+    /* ==========================================================================
+       CONTAINER & SECTION TITLES
+       ========================================================================== */
+    .mobile-container {
+      position: relative;
+      z-index: 1;
+      padding: 20px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 48px;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+
+    .section-pill-title {
+      display: inline-flex;
+      align-items: center;
+      background: var(--color-accent);
+      color: #000000;
+      padding: 8px 22px;
+      border-radius: 999px;
+      font-family: var(--font-pill);
+      font-size: 20px;
+      font-weight: 800;
+      letter-spacing: -0.2px;
+      box-shadow: 0 0 20px rgba(205, 252, 138, 0.4);
+    }
+
+    /* ==========================================================================
+       SECTION 1: HERO OVERVIEW
+       ========================================================================== */
+    .hero-title {
+      font-family: var(--font-hero);
+      font-size: 38px;
+      font-weight: 800;
+      line-height: 1.1;
+      color: var(--color-accent);
+      letter-spacing: -0.5px;
+      text-shadow: 0 0 24px rgba(205, 252, 138, 0.4);
+      margin-bottom: 12px;
+    }
+
+    .hero-subtitle {
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.7);
+      line-height: 1.5;
+      margin-bottom: 24px;
+    }
+
+    /* Bento Grid for Mobile */
+    .bento-mobile-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .m-card {
+      background: var(--color-card-bg);
+      border: 1px solid var(--color-card-border);
+      border-radius: 20px;
+      padding: 18px 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .m-card:active {
+      transform: scale(0.98);
+      border-color: var(--color-accent);
+    }
+
+    .col-span-2 {
+      grid-column: span 2;
+    }
+
+    .m-card-tag {
+      align-self: flex-start;
+      padding: 4px 10px;
+      border-radius: 999px;
+      font-family: var(--font-pill);
+      font-size: 9px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+      z-index: 2;
+    }
+
+    .m-tag-lime {
+      background: var(--color-accent);
+      color: #000000;
+      box-shadow: 0 0 8px rgba(205, 252, 138, 0.35);
+    }
+
+    .m-tag-dark {
+      background: rgba(255, 255, 255, 0.12);
+      color: rgba(255, 255, 255, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+    }
+
+    .m-card-title {
+      font-size: 16px;
+      font-weight: 800;
+      color: #ffffff;
+      line-height: 1.25;
+      margin-bottom: 6px;
+    }
+
+    .m-card-desc {
+      font-size: 12px;
+      font-weight: 500;
+      color: rgba(255, 255, 255, 0.65);
+      line-height: 1.45;
+    }
+
+    .m-metric-number {
+      font-family: var(--font-hero);
+      font-size: 36px;
+      font-weight: 800;
+      color: var(--color-accent);
+      line-height: 1;
+      margin: 6px 0 8px 0;
+      text-shadow: 0 0 16px rgba(205, 252, 138, 0.35);
+    }
+
+    .highlight-purple { color: var(--color-purple); }
+    .highlight-lime { color: var(--color-accent); }
+
+    /* Character Image Showcase in Mobile Bento */
+    .char-engine-preview {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-around;
+      gap: 6px;
+      margin-top: 14px;
+      padding-top: 10px;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .char-engine-preview img {
+      height: 90px;
+      width: auto;
+      object-fit: contain;
+      filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.6));
+    }
+
+    .pedestal-preview-img {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+      border-radius: 14px;
+      margin-top: 10px;
+    }
+
+    .cartoon-busts-preview {
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      margin-top: 12px;
+    }
+
+    .cartoon-busts-preview img {
+      height: 75px;
+      width: auto;
+      object-fit: contain;
+      filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.5));
+    }
+
+    .see-workflow-mobile-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--color-accent);
+      font-family: var(--font-pill);
+      font-size: 13px;
+      font-weight: 800;
+      text-decoration: none;
+      margin-top: 12px;
+    }
+    .see-workflow-arrow {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: var(--color-accent);
+      color: #000000;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+    }
+
+    /* ==========================================================================
+       SECTION 3: ADS (MOBILE GRID & PLAYERS)
+       ========================================================================== */
+    .ads-images-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .ad-thumb-card {
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid var(--color-card-border);
+      background: var(--color-card-bg);
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+      aspect-ratio: 16 / 9;
+    }
+
+    .ad-thumb-card.tall {
+      aspect-ratio: 9 / 16;
+    }
+
+    .ad-thumb-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .motion-workflow-card {
+      cursor: pointer;
+      transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+    }
+    .motion-workflow-card:active {
+      transform: scale(0.985);
+    }
+
+    .ads-players-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      align-items: center;
+    }
+
+    .ad-player-card {
+      width: 100%;
+      border-radius: 24px;
+      overflow: hidden;
+      border: 1px solid var(--color-card-border);
+      position: relative;
+      background: #000000;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.55);
+      cursor: pointer;
+      transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .ad-player-card:active {
+      transform: scale(0.985);
+    }
+
+    .ad-player-card.is-playing {
+      border-color: rgba(199, 125, 255, 0.85);
+      box-shadow: 0 10px 28px rgba(138, 68, 168, 0.5), 0 0 20px rgba(199, 125, 255, 0.35);
+    }
+
+    /* Video 1: Yellow snake (1248x1664 -> 3:4 portrait) */
+    .ad-player-card.aspect-vid1 {
+      aspect-ratio: 3 / 4;
+      max-width: 350px;
+    }
+
+    /* Video 2: Red hair portrait (1088x1920 -> 9:16 vertical) */
+    .ad-player-card.aspect-vid2 {
+      aspect-ratio: 9 / 16;
+      max-width: 300px;
+    }
+
+    /* Video 3: Runner in meadow (1664x1248 -> 4:3 landscape) */
+    .ad-player-card.aspect-vid3 {
+      aspect-ratio: 4 / 3;
+      max-width: 360px;
+    }
+
+    .ad-player-card video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .ad-play-badge {
+      position: absolute;
+      bottom: 16px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 7px 22px;
+      background: rgba(22, 20, 50, 0.90);
+      border: 1px solid rgba(255, 255, 255, 0.35);
+      border-radius: 30px;
+      color: #ffffff;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      z-index: 5;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.55);
+      pointer-events: none;
+      transition: background 0.2s ease, border-color 0.2s ease;
+    }
+
+    .ad-player-card.is-playing .ad-play-badge {
+      background: rgba(40, 20, 75, 0.92);
+      border-color: rgba(199, 125, 255, 0.6);
+      box-shadow: 0 0 16px rgba(199, 125, 255, 0.4);
+    }
+
+    .ad-play-badge .icon-play {
+      display: inline-block;
+    }
+    .ad-play-badge .icon-pause {
+      display: none;
+    }
+    .ad-player-card.is-playing .ad-play-badge .icon-play {
+      display: none;
+    }
+    .ad-player-card.is-playing .ad-play-badge .icon-pause {
+      display: inline-block;
+    }
+
+    /* ==========================================================================
+       SECTION 4: SOCIAL MEDIA (16:9 VIDEO CARDS WITH AUDIO)
+       ========================================================================== */
+    .social-videos-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .social-video-box {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      border-radius: 22px;
+      overflow: hidden;
+      border: 1px solid var(--color-card-border);
+      position: relative;
+      background: var(--color-card-bg);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.55);
+    }
+
+    .social-video-box video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .sound-toggle-btn {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: rgba(14, 12, 42, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 5;
+    }
+
+    .sound-toggle-btn.unmuted {
+      background: var(--color-accent);
+      color: #000000;
+      border-color: var(--color-accent);
+    }
+
+    .sound-toggle-btn svg {
+      width: 16px;
+      height: 16px;
+      stroke: currentColor;
+    }
+
+    .social-play-btn {
+      position: absolute;
+      bottom: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 6px 18px;
+      border-radius: 30px;
+      background: rgba(22, 20, 50, 0.88);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      color: #ffffff;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      z-index: 5;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .social-play-btn svg {
+      width: 12px;
+      height: 12px;
+      fill: currentColor;
+    }
+
+    /* Floating Back to Top Button */
+    .mobile-back-to-top {
+      position: fixed;
+      right: 18px;
+      bottom: 20px;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: rgba(14, 12, 42, 0.85);
+      border: 1.5px solid var(--color-accent);
+      color: var(--color-accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 99;
+      box-shadow: 0 0 16px rgba(205, 252, 138, 0.45);
+      backdrop-filter: blur(10px);
+      text-decoration: none;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="mobile-bg-glow"></div>
+
+  <!-- STICKY MOBILE NAVIGATION HEADER -->
+  <header class="mobile-header">
+    <div class="header-top">
+      <a href="#hero" class="brand-logo">Portofolio</a>
+      <a href="../page4-main.html" class="desktop-link-badge">Desktop View &rarr;</a>
+    </div>
+    <div class="nav-chips-container">
+      <a href="#hero" class="nav-chip active">Overview</a>
+      <a href="#branding" class="nav-chip">Branding</a>
+      <a href="#ads" class="nav-chip">Ads</a>
+      <a href="#social" class="nav-chip">Social Media</a>
+    </div>
+  </header>
+
+  <!-- MAIN SCROLLABLE MOBILE CONTENT -->
+  <main class="mobile-container">
+
+    <!-- =================================================================== -->
+    <!-- SECTION 1: HERO & BENTO OVERVIEW                                    -->
+    <!-- =================================================================== -->
+    <section id="hero">
+      <h1 class="hero-title">Collection of<br />my work</h1>
+      <p class="hero-subtitle">Bento portfolio showcasing production AI workflows, branding systems, visual ads & social media creative.</p>
+
+      <div class="bento-mobile-grid">
+        <div class="m-card col-span-2">
+          <span class="m-card-tag m-tag-lime">FLAGSHIP BUILD</span>
+          <h2 class="m-card-title"><span class="highlight-purple">Two</span> AI products built from scratch.</h2>
+          <p class="m-card-desc">From model selection to production deployment.</p>
+        </div>
+
+        <div class="m-card">
+          <span class="m-card-tag m-tag-lime">AI STYLES</span>
+          <h2 class="m-card-title">Prompt Lab</h2>
+          <p class="m-card-desc">Hundreds of style experiments refined into pipelines.</p>
+        </div>
+
+        <div class="m-card">
+          <span class="m-card-tag m-tag-dark">ASSETS</span>
+          <div class="m-metric-number">+ 5000</div>
+          <p class="m-card-desc">AI assets shipped.</p>
+        </div>
+
+        <div class="m-card col-span-2">
+          <span class="m-card-tag m-tag-lime">AUTOMATION</span>
+          <h2 class="m-card-title">AI Support Assistant</h2>
+          <p class="m-card-desc">An internal tool automating email & support workflows.</p>
+        </div>
+
+        <div class="m-card">
+          <span class="m-card-tag m-tag-dark">STUDIO</span>
+          <h2 class="m-card-title">Visual Studio</h2>
+          <p class="m-card-desc">Photoreal renders & stylized scenes.</p>
+        </div>
+
+        <div class="m-card">
+          <span class="m-card-tag m-tag-lime">METRIC</span>
+          <div class="m-metric-number">2000+</div>
+          <p class="m-card-desc">Interactions analyzed.</p>
+        </div>
+
+        <div class="m-card col-span-2">
+          <span class="m-card-tag m-tag-dark">SYSTEM</span>
+          <h2 class="m-card-title"><span class="highlight-lime">Lime</span> & <span class="highlight-purple">Purple</span></h2>
+          <p class="m-card-desc">Signature bento design aesthetic. Bold neon on deep navy.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- =================================================================== -->
+    <!-- SECTION 2: BRANDING                                                 -->
+    <!-- =================================================================== -->
+    <section id="branding">
+      <div class="section-header">
+        <div class="section-pill-title">Branding</div>
+      </div>
+
+      <div class="bento-mobile-grid">
+        <div class="m-card col-span-2">
+          <span class="m-card-tag m-tag-lime">STYLE LIBRARY</span>
+          <h2 class="m-card-title">50+ Visual styles</h2>
+          <p class="m-card-desc">Locked style aesthetic engineered across all production assets.</p>
+        </div>
+
+        <div class="m-card col-span-2">
+          <span class="m-card-tag m-tag-dark">CONSISTENCY</span>
+          <h2 class="m-card-title">Character Engine</h2>
+          <p class="m-card-desc">Same face, same style, same vibe across every generated scene.</p>
+          <div class="char-engine-preview">
+            <img src="../assets/char-bk-remove.png" alt="Crouch" />
+            <img src="../assets/cggcgcg.png" alt="Stand" />
+            <img src="../assets/char4-bk-remove.png" alt="Gesture" />
+          </div>
+        </div>
+
+        <div class="m-card col-span-2 motion-workflow-card" onclick="window.location.href='workflow-mobile.html'">
+          <span class="m-card-tag m-tag-lime">MOTION</span>
+          <h2 class="m-card-title">Style-Consistent Video</h2>
+          <p class="m-card-desc">Keeping visual identity locked across every frame.</p>
+          <a href="workflow-mobile.html" class="see-workflow-mobile-btn" onclick="event.stopPropagation()">
+            <span>See Storyboard & Videos</span>
+            <span class="see-workflow-arrow">&rarr;</span>
+          </a>
+        </div>
+
+        <div class="m-card col-span-2" style="padding: 10px;">
+          <img src="../assets/pedestal-object.jpg" alt="3D Pedestal Object" class="pedestal-preview-img" style="margin-top: 0;" />
+        </div>
+
+        <div class="m-card col-span-2">
+          <span class="m-card-tag m-tag-lime">DEPLOYMENT</span>
+          <h2 class="m-card-title">Production Pipeline</h2>
+          <p class="m-card-desc">Workflows tested on Replicate and cloud GPU environments.</p>
+          <div class="cartoon-busts-preview">
+            <img src="../assets/cartoon-char1.png" alt="Char 1" />
+            <img src="../assets/cartoon-char2.png" alt="Char 2" />
+            <img src="../assets/cartoon-char3.png" alt="Char 3" />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =================================================================== -->
+    <!-- SECTION 3: ADS                                                      -->
+    <!-- =================================================================== -->
+    <section id="ads">
+      <div class="section-header">
+        <div class="section-pill-title">Ads</div>
+      </div>
+
+      <!-- 6 Thumbnails Grid -->
+      <div class="ads-images-grid">
+        <div class="ad-thumb-card"><img src="../adds-assets-htmlpage/img1.png" alt="Ad 1" /></div>
+        <div class="ad-thumb-card"><img src="../adds-assets-htmlpage/img2.png" alt="Ad 2" /></div>
+        <div class="ad-thumb-card tall"><img src="../adds-assets-htmlpage/img3.png" alt="Ad 3" /></div>
+        <div class="ad-thumb-card tall"><img src="../adds-assets-htmlpage/img4.png" alt="Ad 4" /></div>
+        <div class="ad-thumb-card"><img src="../adds-assets-htmlpage/img5.png" alt="Ad 5" /></div>
+        <div class="ad-thumb-card"><img src="../adds-assets-htmlpage/img6.png" alt="Ad 6" /></div>
+      </div>
+
+      <!-- 3 Video Players -->
+      <div class="ads-players-grid">
+        <!-- Video 1: Yellow Snake (3:4 ratio) -->
+        <div class="ad-player-card aspect-vid1" onclick="togglePlay(this)">
+          <video loop muted playsinline webkit-playsinline preload="auto" poster="../adds-assets-htmlpage/vid1-poster.jpg">
+            <source src="../adds-assets-htmlpage/vid1.mp4" type="video/mp4" />
+          </video>
+          <div class="ad-play-badge">
+            <svg class="icon-play" viewBox="0 0 24 24" width="12" height="12" fill="currentColor">
+              <polygon points="5 3 19 12 5 21 5 3"></polygon>
+            </svg>
+            <svg class="icon-pause" viewBox="0 0 24 24" width="12" height="12" fill="currentColor">
+              <rect x="6" y="4" width="4" height="16"></rect>
+              <rect x="14" y="4" width="4" height="16"></rect>
+            </svg>
+            <span class="badge-text">Play</span>
+          </div>
+        </div>
+
+        <!-- Video 2: Red Hair Portrait (9:16 vertical ratio) -->
+        <div class="ad-player-card aspect-vid2" onclick="togglePlay(this)">
+          <video loop muted playsinline webkit-playsinline preload="auto" poster="../adds-assets-htmlpage/vid2-poster.jpg">
+            <source src="../adds-assets-htmlpage/vid2.mp4" type="video/mp4" />
+          </video>
+          <div class="ad-play-badge">
+            <svg class="icon-play" viewBox="0 0 24 24" width="12" height="12" fill="currentColor">
+              <polygon points="5 3 19 12 5 21 5 3"></polygon>
+            </svg>
+            <svg class="icon-pause" viewBox="0 0 24 24" width="12" height="12" fill="currentColor">
+              <rect x="6" y="4" width="4" height="16"></rect>
+              <rect x="14" y="4" width="4" height="16"></rect>
+            </svg>
+            <span class="badge-text">Play</span>
+          </div>
+        </div>
+
+        <!-- Video 3: Field Runner (4:3 landscape ratio) -->
+        <div class="ad-player-card aspect-vid3" onclick="togglePlay(this)">
+          <video loop muted playsinline webkit-playsinline preload="auto" poster="../adds-assets-htmlpage/vid3-poster.jpg">
+            <source src="../adds-assets-htmlpage/vid3.mp4" type="video/mp4" />
+          </video>
+          <div class="ad-play-badge">
+            <svg class="icon-play" viewBox="0 0 24 24" width="12" height="12" fill="currentColor">
+              <polygon points="5 3 19 12 5 21 5 3"></polygon>
+            </svg>
+            <svg class="icon-pause" viewBox="0 0 24 24" width="12" height="12" fill="currentColor">
+              <rect x="6" y="4" width="4" height="16"></rect>
+              <rect x="14" y="4" width="4" height="16"></rect>
+            </svg>
+            <span class="badge-text">Play</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =================================================================== -->
+    <!-- SECTION 4: SOCIAL MEDIA                                             -->
+    <!-- =================================================================== -->
+    <section id="social">
+      <div class="section-header">
+        <div class="section-pill-title">Social Media</div>
+      </div>
+
+      <div class="social-videos-list">
+        <!-- Video 1 -->
+        <div class="social-video-box" onclick="togglePlay(this)">
+          <video src="../social-assets-video/vid-showcase01.mp4" poster="../social-assets-video/poster-showcase01.jpg" loop muted playsinline></video>
+          <button class="sound-toggle-btn" onclick="toggleAudio(event, this)">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
+          </button>
+          <div class="social-play-btn"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg><span>Play</span></div>
+        </div>
+
+        <!-- Video 2 -->
+        <div class="social-video-box" onclick="togglePlay(this)">
+          <video src="../social-assets-video/vid-showcase02.mp4" poster="../social-assets-video/poster-showcase02.jpg" loop muted playsinline></video>
+          <button class="sound-toggle-btn" onclick="toggleAudio(event, this)">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
+          </button>
+          <div class="social-play-btn"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg><span>Play</span></div>
+        </div>
+
+        <!-- Video 3 -->
+        <div class="social-video-box" onclick="togglePlay(this)">
+          <video src="../social-assets-video/vid-showcase03.mp4" poster="../social-assets-video/poster-showcase03.jpg" loop muted playsinline></video>
+          <div class="social-play-btn"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg><span>Play</span></div>
+        </div>
+
+        <!-- Video 4 -->
+        <div class="social-video-box" onclick="togglePlay(this)">
+          <video src="../social-assets-video/vid-showcase04.mp4" poster="../social-assets-video/poster-showcase04.jpg" loop muted playsinline></video>
+          <div class="social-play-btn"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg><span>Play</span></div>
+        </div>
+
+        <!-- Video 5 -->
+        <div class="social-video-box" onclick="togglePlay(this)">
+          <video src="../social-assets-video/vid-showcase05.mp4" poster="../social-assets-video/poster-showcase05.jpg" loop muted playsinline></video>
+          <button class="sound-toggle-btn" onclick="toggleAudio(event, this)">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line></svg>
+          </button>
+          <div class="social-play-btn"><svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg><span>Play</span></div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FLOATING BACK TO TOP -->
+  <a href="#hero" class="mobile-back-to-top" title="Back to Top" aria-label="Back to Top">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="18 15 12 9 6 15"></polyline>
+    </svg>
+  </a>
+
+  <!-- INTERACTIVE VIDEO CONTROLS -->
+  <script>
+    function togglePlay(card) {
+      const video = card.querySelector('video');
+      if (!video) return;
+
+      if (video.paused) {
+        // Pause all other videos
+        document.querySelectorAll('video').forEach(v => {
+          if (v !== video && !v.paused) {
+            v.pause();
+          }
+        });
+        video.play().catch(err => {
+          console.warn('Playback interrupted:', err);
+        });
+      } else {
+        video.pause();
+      }
+    }
+
+    // Direct event sync on all Ads video players
+    document.querySelectorAll('.ad-player-card video').forEach(v => {
+      const card = v.closest('.ad-player-card');
+      const textSpan = card.querySelector('.badge-text');
+
+      v.addEventListener('play', () => {
+        card.classList.add('is-playing');
+        if (textSpan) textSpan.textContent = 'Pause';
+      });
+
+      v.addEventListener('pause', () => {
+        card.classList.remove('is-playing');
+        if (textSpan) textSpan.textContent = 'Play';
+      });
+
+      v.addEventListener('ended', () => {
+        card.classList.remove('is-playing');
+        if (textSpan) textSpan.textContent = 'Play';
+      });
+    });
+
+    // Direct event sync on Social Media video players
+    document.querySelectorAll('.social-video-box video').forEach(v => {
+      const box = v.closest('.social-video-box');
+      const textSpan = box.querySelector('.social-play-btn span');
+
+      v.addEventListener('play', () => {
+        box.classList.add('is-playing');
+        if (textSpan) textSpan.textContent = 'Pause';
+      });
+
+      v.addEventListener('pause', () => {
+        box.classList.remove('is-playing');
+        if (textSpan) textSpan.textContent = 'Play';
+      });
+
+      v.addEventListener('ended', () => {
+        box.classList.remove('is-playing');
+        if (textSpan) textSpan.textContent = 'Play';
+      });
+    });
+
+    function toggleAudio(e, btn) {
+      e.stopPropagation();
+      const video = btn.closest('.social-video-box, .ad-player-card')?.querySelector('video');
+      if (!video) return;
+
+      video.muted = !video.muted;
+      if (!video.muted) {
+        btn.classList.add('unmuted');
+        video.volume = 1.0;
+        if (video.paused) video.play().catch(() => {});
+      } else {
+        btn.classList.remove('unmuted');
+      }
+    }
+
+    // Active chip highlight on scroll
+    const sections = document.querySelectorAll('section');
+    const chips = document.querySelectorAll('.nav-chip');
+    window.addEventListener('scroll', () => {
+      let current = '';
+      sections.forEach(sec => {
+        const top = sec.offsetTop - 120;
+        if (window.scrollY >= top) {
+          current = sec.getAttribute('id');
+        }
+      });
+      chips.forEach(chip => {
+        chip.classList.remove('active');
+        if (chip.getAttribute('href') === '#' + current) {
+          chip.classList.add('active');
+        }
+      });
+    });
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Vaxluma.ai - Styles Slider</title>
+
+  <!-- Google Fonts: Syne, Outfit, Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Syne:wght@700;800&display=swap"
+    rel="stylesheet">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      height: 100%;
+      width: 100%;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', 'Outfit', -apple-system, sans-serif;
+      background-color: #ffffff;
+      overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      position: relative;
+    }
+
+    /* =====================================================================
+       INTERACTIVE DOT GRID & DYNAMIC MOUSE SPOTLIGHT (OPTION B)
+       ===================================================================== */
+    .dot-grid-bg {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      background-image: radial-gradient(circle, rgba(2, 46, 33, 0.08) 1.25px, transparent 1.25px);
+      background-size: 28px 28px;
+      background-position: center center;
+      opacity: 0.9;
+    }
+
+    .mouse-spotlight {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      background: radial-gradient(
+        650px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+        rgba(21, 228, 167, 0.16) 0%,
+        rgba(205, 252, 138, 0.09) 35%,
+        transparent 70%
+      );
+      opacity: 1;
+      transition: opacity 0.3s ease;
+    }
+
+    .ambient-glow {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 900px;
+      height: 520px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(205, 252, 138, 0.07) 0%, rgba(21, 228, 167, 0.04) 40%, transparent 70%);
+      filter: blur(85px);
+      pointer-events: none;
+      z-index: 0;
+      animation: ambientPulse 8s ease-in-out infinite alternate;
+    }
+
+    @keyframes ambientPulse {
+      0% {
+        transform: translate(-50%, -50%) scale(0.95);
+        opacity: 0.65;
+      }
+      100% {
+        transform: translate(-50%, -50%) scale(1.06);
+        opacity: 1;
+      }
+    }
+
+    /* ===== Top bar ===== */
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 24px 44px;
+      background: transparent;
+      flex-shrink: 0;
+      position: relative;
+      z-index: 10;
+    }
+
+    /* Modern Vaxluma.ai Logo with Sparkle Icon */
+    .logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .logo:hover {
+      transform: translateY(-1.5px);
+    }
+
+    .logo-icon {
+      width: 22px;
+      height: 22px;
+      filter: drop-shadow(0 0 8px rgba(21, 228, 167, 0.6));
+      animation: pulseSparkle 3.5s ease-in-out infinite;
+    }
+
+    @keyframes pulseSparkle {
+      0%, 100% {
+        transform: scale(1) rotate(0deg);
+        opacity: 0.9;
+      }
+      50% {
+        transform: scale(1.15) rotate(15deg);
+        opacity: 1;
+      }
+    }
+
+    .logo-text {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 24px;
+      letter-spacing: -0.6px;
+      color: #022e21;
+    }
+
+    .logo-accent {
+      color: #15e4a7;
+      text-shadow: 0 0 14px rgba(21, 228, 167, 0.45);
+    }
+
+    /* Interactive Topbar Navigation Pills */
+    .nav-pills {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .nav-pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      height: 36px;
+      padding: 0 22px;
+      background: #cdfc8a;
+      color: #022e21;
+      border-radius: 40px;
+      font-family: 'Plus Jakarta Sans', 'Outfit', sans-serif;
+      font-weight: 700;
+      font-size: 13.5px;
+      letter-spacing: 0.2px;
+      text-decoration: none;
+      border: 1.5px solid rgba(2, 46, 33, 0.12);
+      box-shadow: 0 4px 14px rgba(205, 252, 138, 0.4);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      cursor: pointer;
+    }
+
+    .nav-pill:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(205, 252, 138, 0.65);
+      background: #d8fda0;
+    }
+
+    .nav-pill:active {
+      transform: scale(0.96);
+    }
+
+    .nav-pill.active {
+      background: #022e21;
+      color: #cdfc8a;
+      border-color: #022e21;
+      box-shadow: 0 4px 18px rgba(2, 46, 33, 0.28);
+    }
+
+    .nav-pill.active:hover {
+      background: #034230;
+      box-shadow: 0 6px 22px rgba(2, 46, 33, 0.4);
+    }
+
+    /* ===== Styles nav (arrows + titlu, cu fundal sticla) ===== */
+    .styles-nav {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 28px;
+      background: transparent;
+      padding: 25px 0 20px;
+      flex-shrink: 0;
+      position: relative;
+      z-index: 10;
+    }
+
+    .styles-nav h2 {
+      font-family: 'Syne', sans-serif;
+      font-size: 42px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      color: #022e21;
+      background: rgba(255, 255, 255, 0.65);
+      backdrop-filter: blur(25px);
+      -webkit-backdrop-filter: blur(25px);
+      border: 1px solid rgba(21, 228, 167, 0.35);
+      padding: 14px 92px;
+      border-radius: 45px;
+      box-shadow: 0 12px 32px rgba(2, 46, 33, 0.08), 0 2px 8px rgba(0, 0, 0, 0.03);
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .styles-nav h2:hover {
+      border-color: rgba(21, 228, 167, 0.65);
+      box-shadow: 0 16px 36px rgba(21, 228, 167, 0.15), 0 2px 8px rgba(0, 0, 0, 0.03);
+    }
+
+    .nav-arrow {
+      width: 36px;
+      height: 36px;
+      border: none;
+      padding: 0;
+      background: transparent;
+      color: #02382a;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), color 0.25s ease;
+    }
+
+    .nav-arrow svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .nav-arrow:hover {
+      transform: scale(1.18);
+      color: #15e4a7;
+    }
+
+    .nav-arrow:active {
+      transform: scale(0.95);
+    }
+
+    /* ===== Slider ===== */
+    .slider-wrapper {
+      background: transparent;
+      overflow: hidden;
+      flex: 1;
+      display: flex;
+      align-items: center;
+      padding: 20px 0 40px;
+      position: relative;
+      width: 100%;
+      z-index: 5;
+    }
+
+    .slider-track {
+      display: flex;
+      gap: 30px;
+      width: max-content;
+      align-items: center;
+      padding-top: 45px;
+      padding-bottom: 45px;
+    }
+
+    .style-card {
+      width: 280px;
+      flex-shrink: 0;
+      position: relative;
+      cursor: pointer;
+    }
+
+    .card-ground-shadow {
+      position: absolute;
+      left: 50%;
+      bottom: -16px;
+      transform: translateX(-50%);
+      width: 85%;
+      height: 44px;
+      background: rgba(0, 0, 0, 0.36);
+      border-radius: 50%;
+      filter: blur(20px);
+      z-index: 0;
+      transition: opacity 0.35s ease, transform 0.35s ease;
+    }
+
+    .style-card:hover .card-ground-shadow {
+      opacity: 0.65;
+      transform: translateX(-50%) scale(1.08);
+    }
+
+    /* Cadrul cardului - colturi rotunjite, drop shadow negru cu blur */
+    .card-image-wrap {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      height: 400px;
+      border-radius: 28px;
+      overflow: hidden;
+      background-color: #f2f3f7;
+      border: 1.5px solid rgba(2, 46, 33, 0.08);
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.16), 0 2px 8px rgba(0, 0, 0, 0.06);
+      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .style-card:hover .card-image-wrap {
+      overflow: visible;
+      border-color: rgba(21, 228, 167, 0.45);
+      box-shadow: 0 28px 56px rgba(0, 0, 0, 0.28), 0 0 24px rgba(21, 228, 167, 0.2);
+    }
+
+    .card-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      display: block;
+      position: relative;
+      z-index: 1;
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), filter 0.4s ease;
+      border-radius: 28px;
+      transform-origin: bottom center;
+    }
+
+    .style-card:hover .card-image {
+      transform: scale(1.15) translateY(-4%);
+      filter: drop-shadow(0 18px 24px rgba(0, 0, 0, 0.35));
+      z-index: 10;
+    }
+
+    /* Gradient difuz pentru trecere lina spre baza cardului */
+    .card-fade {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 28%;
+      background: radial-gradient(ellipse at bottom, rgba(255, 255, 255, 0.88) 0%, rgba(255, 255, 255, 0) 78%);
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    /* Eticheta tip "pastila", suprapusa peste partea de jos a cadrului */
+    .card-label {
+      position: absolute;
+      left: 50%;
+      bottom: 18px;
+      transform: translateX(-50%);
+      background: #ffffff;
+      border: 2px solid #022e21;
+      border-radius: 24px;
+      padding: 8px 24px;
+      font-family: 'Plus Jakarta Sans', 'Outfit', sans-serif;
+      font-size: 14px;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+      color: #022e21;
+      white-space: nowrap;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 20;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    }
+
+    .style-card:hover .card-label {
+      background: #022e21;
+      color: #cdfc8a;
+      border-color: #022e21;
+      transform: translateX(-50%) translateY(-2px) scale(1.03);
+      box-shadow: 0 10px 24px rgba(2, 46, 33, 0.32), 0 0 14px rgba(205, 252, 138, 0.35);
+    }
+
+    /* Responsive */
+    @media (max-height: 800px) {
+      .card-image-wrap {
+        height: 350px;
+      }
+
+      .style-card {
+        width: 240px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .topbar {
+        padding: 18px 20px;
+      }
+
+      .logo-text {
+        font-size: 20px;
+      }
+
+      .nav-pill {
+        height: 32px;
+        padding: 0 14px;
+        font-size: 12px;
+      }
+
+      .styles-nav h2 {
+        font-size: 28px;
+        padding: 10px 36px;
+      }
+
+      .style-card {
+        width: 220px;
+      }
+
+      .card-image-wrap {
+        height: 310px;
+      }
+
+      .card-label {
+        font-size: 12.5px;
+        padding: 6px 16px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Dynamic Dot Grid Background & Mouse Spotlight (Option B) -->
+  <div class="dot-grid-bg" aria-hidden="true"></div>
+  <div class="mouse-spotlight" id="mouseSpotlight" aria-hidden="true"></div>
+  <div class="ambient-glow" aria-hidden="true"></div>
+
+  <!-- Top Bar with Upgraded Logo & Interactive Nav Pills -->
+  <div class="topbar">
+    <a href="./index.html?skip_intro=1" class="logo" title="Vaxluma.ai">
+      <svg class="logo-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 2L14.5 9.5L22 12L14.5 14.5L12 22L9.5 14.5L2 12L9.5 9.5L12 2Z" fill="#15E4A7"/>
+      </svg>
+      <span class="logo-text">Vaxluma<span class="logo-accent">.ai</span></span>
+    </a>
+    <nav class="nav-pills" aria-label="Navigation">
+      <a href="./index.html?skip_intro=1" class="nav-pill">Home</a>
+      <a href="#" class="nav-pill active">Styles</a>
+      <a href="#" class="nav-pill">Contact</a>
+    </nav>
+  </div>
+
+  <!-- Section Header with Frosted Glass Pill & Arrows -->
+  <div class="styles-nav">
+    <button class="nav-arrow" id="prevBtn" aria-label="Previous Style">
+      <!-- chevron spre stanga + punct -->
+      <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M28 10 L10 32 L28 54" stroke="currentColor" stroke-width="9" stroke-linecap="round"
+          stroke-linejoin="round" />
+        <circle cx="45" cy="32" r="7" fill="currentColor" />
+      </svg>
+    </button>
+    <h2>Styles</h2>
+    <button class="nav-arrow" id="nextBtn" aria-label="Next Style">
+      <!-- punct + chevron spre dreapta -->
+      <svg viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="19" cy="32" r="7" fill="currentColor" />
+        <path d="M36 10 L54 32 L36 54" stroke="currentColor" stroke-width="9" stroke-linecap="round"
+          stroke-linejoin="round" />
+      </svg>
+    </button>
+  </div>
+
+  <!-- Continuous Infinite Slider -->
+  <div class="slider-wrapper" id="sliderWrapper">
+    <div class="slider-track" id="sliderTrack">
+      <!-- Cardurile sunt generate automat prin JS -->
+    </div>
+  </div>
+
+  <script>
+    const track = document.getElementById('sliderTrack');
+    const wrapper = document.getElementById('sliderWrapper');
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+
+                // ===== 1. Secvență matematic echilibrată (contrast maxim: 3D / Ink / Comic / B&W / Sketch) =====
+    const cardData = [
+      { img: './assets/styles/3d-pixar.jpeg', label: '3D Pixar' },
+      { img: './assets/styles/Mustard-Graphic Ink-Hatch.jpeg', label: 'Graphic Ink Hatch' },
+      { img: './assets/styles/Dynamic-Cartoon-Photoroom.png', label: 'Dynamic Cartoon' },
+      { img: './assets/styles/gorilaz (1)-Photoroom.png', label: 'Gorillaz' },
+      { img: './assets/styles/realistic-woman-b-white.jpg', label: 'Realistic B&W' },
+      { img: './assets/styles/Mustard-Graphic Ink-Hatch (1).jpeg', label: 'Graphic Ink Hatch' },
+      { img: './assets/styles/UnrealEngine5.jpeg', label: 'Unreal Engine 5' },
+      { img: './assets/styles/Color-Charcoal.jpg', label: 'Color Charcoal' },
+      { img: './assets/styles/Gorilaz1.png', label: 'Gorillaz' },
+      { img: './assets/styles/caricature-blackandwhite (1).jpg', label: 'B&W Caricature' },
+      { img: './assets/styles/Mustard-Graphic Ink-Hatch (2).jpeg', label: 'Graphic Ink Hatch' },
+      { img: './assets/styles/cinematic-feature-film.jpeg', label: 'Cinematic Film' },
+      { img: './assets/styles/gorilaz2.png', label: 'Gorillaz' },
+      { img: './assets/styles/hand-drawn-stickman-blue-accent.jpeg', label: 'Blue Stickman' },
+      { img: './assets/styles/Mustard-Graphic Ink-Hatch (3).jpeg', label: 'Graphic Ink Hatch' },
+      { img: './assets/styles/Layer14.png', label: 'Cartoon' },
+      { img: './assets/styles/Doodle.jpeg', label: 'Doodle' },
+      { img: './assets/styles/gorilaz3.png', label: 'Gorillaz' },
+      { img: './assets/styles/Mustard-Graphic Ink-Hatch (4).jpeg', label: 'Graphic Ink Hatch' },
+      { img: './assets/styles/caricature-blackandwhite (2).jpg', label: 'B&W Caricature' },
+      { img: './assets/styles/Scrble-Ink.jpeg', label: 'Scribble Ink' }
+    ];
+
+    function buildCard(item) {
+      const card = document.createElement('div');
+      card.className = 'style-card';
+      card.innerHTML = `
+        <div class="card-ground-shadow"></div>
+        <div class="card-image-wrap">
+          <img class="card-image" src="${item.img}" alt="${item.label}" onerror="this.src='./assets/styles/Layer14.png'">
+          <div class="card-fade"></div>
+          <div class="card-label">${item.label}</div>
+        </div>
+      `;
+      return card;
+    }
+
+    // Construim setul o data, apoi il duplicam (loop continuu, fara sarituri)
+    for (let round = 0; round < 2; round++) {
+      cardData.forEach(item => track.appendChild(buildCard(item)));
+    }
+
+    // Calculam pasul de deplasare automat
+    function getStep() {
+      const firstCard = track.querySelector('.style-card');
+      if (!firstCard) return 310;
+      const style = window.getComputedStyle(track);
+      const gapVal = parseFloat(style.gap) || 30;
+      return firstCard.offsetWidth + gapVal;
+    }
+
+    let step = getStep();
+    let setWidth = cardData.length * step;
+
+    window.addEventListener('resize', () => {
+      step = getStep();
+      setWidth = cardData.length * step;
+    });
+
+    // ===== 2. Autoplay continuu =====
+    let position = 0;
+    let isPaused = false;
+    const speed = 0.9; // px per frame
+
+    function animate() {
+      if (!isPaused) {
+        position -= speed;
+        if (position <= -setWidth) {
+          position += setWidth;
+        }
+        track.style.transform = `translateX(${position}px)`;
+      }
+      requestAnimationFrame(animate);
+    }
+    requestAnimationFrame(animate);
+
+    // Pauza autoplay la mouseover pe carduri
+    track.addEventListener('mouseenter', () => { isPaused = true; });
+    track.addEventListener('mouseleave', () => { isPaused = false; });
+
+    // ===== 3. Butoane prev / next =====
+    function nudge(direction) {
+      isPaused = true;
+      track.style.transition = 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1)';
+      position += direction * step;
+
+      if (position <= -setWidth) position += setWidth;
+      if (position > 0) position -= setWidth;
+
+      track.style.transform = `translateX(${position}px)`;
+
+      setTimeout(() => {
+        track.style.transition = 'none';
+        setTimeout(() => { isPaused = false; }, 800);
+      }, 400);
+    }
+
+    prevBtn.addEventListener('click', () => nudge(1));
+    nextBtn.addEventListener('click', () => nudge(-1));
+
+    // ===== 4. Interactive Mouse Spotlight (Smooth Lerp) =====
+    let targetX = window.innerWidth / 2;
+    let targetY = window.innerHeight / 2;
+    let currentX = targetX;
+    let currentY = targetY;
+
+    window.addEventListener('mousemove', (e) => {
+      targetX = e.clientX;
+      targetY = e.clientY;
+    });
+
+    function updateSpotlight() {
+      currentX += (targetX - currentX) * 0.08;
+      currentY += (targetY - currentY) * 0.08;
+      document.documentElement.style.setProperty('--mouse-x', `${currentX.toFixed(1)}px`);
+      document.documentElement.style.setProperty('--mouse-y', `${currentY.toFixed(1)}px`);
+      requestAnimationFrame(updateSpotlight);
+    }
+    requestAnimationFrame(updateSpotlight);
+  </script>
+
+</body>
+
+</html>

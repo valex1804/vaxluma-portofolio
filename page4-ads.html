@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portfolio - Ads</title>
+
+  <!-- Google Fonts: Syne, Outfit, Plus Jakarta Sans, Fredoka -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;700;800&family=Syne:wght@700;800&display=swap"
+    rel="stylesheet">
+
+  <style>
+    /* ==========================================================================
+       DESIGN SYSTEM & VARIABLES
+       ========================================================================== */
+    @font-face {
+      font-family: 'Affinik';
+      src: local('Affinik'), local('Syne-Bold'), url('https://fonts.gstatic.com/s/syne/v22/8nFl6YnB45AX243Q-A.woff2') format('woff2');
+      font-weight: normal;
+      font-style: normal;
+    }
+
+    @font-face {
+      font-family: 'CF Oliviera Demo';
+      src: local('CF Oliviera Demo'), local('Outfit-Bold'), url('https://fonts.gstatic.com/s/outfit/v11/Q1dbZXZC8-_9W42CgA.woff2') format('woff2');
+      font-weight: bold;
+    }
+
+    :root {
+      --color-accent: #CDFC8A;
+      /* Signature Neon Lime */
+      --color-purple: #C77DFF;
+      /* Signature Lavender Purple */
+      --color-purple-glow: #71318b;
+      /* Purple glow for player cards */
+      --color-dark: #020024;
+      /* Deep Space Navy */
+      --color-card-bg: rgba(13, 11, 45, 0.62);
+      --color-card-border: rgba(204, 185, 219, 0.32);
+      --color-thumb-border: rgba(255, 255, 255, 0.42);
+      --color-chip-bg: #232140;
+      --color-chip-text: rgba(195, 195, 203, 0.92);
+      --font-hero: 'Affinik', 'Syne', sans-serif;
+      --font-body: 'Outfit', 'Plus Jakarta Sans', sans-serif;
+      --font-pill: 'CF Oliviera Demo', 'Fredoka', 'Outfit', sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    body {
+      background-color: var(--color-dark);
+      color: #ffffff;
+      font-family: var(--font-body);
+      overflow: hidden;
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* ==========================================================================
+       RESPONSIVE FIXED CANVAS (1440 x 1024)
+       ========================================================================== */
+    .viewport-stage {
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      background-color: var(--color-dark);
+      opacity: 0;
+      animation: pageFadeIn 0.4s ease forwards;
+    }
+
+    @keyframes pageFadeIn {
+      to {
+        opacity: 1;
+      }
+    }
+
+    .viewport-stage.page-leave {
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .canvas-container {
+      position: absolute;
+      width: 1440px;
+      height: 1024px;
+      transform-origin: center center;
+      background-color: var(--color-dark);
+      background-image:
+        radial-gradient(circle at 18% 18%, rgba(153, 43, 227, 0.18) 0%, transparent 45%),
+        radial-gradient(circle at 82% 16%, rgba(187, 102, 255, 0.16) 0%, transparent 42%),
+        radial-gradient(circle at 50% 50%, rgba(2, 0, 36, 1) 0%, #020024 100%);
+      overflow: hidden;
+    }
+
+    .abs {
+      position: absolute;
+    }
+
+    /* ==========================================================================
+       3D DECORATIVE LAYER (CORNERS & FLOATING ELEMENTS)
+       ========================================================================== */
+    .decor-layer {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .decor-spheres-left {
+      position: absolute;
+      left: -80px;
+      top: -85px;
+      width: 375px;
+      height: 375px;
+      filter: drop-shadow(0 20px 40px rgba(0, 0, 0, 0.55));
+    }
+
+    .decor-el {
+      position: absolute;
+      pointer-events: none;
+      object-fit: contain;
+    }
+
+    .decor-donut {
+      right: -25px;
+      top: -25px;
+      width: 250px;
+      height: 310px;
+      filter: drop-shadow(0 15px 35px rgba(0, 0, 0, 0.65));
+      animation: floatSlow 8s ease-in-out infinite;
+    }
+
+    .decor-stairs {
+      left: 573px;
+      top: 15px;
+      width: 294px;
+      height: 248px;
+      z-index: 4;
+      filter: drop-shadow(0 18px 30px rgba(0, 0, 0, 0.6));
+      animation: floatStair 7s ease-in-out infinite;
+    }
+
+    .decor-lego {
+      left: -20px;
+      bottom: -25px;
+      width: 290px;
+      height: 200px;
+      filter: drop-shadow(0 -10px 30px rgba(0, 0, 0, 0.7));
+    }
+
+    .decor-cylinder {
+      right: -30px;
+      bottom: -20px;
+      width: 200px;
+      height: 235px;
+      filter: drop-shadow(0 -10px 30px rgba(0, 0, 0, 0.7));
+    }
+
+    @keyframes floatSlow {
+
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-12px);
+      }
+    }
+
+    @keyframes floatStair {
+
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-8px);
+      }
+    }
+
+    /* ==========================================================================
+       CINEMATIC PAGE ENTRANCE KEYFRAMES
+       ========================================================================== */
+    @keyframes headerSlideIn {
+      0% {
+        opacity: 0;
+        transform: translateY(-24px) scale(0.95);
+        filter: blur(6px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        filter: blur(0px);
+      }
+    }
+
+    @keyframes pillPopIn {
+      0% {
+        opacity: 0;
+        transform: translateY(-28px) scale(0.9);
+        filter: blur(8px);
+      }
+      70% {
+        opacity: 1;
+        transform: translateY(2px) scale(1.02);
+        filter: blur(0px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        filter: blur(0px);
+      }
+    }
+
+    @keyframes cardEntrance {
+      0% {
+        opacity: 0;
+        transform: translateY(35px) scale(0.94);
+        filter: blur(8px);
+      }
+      60% {
+        opacity: 1;
+        filter: blur(0px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        filter: blur(0px);
+      }
+    }
+
+    @keyframes reel1Entrance {
+      0% {
+        opacity: 0;
+        transform: translateY(42px) scale(0.9) rotate(-7deg);
+        filter: blur(8px);
+      }
+      60% {
+        opacity: 1;
+        filter: blur(0px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0) scale(1) rotate(-3deg);
+        filter: blur(0px);
+      }
+    }
+
+    @keyframes reel2Entrance {
+      0% {
+        opacity: 0;
+        transform: translateY(42px) scale(0.9) rotate(8.5deg);
+        filter: blur(8px);
+      }
+      60% {
+        opacity: 1;
+        filter: blur(0px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0) scale(1) rotate(4.5deg);
+        filter: blur(0px);
+      }
+    }
+
+    @keyframes playerEntrance {
+      0% {
+        opacity: 0;
+        transform: translateY(45px) scale(0.94);
+        filter: blur(10px);
+      }
+      60% {
+        opacity: 1;
+        filter: blur(0px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        filter: blur(0px);
+      }
+    }
+
+    /* ==========================================================================
+       BACK BUTTON (NAVIGATES SMOOTHLY TO ./collection-of-work.html)
+       ========================================================================== */
+    .back-btn {
+      position: absolute;
+      left: 78px;
+      top: 68px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 10px 24px;
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      border-radius: 40px;
+      background: rgba(14, 12, 42, 0.45);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      color: #ffffff;
+      font-family: var(--font-body);
+      font-size: 15px;
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+      z-index: 100;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      animation: headerSlideIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.1s both;
+    }
+
+    .back-btn:hover {
+      background: var(--color-accent);
+      color: #000000;
+      border-color: var(--color-accent);
+      transform: translateX(-4px);
+      box-shadow: 0 0 20px rgba(205, 252, 138, 0.45);
+    }
+
+    /* ==========================================================================
+       CATEGORY TITLE PILL ("Ads") - MOVED HIGH UP FOR WHITE SPACE
+       ========================================================================== */
+    .category-title-pill {
+      position: absolute;
+      left: 519px;
+      top: 135px;
+      width: 402px;
+      height: 51px;
+      background: var(--color-accent);
+      border-radius: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #000000;
+      font-family: var(--font-pill);
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+      box-shadow: 0 4px 14px rgba(255, 255, 255, 0.85), 0 0 30px rgba(205, 252, 138, 0.55);
+      z-index: 6;
+      border: 1.5px solid rgba(255, 255, 255, 0.75);
+      animation: pillPopIn 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.18s both;
+    }
+
+    /* ==========================================================================
+       TOP ROW: 6 STAGGERED THUMBNAIL CARDS (FOR IMAGES)
+       ========================================================================== */
+    .thumb {
+      background: var(--color-card-bg);
+      border: 1px solid var(--color-thumb-border);
+      border-radius: 22px;
+      overflow: hidden;
+      position: absolute;
+      z-index: 3;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.35s ease, box-shadow 0.35s ease;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .thumb:hover {
+      transform: translateY(-8px) scale(1.02);
+      border-color: rgba(205, 252, 138, 0.85);
+      box-shadow: 0 14px 32px rgba(0, 0, 0, 0.6), 0 0 20px rgba(205, 252, 138, 0.35);
+    }
+
+    /* Image element inside thumbnail cards */
+    .thumb img.card-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: inherit;
+      display: block;
+      transition: transform 0.35s ease;
+    }
+
+    .thumb:hover img.card-img {
+      transform: scale(1.05);
+    }
+
+    /* Placeholder text indicator when no image is loaded */
+    .thumb-placeholder {
+      color: rgba(255, 255, 255, 0.28);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      pointer-events: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .thumb-placeholder svg {
+      opacity: 0.35;
+    }
+
+    /* Exact coordinate positions and rotations matching the design mockup */
+    .thumb-1 {
+      left: 45px;
+      top: 485px;
+      width: 265px;
+      height: 150px; /* 16:9 ratio for img1.png (Car) */
+      z-index: 2;
+      animation: cardEntrance 0.85s cubic-bezier(0.16, 1, 0.3, 1) 0.46s both;
+    }
+
+    .thumb-2 {
+      left: 195px;
+      top: 280px;
+      width: 265px;
+      height: 150px; /* 16:9 ratio for img2.png (Desert) aligned horizontally with thumb-6 */
+      z-index: 3;
+      animation: cardEntrance 0.85s cubic-bezier(0.16, 1, 0.3, 1) 0.28s both;
+    }
+
+    /* Middle Reel 1 - tilted slightly counter-clockwise */
+    .thumb-3 {
+      left: 512px;
+      top: 345px;
+      width: 172px;
+      height: 308px; /* ~9:16 portrait ratio for img3.png */
+      transform: rotate(-3deg);
+      transform-origin: center center;
+      z-index: 3;
+      animation: reel1Entrance 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.35s both;
+    }
+
+    .thumb-3:hover {
+      transform: rotate(-1deg) translateY(-8px) scale(1.03);
+      border-color: rgba(205, 252, 138, 0.85);
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.65), 0 0 24px rgba(205, 252, 138, 0.4);
+      z-index: 10;
+    }
+
+    /* Middle Reel 2 - tilted slightly clockwise */
+    .thumb-4 {
+      left: 700px;
+      top: 318px;
+      width: 172px;
+      height: 308px; /* Native 9:16 ratio for img4.png (1053x1886) */
+      transform: rotate(4.5deg);
+      transform-origin: center center;
+      z-index: 3;
+      animation: reel2Entrance 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.40s both;
+    }
+
+    .thumb-4:hover {
+      transform: rotate(2deg) translateY(-8px) scale(1.03);
+      border-color: rgba(205, 252, 138, 0.85);
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.65), 0 0 24px rgba(205, 252, 138, 0.4);
+      z-index: 10;
+    }
+
+    /* Card 4 (img4.png): title kept 100% visible, perfectly fitting entire card canvas with 0 empty space */
+    .thumb-4 img.card-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      transform-origin: center top;
+      display: block;
+    }
+
+    /* Lower right - Goku */
+    .thumb-5 {
+      left: 1030px;
+      top: 465px;
+      width: 265px;
+      height: 150px; /* 16:9 ratio for img5.png (Goku) */
+      z-index: 3;
+      animation: cardEntrance 0.85s cubic-bezier(0.16, 1, 0.3, 1) 0.50s both;
+    }
+
+    /* Upper right - Easier, Cheaper & Faster */
+    .thumb-6 {
+      left: 955px;
+      top: 280px;
+      width: 265px;
+      height: 150px; /* 16:9 ratio for img6.png */
+      z-index: 2;
+      animation: cardEntrance 0.85s cubic-bezier(0.16, 1, 0.3, 1) 0.32s both;
+    }
+
+    /* ==========================================================================
+       BOTTOM ROW: 3 LARGE VIDEO PLAYER CARDS (MATCHING MOCKUP PLACEMENT)
+       ========================================================================== */
+    .player {
+      width: 236px;
+      height: 310px;
+      background: var(--color-card-bg);
+      border: 1px solid var(--color-card-border);
+      border-radius: 28px;
+      overflow: hidden;
+      position: absolute;
+      z-index: 4;
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.55);
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease, border-color 0.35s ease;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Player coordinates (ends at 1005px, 19px from bottom) */
+    .player-1 {
+      left: 429px;
+      top: 695px;
+      animation: playerEntrance 0.95s cubic-bezier(0.16, 1, 0.3, 1) 0.58s both;
+    }
+
+    .player-2 {
+      left: 695.93px;
+      top: 695px;
+      width: 236.5px;
+      animation: playerEntrance 0.95s cubic-bezier(0.16, 1, 0.3, 1) 0.66s both;
+    }
+
+    .player-3 {
+      left: 962.86px;
+      top: 695px;
+      animation: playerEntrance 0.95s cubic-bezier(0.16, 1, 0.3, 1) 0.74s both;
+    }
+
+    /* HOVER DROP SHADOW COLOR (Purple Glow on hover for all player cards) */
+    .player:hover {
+      transform: translateY(-10px);
+      border-color: rgba(199, 125, 255, 0.85);
+      box-shadow: 0 14px 34px rgba(138, 68, 168, 0.85), 0 0 24px rgba(199, 125, 255, 0.6);
+    }
+
+    .player::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at center, rgba(14, 12, 42, 0.2) 0%, rgba(2, 0, 36, 0.45) 100%);
+      z-index: 1;
+      pointer-events: none;
+      transition: opacity 0.35s ease;
+    }
+
+    .player:hover::before {
+      opacity: 0.15;
+    }
+
+    /* Media content (poster image or video) inside player */
+    .player-media {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: inherit;
+      display: block;
+      z-index: 0;
+      transition: transform 0.35s ease;
+    }
+
+    .player:hover .player-media {
+      transform: scale(1.05);
+    }
+
+    /* Single Play button placed at bottom of player card */
+    .player-play-btn {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 104px;
+      height: 28px;
+      background: rgba(22, 20, 50, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.28);
+      border-radius: 35px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ffffff;
+      font-family: var(--font-body);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      z-index: 5;
+      cursor: pointer;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.45);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .player:hover .player-play-btn,
+    .player-play-btn:hover {
+      background: var(--color-accent);
+      color: #000000;
+      border-color: var(--color-accent);
+      transform: translateX(-50%) scale(1.06);
+      box-shadow: 0 0 16px rgba(205, 252, 138, 0.65);
+    }
+
+    /* Video placeholder indicator when no media is supplied */
+    .player-placeholder {
+      position: absolute;
+      top: 32px;
+      color: rgba(255, 255, 255, 0.22);
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      z-index: 1;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="viewport-stage" id="stage">
+    <div class="canvas-container" id="canvasContainer">
+
+      <!-- =================================================================== -->
+      <!-- 3D DECORATIVE LAYER (CORNERS & FLOATING ELEMENTS)                   -->
+      <!-- =================================================================== -->
+      <div class="decor-layer">
+
+        <!-- 3D SVG Spheres (Top-Left) -->
+        <div class="decor-spheres-left">
+          <svg width="100%" height="100%" viewBox="0 0 340 340" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <radialGradient id="sphereMainGrad" cx="35%" cy="30%" r="65%">
+                <stop offset="0%" stop-color="#D68DFF" />
+                <stop offset="30%" stop-color="#992BE3" />
+                <stop offset="70%" stop-color="#5B0594" />
+                <stop offset="100%" stop-color="#270046" />
+              </radialGradient>
+              <radialGradient id="sphereSecGrad" cx="30%" cy="25%" r="70%">
+                <stop offset="0%" stop-color="#BB66FF" />
+                <stop offset="40%" stop-color="#7B15BD" />
+                <stop offset="85%" stop-color="#41036B" />
+                <stop offset="100%" stop-color="#1D0033" />
+              </radialGradient>
+              <filter id="sphereDropShadow" x="-10%" y="-10%" width="130%" height="130%">
+                <feDropShadow dx="12" dy="16" stdDeviation="14" flood-color="#1A0033" flood-opacity="0.38" />
+              </filter>
+            </defs>
+
+            <!-- Secondary sphere behind -->
+            <circle cx="225" cy="95" r="85" fill="url(#sphereSecGrad)" filter="url(#sphereDropShadow)" />
+            <ellipse cx="198" cy="70" rx="20" ry="11" fill="#FFFFFF" opacity="0.32" transform="rotate(-25 198 70)" />
+
+            <!-- Main primary sphere -->
+            <circle cx="115" cy="115" r="130" fill="url(#sphereMainGrad)" filter="url(#sphereDropShadow)" />
+            <ellipse cx="78" cy="72" rx="34" ry="20" fill="#FFFFFF" opacity="0.4" transform="rotate(-25 78 72)" />
+          </svg>
+        </div>
+
+        <!-- 3D Corner PNGs -->
+        <img src="./assets/collection/assets/moon.png" alt="Moon 3D Decor" class="decor-el decor-donut" />
+        <img src="./assets/collection/assets/stair.png" alt="Stairs 3D Decor" class="decor-el decor-stairs" />
+        <img src="./assets/collection/assets/lego-stair.png" alt="Lego Stair 3D Decor" class="decor-el decor-lego" />
+        <img src="./assets/collection/assets/cilinder.png" alt="Cylinder 3D Decor" class="decor-el decor-cylinder" />
+      </div>
+
+      <!-- =================================================================== -->
+      <!-- BACK BUTTON (NAVIGATES BACK TO ./collection-of-work.html)                     -->
+      <!-- =================================================================== -->
+      <a href="./collection-of-work.html" class="back-btn nav-link" title="Back to Collection of My Work">
+        &larr; Back
+      </a>
+
+      <!-- =================================================================== -->
+      <!-- CATEGORY TITLE PILL ("Ads")                                         -->
+      <!-- =================================================================== -->
+      <div class="category-title-pill">
+        Ads
+      </div>
+
+      <!-- =================================================================== -->
+      <!-- TOP ROW: 6 THUMBNAIL CARDS (PERFECT FIT FOR img1 - img6)             -->
+      <!-- =================================================================== -->
+
+      <!-- CARD 1 (Landscape 16:9 - img1.png) -->
+      <div class="abs thumb thumb-1" title="Ad Image 1">
+        <img src="./assets/collection/adds-assets-htmlpage/img1.png" alt="Ad Image 1" class="card-img" />
+      </div>
+
+      <!-- CARD 2 (Landscape 16:9 - img2.png) -->
+      <div class="abs thumb thumb-2" title="Ad Image 2">
+        <img src="./assets/collection/adds-assets-htmlpage/img2.png" alt="Ad Image 2" class="card-img" />
+      </div>
+
+      <!-- CARD 3 (Portrait 9:16 - img3.png) -->
+      <div class="abs thumb thumb-3" title="Ad Image 3">
+        <img src="./assets/collection/adds-assets-htmlpage/img3.png" alt="Ad Image 3" class="card-img" />
+      </div>
+
+      <!-- CARD 4 (Portrait 9:16 - img4.png) -->
+      <div class="abs thumb thumb-4" title="Ad Image 4">
+        <img src="./assets/collection/adds-assets-htmlpage/img4.png" alt="Ad Image 4" class="card-img" />
+      </div>
+
+      <!-- CARD 5 (Landscape 16:9 - img5.png) -->
+      <div class="abs thumb thumb-5" title="Ad Image 5">
+        <img src="./assets/collection/adds-assets-htmlpage/img5.png" alt="Ad Image 5" class="card-img" />
+      </div>
+
+      <!-- CARD 6 (Landscape 16:9 - img6.png) -->
+      <div class="abs thumb thumb-6" title="Ad Image 6">
+        <img src="./assets/collection/adds-assets-htmlpage/img6.png" alt="Ad Image 6" class="card-img" />
+      </div>
+
+      <!-- =================================================================== -->
+      <!-- BOTTOM ROW: 3 VIDEO PLAYER CARDS (vid1.mp4, vid2.mp4, vid3.mp4)     -->
+      <!-- =================================================================== -->
+
+      <!-- PLAYER CARD 1 (Stânga - vid1.mp4) -->
+      <div class="abs player player-1" title="Play Ad Video 1">
+        <video src="./assets/collection/adds-assets-htmlpage/vid1.mp4" class="player-media" loop muted playsinline preload="metadata"></video>
+        <button class="player-play-btn" type="button" aria-label="Play video 1">Play</button>
+      </div>
+
+      <!-- PLAYER CARD 2 (Mijloc - vid2.mp4) -->
+      <div class="abs player player-2" title="Play Ad Video 2">
+        <video src="./assets/collection/adds-assets-htmlpage/vid2.mp4" class="player-media" loop muted playsinline preload="metadata"></video>
+        <button class="player-play-btn" type="button" aria-label="Play video 2">Play</button>
+      </div>
+
+      <!-- PLAYER CARD 3 (Dreapta - vid3.mp4) -->
+      <div class="abs player player-3" title="Play Ad Video 3">
+        <video src="./assets/collection/adds-assets-htmlpage/vid3.mp4" class="player-media" loop muted playsinline preload="metadata"></video>
+        <button class="player-play-btn" type="button" aria-label="Play video 3">Play</button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ======================================================================= -->
+  <!-- JAVASCRIPT: RESPONSIVE CANVAS & SMOOTH PAGE TRANSITIONS                -->
+  <!-- ======================================================================= -->
+  <script>
+    (function () {
+      'use strict';
+
+      const canvas = document.getElementById('canvasContainer');
+      const stage = document.getElementById('stage');
+      const BASE_WIDTH = 1440;
+      const BASE_HEIGHT = 1024;
+
+      // Responsive Canvas Scaling to Viewport
+      function resizeCanvas() {
+        const vw = window.innerWidth;
+        const vh = window.innerHeight;
+        const scaleX = vw / BASE_WIDTH;
+        const scaleY = vh / BASE_HEIGHT;
+        canvas.style.transform = `scale(${scaleX}, ${scaleY})`;
+      }
+
+      window.addEventListener('resize', resizeCanvas);
+      window.addEventListener('orientationchange', resizeCanvas);
+      resizeCanvas();
+
+      // Smooth Page Navigation Transition
+      const navLinks = document.querySelectorAll('.nav-link');
+      navLinks.forEach(link => {
+        link.addEventListener('click', function (e) {
+          const targetUrl = this.getAttribute('href');
+          if (!targetUrl || targetUrl.startsWith('#')) return;
+
+          e.preventDefault();
+          stage.classList.add('page-leave');
+
+          setTimeout(() => {
+            window.location.href = targetUrl;
+          }, 300);
+        });
+      });
+
+      // Interactive Video preview play on hover/click (if video tag is present)
+      const playerElements = document.querySelectorAll('.player');
+      playerElements.forEach(player => {
+        const video = player.querySelector('video');
+        const playBtn = player.querySelector('.player-play-btn');
+        if (video) {
+          video.addEventListener('play', () => {
+            if (playBtn) playBtn.textContent = 'Pause';
+          });
+          video.addEventListener('pause', () => {
+            if (playBtn) playBtn.textContent = 'Play';
+          });
+          player.addEventListener('mouseenter', () => {
+            video.play().catch(() => { });
+          });
+          player.addEventListener('mouseleave', () => {
+            video.pause();
+          });
+          player.addEventListener('click', () => {
+            if (video.paused) {
+              video.play().catch(() => { });
+            } else {
+              video.pause();
+            }
+          });
+        }
+      });
+    })();
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Character Consistency Framework — Vaxluma.ai</title>
+  <link rel="icon"
+    href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='22' fill='%23022e21'/%3E%3Ctext x='50' y='68' font-size='52' font-family='Arial' font-weight='bold' text-anchor='middle' fill='%23cdfc8a'%3EV%3C/text%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=Syne:wght@700;800&display=swap"
+    rel="stylesheet" />
+
+  <style>
+    :root {
+      --lime: #cdfc8a;
+      --navy-deep: #020024;
+      --navy-bar: #040329;
+      --card-bg: #0f1546;
+      --blue-shadow: #7ba2ff;
+      --white: #ffffff;
+      --font-display: "Space Grotesk", "Syne", sans-serif;
+      --font-body: "Plus Jakarta Sans", "Poppins", sans-serif;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html,
+    body {
+      width: 100%;
+      height: 100%;
+      background: var(--navy-deep);
+      overflow: hidden;
+      font-family: var(--font-body);
+      color: var(--white);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* ---------- Stage Container (Fixed 1440x1024, auto-scaled by JS) ---------- */
+    #viewport {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #010014;
+    }
+
+    #stage {
+      position: relative;
+      width: 1440px;
+      height: 1024px;
+      flex: 0 0 auto;
+      overflow: hidden;
+      transform-origin: center center;
+      background-color: #020024;
+      background-image:
+        radial-gradient(ellipse 70% 90% at 88% 60%, rgba(20, 85, 255, 0.75) 0%, rgba(10, 65, 240, 0.35) 45%, transparent 75%),
+        linear-gradient(104deg, #020024 0%, #020024 42%, #040e3a 58%, rgba(12, 70, 215, 0.6) 80%, rgba(50, 125, 255, 0.75) 100%);
+    }
+
+    .abs {
+      position: absolute;
+    }
+
+    img.decor {
+      display: block;
+      user-select: none;
+      pointer-events: none;
+    }
+
+    /* ---------- Navigation / Logo (Top-Right & Enlarged) ---------- */
+    .nav-pill-float {
+      position: absolute;
+      top: 36px;
+      right: 56px;
+      left: auto;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+    }
+
+    .nav-logo {
+      color: var(--white);
+      font-family: var(--font-display);
+      font-size: 34px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      opacity: 0.95;
+      text-shadow: 0 4px 20px rgba(0, 10, 40, 0.6);
+      transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+                  transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .nav-logo:hover {
+      opacity: 1;
+      transform: translateY(-2px);
+    }
+
+    .nav-logo span {
+      color: var(--lime);
+    }
+
+    /* ---------- Character Illustration (Static, Hand Fully Visible) ---------- */
+    .hero-man {
+      left: -128px;
+      top: 22px;
+      height: 482px;
+      width: auto;
+      z-index: 2;
+      filter: drop-shadow(0 20px 45px rgba(0, 0, 0, 0.55));
+      animation: none !important;
+      transform: none !important;
+    }
+
+    /* ---------- Character Variant Cards (4 Large High-Resolution Cards) ---------- */
+    .variants {
+      left: 495px;
+      top: 108px;
+      display: flex;
+      gap: 24px;
+      z-index: 3;
+    }
+
+    @keyframes cardEntrance {
+      0% {
+        opacity: 0;
+        transform: translateY(28px) scale(0.96);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    .variant-card {
+      width: 172px;
+      height: 238px;
+      background: #ffffff;
+      border-radius: 20px;
+      box-shadow: 2.81px 3.52px 5.06px 0.7px #7BA2FF;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 8px;
+      overflow: hidden;
+      cursor: pointer;
+      position: relative;
+      will-change: transform, box-shadow;
+      transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+                  box-shadow 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+      animation: cardEntrance 0.75s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+
+    .variant-card:nth-child(1) { animation-delay: 0.08s; }
+    .variant-card:nth-child(2) { animation-delay: 0.16s; }
+    .variant-card:nth-child(3) { animation-delay: 0.24s; }
+    .variant-card:nth-child(4) { animation-delay: 0.32s; }
+
+    .variant-card:hover {
+      transform: translateY(-12px) scale(1.035);
+      box-shadow: 2.81px 3.52px 5.06px 0.7px #7BA2FF,
+                  0 20px 42px rgba(123, 162, 255, 0.65);
+    }
+
+    .variant-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      border-radius: 14px;
+      display: block;
+      will-change: transform;
+      transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+      image-rendering: auto;
+    }
+
+    .variant-card:hover img {
+      transform: scale(1.045);
+    }
+
+    /* ---------- Title Bar ---------- */
+    .title-bar {
+      left: 48px;
+      top: 478px;
+      width: 1003px;
+      height: 75px;
+      background: var(--navy-bar);
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      padding-left: 20px;
+      padding-right: 20px;
+      z-index: 4;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    }
+
+    .title-bar h1 {
+      color: var(--lime);
+      font-family: var(--font-display);
+      font-size: 47px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      white-space: nowrap;
+      line-height: 1;
+    }
+
+    /* ---------- Subtitle (3 Lines) ---------- */
+    .subtitle {
+      left: 74px;
+      top: 566px;
+      width: 669px;
+      color: var(--white);
+      font-family: var(--font-body);
+      font-size: 38px;
+      font-weight: 600;
+      line-height: 1.25;
+      letter-spacing: -0.5px;
+      z-index: 4;
+      text-shadow: 0 4px 20px rgba(2, 0, 36, 0.7);
+    }
+
+    /* ---------- Framework Checklist Card ---------- */
+    .steps-card {
+      left: 74px;
+      top: 736px;
+      width: 295px;
+      height: 236px;
+      background: rgba(15, 21, 70, 0.88);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 26px;
+      padding: 18px 20px 18px 24px;
+      z-index: 4;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      box-shadow: 0 20px 50px rgba(2, 0, 36, 0.65);
+    }
+
+    .steps-card ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+
+    .steps-card li {
+      position: relative;
+      color: var(--white);
+      font-size: 15.5px;
+      font-weight: 500;
+      line-height: 1.4;
+      padding-left: 17px;
+      transition: color 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+                  transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      cursor: default;
+    }
+
+    .steps-card li:hover {
+      color: var(--lime);
+      transform: translateX(4px);
+    }
+
+    .steps-card li::before {
+      content: "";
+      position: absolute;
+      left: 0;
+      top: 4px;
+      width: 5px;
+      height: 13px;
+      border-radius: 3px;
+      background: var(--lime);
+    }
+
+    /* ---------- Process Doodle Icon (Overlapping Bottom-Right of Checklist) ---------- */
+    .doodle {
+      left: 335px;
+      top: 835px;
+      width: 122px;
+      height: auto;
+      transform: rotate(-25.29deg);
+      z-index: 5;
+      filter: drop-shadow(0 12px 24px rgba(2, 0, 36, 0.7));
+      transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+                  filter 0.45s ease;
+      cursor: pointer;
+    }
+
+    .doodle:hover {
+      transform: rotate(-14deg) scale(1.1);
+    }
+  </style>
+</head>
+
+<body>
+  <div id="viewport">
+    <div id="stage">
+
+      <!-- Logo moved to the top-right & enlarged -->
+      <a class="nav-pill-float" href="./index.html?skip_intro=1" title="Return to Portfolio">
+        <span class="nav-logo">Vaxluma<span>.ai</span></span>
+      </a>
+
+      <!-- 1. Character Illustration (Static, perfectly framed, pointing at the cards) -->
+      <img class="abs decor hero-man" src="./assets/character/rRyd4.png"
+        alt="Illustrated character thinking and pointing at the variant cards" />
+
+      <!-- 2. Character Variant Cards (Row of 4 Large High-Resolution Cards) -->
+      <div class="abs variants" id="variants">
+        <!-- Card 1: 3D Animation / Pixar Style -->
+        <div class="variant-card" data-id="1" title="3D Animation / Pixar">
+          <img src="./assets/character/black-dude-pixar.png" alt="3D Animation / Pixar Style" />
+        </div>
+        <!-- Card 2: Stylized Comic Illustration -->
+        <div class="variant-card" data-id="2" title="Stylized Comic / Sunglasses">
+          <img src="./assets/character/black-dude2.png" alt="Stylized Comic Illustration" />
+        </div>
+        <!-- Card 3: Animated Series Pop Style -->
+        <div class="variant-card" data-id="3" title="Animated Pop Cartoon">
+          <img src="./assets/character/black-dude-simsons.png" alt="Animated Pop Cartoon Style" />
+        </div>
+        <!-- Card 4: Digital Vector Portrait -->
+        <div class="variant-card" data-id="4" title="Digital Vector Portrait">
+          <img src="./assets/character/replicate-prediction-jnj6zmrgfnrme0cv4w0s5w4dbw.png" alt="Digital Vector Portrait" />
+        </div>
+      </div>
+
+      <!-- 3. Title Bar -->
+      <div class="abs title-bar">
+        <h1>The Character Consistency Framework</h1>
+      </div>
+
+      <!-- 4. Subtitle (Clean 3-line layout) -->
+      <p class="abs subtitle">
+        How I turn one idea into a<br />
+        scalable, on-brand character<br />
+        system.
+      </p>
+
+      <!-- 5. Framework Steps Card -->
+      <section class="abs steps-card">
+        <ul>
+          <li>Research</li>
+          <li>Explore variation</li>
+          <li>Test across situation</li>
+          <li>Document</li>
+          <li>Select &amp; standardize</li>
+          <li>Build the library</li>
+          <li>Maintain &amp; upgrade</li>
+        </ul>
+      </section>
+
+      <!-- 6. Process Doodle Cards -->
+      <img class="abs decor doodle" src="./assets/character/RnTEL.png" alt="Process cards doodle icon" />
+
+    </div>
+  </div>
+
+  <script>
+    // Fit the fixed 1440x1024 stage into any viewport maintaining aspect ratio
+    const stage = document.getElementById('stage');
+    function fit() {
+      const s = Math.min(window.innerWidth / 1440, window.innerHeight / 1024);
+      stage.style.transform = 'scale(' + s + ')';
+    }
+    window.addEventListener('resize', fit);
+    fit();
+  </script>
+</body>
+
+</html>

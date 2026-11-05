@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portfolio - Branding</title>
+
+  <!-- Google Fonts: Syne, Outfit, Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;700;800&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+
+  <style>
+    /* ==========================================================================
+       DESIGN SYSTEM & VARIABLES
+       ========================================================================== */
+    @font-face {
+      font-family: 'Affinik';
+      src: local('Affinik'), local('Syne-Bold'), url('https://fonts.gstatic.com/s/syne/v22/8nFl6YnB45AX243Q-A.woff2') format('woff2');
+      font-weight: normal;
+      font-style: normal;
+    }
+
+    @font-face {
+      font-family: 'CF Oliviera Demo';
+      src: local('CF Oliviera Demo'), local('Outfit-Bold'), url('https://fonts.gstatic.com/s/outfit/v11/Q1dbZXZC8-_9W42CgA.woff2') format('woff2');
+      font-weight: bold;
+    }
+
+    :root {
+      --color-accent: #CDFC8A;      /* Signature Neon Lime */
+      --color-purple: #C77DFF;      /* Signature Lavender Purple */
+      --color-dark: #020024;        /* Deep Space Navy */
+      --color-card-bg: rgba(14, 12, 42, 0.58);
+      --color-card-border: rgba(255, 255, 255, 0.22);
+      --color-card-hover-border: rgba(205, 252, 138, 0.65);
+      --font-hero: 'Affinik', 'Syne', sans-serif;
+      --font-body: 'Outfit', 'Plus Jakarta Sans', sans-serif;
+      --font-pill: 'CF Oliviera Demo', 'Outfit', sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    body {
+      background-color: var(--color-dark);
+      color: #ffffff;
+      font-family: var(--font-body);
+      overflow: hidden;
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Page transition wrapper */
+    .viewport-stage {
+      width: 100vw;
+      height: 100vh;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      background: var(--color-dark);
+      opacity: 1;
+      transform: scale(1);
+      transition: opacity 0.35s ease, transform 0.35s ease;
+    }
+
+    .viewport-stage.page-leave {
+      opacity: 0;
+      transform: scale(0.985);
+    }
+
+    /* ==========================================================================
+       CANVAS CONTAINER: EXACT 1440x1024 RESOLUTION
+       ========================================================================== */
+    .canvas-container {
+      width: 1440px;
+      height: 1024px;
+      position: absolute;
+      transform-origin: center center;
+      overflow: hidden;
+    }
+
+    /* ==========================================================================
+       DECORATIVE 3D LAYER (SVG Spheres + PNG 3D Assets)
+       ========================================================================== */
+    .decor-layer {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .decor-el {
+      position: absolute;
+      pointer-events: none;
+      mix-blend-mode: screen;
+    }
+
+    /* Vector SVG 3D Spheres (Left-Top) */
+    .decor-spheres-left {
+      position: absolute;
+      left: -95px;
+      top: -10px;
+      width: 390px;
+      height: 390px;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    /* 3D Decor PNGs with exact Figma alignment */
+    .decor-donut {
+      left: 1190px;
+      top: -30px;
+      width: 260px;
+      z-index: 2;
+    }
+
+    .decor-stairs {
+      left: 580px;
+      top: 170px;
+      width: 295px;
+      z-index: 2;
+    }
+
+    .decor-lego {
+      left: -20px;
+      top: 865px;
+      width: 295px;
+      z-index: 2;
+    }
+
+    .decor-cylinder {
+      left: 1285px;
+      top: 760px;
+      width: 165px;
+      z-index: 2;
+    }
+
+    /* ==========================================================================
+       HEADER & NAVIGATION (BACK BUTTON & CATEGORY TITLE PILL)
+       ========================================================================== */
+    @keyframes headerEntrance {
+      0% {
+        opacity: 0;
+        transform: translateY(-20px) scale(0.95);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    .back-btn {
+      position: absolute;
+      left: 80px;
+      top: 70px;
+      z-index: 35;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 10px 24px;
+      border-radius: 999px;
+      background: rgba(90, 30, 170, 0.45);
+      border: 1.5px solid var(--color-accent);
+      color: var(--color-accent);
+      font-family: var(--font-pill);
+      font-size: 15px;
+      font-weight: 800;
+      text-decoration: none;
+      box-shadow: 0 0 18px rgba(205, 252, 138, 0.25);
+      transition: background 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+      animation: headerEntrance 0.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+
+    .back-btn:hover {
+      background: rgba(90, 30, 170, 0.85);
+      transform: translateY(-2px) scale(1.04);
+      box-shadow: 0 0 26px rgba(205, 252, 138, 0.55);
+    }
+
+    .category-title-pill {
+      position: absolute;
+      left: 488px;
+      top: 290px;
+      width: 420px;
+      height: 68px;
+      border-radius: 999px;
+      background: var(--color-accent);
+      color: #000000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-pill);
+      font-size: 34px;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      z-index: 30;
+      box-shadow: 0 0 35px rgba(205, 252, 138, 0.5), 0 4px 15px rgba(0, 0, 0, 0.35);
+      animation: headerEntrance 1s cubic-bezier(0.16, 1, 0.3, 1) 0.15s both;
+    }
+
+    /* ==========================================================================
+       BENTO CARDS SYSTEM & STAGGERED ENTRANCE
+       ========================================================================== */
+    @keyframes bentoEntrance {
+      0% {
+        opacity: 0;
+        transform: translateY(35px) scale(0.95);
+        filter: blur(8px);
+      }
+      60% {
+        opacity: 1;
+        filter: blur(0px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        filter: blur(0px);
+      }
+    }
+
+    .ph-wrapper {
+      position: absolute;
+      z-index: 15;
+      animation: bentoEntrance 2.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+    }
+
+    /* Staggered Delays */
+    .ph-1 { animation-delay: 0.25s; }
+    .ph-2 { animation-delay: 0.45s; }
+    .ph-3 { animation-delay: 0.65s; }
+    .ph-4 { animation-delay: 0.85s; }
+    .ph-5 { animation-delay: 1.05s; }
+    .ph-6 { animation-delay: 1.25s; }
+    .ph-7 { animation-delay: 1.45s; }
+    .ph-8 { animation-delay: 1.65s; }
+    .ph-9 { animation-delay: 1.85s; }
+
+    /* Bento Card Outer Glass Box */
+    .bento-card {
+      width: 100%;
+      height: 100%;
+      background: var(--color-card-bg);
+      border: 1px solid var(--color-card-border);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 22px 20px;
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+                  border-color 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+                  box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+                  background 0.3s ease;
+      cursor: default;
+    }
+
+    .bento-card:hover {
+      transform: translateY(-3px);
+      border-color: var(--color-card-hover-border);
+      box-shadow: 0 0 25px rgba(205, 252, 138, 0.18), 0 8px 24px rgba(0, 0, 0, 0.45);
+      background: rgba(18, 15, 52, 0.75);
+    }
+
+    /* Card Tags */
+    .card-tag {
+      align-self: flex-start;
+      display: inline-flex;
+      align-items: center;
+      padding: 5px 12px;
+      border-radius: 999px;
+      font-family: var(--font-pill);
+      font-size: 9.5px;
+      font-weight: 800;
+      letter-spacing: 0.6px;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+      z-index: 2;
+    }
+
+    .tag-lime {
+      background: var(--color-accent);
+      color: #000000;
+      box-shadow: 0 0 10px rgba(205, 252, 138, 0.3);
+    }
+
+    .tag-dark {
+      background: rgba(255, 255, 255, 0.12);
+      color: rgba(255, 255, 255, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+    }
+
+    /* Card Content */
+    .card-body {
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card-title {
+      font-family: var(--font-body);
+      font-size: 15px;
+      font-weight: 800;
+      line-height: 1.28;
+      color: #ffffff;
+      margin-bottom: 6px;
+      letter-spacing: -0.2px;
+    }
+
+    .card-desc {
+      font-family: var(--font-body);
+      font-size: 11px;
+      font-weight: 500;
+      color: rgba(255, 255, 255, 0.65);
+      line-height: 1.45;
+    }
+
+    /* Color highlights */
+    .highlight-purple {
+      color: var(--color-purple);
+    }
+    .highlight-lime {
+      color: var(--color-accent);
+    }
+
+    /* ==========================================================================
+       SPECIFIC CARD STYLING & INTERNAL GRAPHICS
+       ========================================================================== */
+
+    /* CARD 1 (ph-1): Style Library - 10+ Visual styles */
+    .ph-1 {
+      left: 30px;
+      top: 368px;
+      width: 195px;
+      height: 225px;
+      z-index: 20;
+    }
+    .ph-1 .bento-card {
+      border-radius: 24px;
+      justify-content: flex-start;
+      position: relative;
+      overflow: visible; /* allows character shoe to pop out over bottom border */
+    }
+    .card-char-walking {
+      position: absolute;
+      bottom: -12px;
+      left: calc(50% + 10px);
+      transform: translateX(-50%);
+      height: 154px;
+      width: auto;
+      object-fit: contain;
+      pointer-events: none;
+      filter: drop-shadow(0 10px 18px rgba(0, 0, 0, 0.75)) drop-shadow(0 2px 6px rgba(0, 0, 0, 0.5));
+      transition: transform 0.3s ease, filter 0.3s ease;
+    }
+    .ph-1 .bento-card:hover .card-char-walking {
+      transform: translateX(-50%) scale(1.05);
+      filter: drop-shadow(0 14px 26px rgba(0, 0, 0, 0.85)) drop-shadow(0 4px 10px rgba(205, 252, 138, 0.3));
+    }
+
+    /* CARD 2 (ph-2): Consistency - Character engine */
+    .ph-2 {
+      left: 30px;
+      top: 618px;
+      width: 195px;
+      height: 290px;
+    }
+    .ph-2 .bento-card {
+      border-radius: 24px;
+      justify-content: flex-start;
+      padding: 18px 16px 14px 16px;
+    }
+    .ph-2 .card-desc {
+      font-size: 9.5px;
+      line-height: 1.35;
+    }
+    .chars-engine-row {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 2px;
+      margin-top: auto;
+      padding-top: 4px;
+      width: 100%;
+      transform: translateX(-3px);
+    }
+    .char-engine-item {
+      width: auto;
+      object-fit: contain;
+      filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.65));
+      transition: transform 0.25s ease;
+    }
+    .char-engine-item.item-crouch {
+      height: 100px;
+    }
+    .char-engine-item.item-stand {
+      height: 122px;
+    }
+    .char-engine-item.item-gesture {
+      height: 114px;
+    }
+    .ph-2 .bento-card:hover .char-engine-item {
+      transform: translateY(-3px);
+    }
+
+    /* CARD 3 (ph-3): Motion - Style-Consistent Video -> See content */
+    .ph-3 {
+      left: 242px;
+      top: 468px;
+      width: 353px;
+      height: 256px;
+    }
+    .ph-3 .bento-card {
+      border-radius: 28px;
+      padding: 26px 24px;
+      justify-content: space-between;
+    }
+    .ph-3 .card-title {
+      font-size: 19px;
+      margin-bottom: 8px;
+    }
+    .ph-3 .card-desc {
+      font-size: 13px;
+      max-width: 95%;
+      line-height: 1.5;
+    }
+    .see-content-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: transparent;
+      border: none;
+      outline: none;
+      color: var(--color-accent);
+      font-family: var(--font-pill);
+      font-size: 13px;
+      font-weight: 800;
+      cursor: pointer;
+      text-decoration: none;
+      margin-top: 14px;
+      align-self: flex-start;
+      transition: transform 0.2s ease, color 0.2s ease;
+    }
+    .see-content-arrow {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: var(--color-accent);
+      color: #000000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      transition: transform 0.25s ease, background 0.25s ease;
+    }
+    .see-content-btn:hover {
+      transform: translateX(4px);
+    }
+    .see-content-btn:hover .see-content-arrow {
+      transform: scale(1.15);
+      background: var(--color-purple);
+    }
+
+    /* CARD 4 (ph-4): 3D Pedestal Artwork Image Card */
+    .ph-4 {
+      left: 410px;
+      top: 742px;
+      width: 353px;
+      height: 256px;
+    }
+    .ph-4 .bento-card {
+      border-radius: 28px;
+      padding: 0;
+      overflow: hidden;
+      background: transparent;
+    }
+    .pedestal-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: inherit;
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .ph-4 .bento-card:hover .pedestal-img {
+      transform: scale(1.06);
+    }
+
+    /* CARD 5 (ph-5): Deployment - Production Pipeline */
+    .ph-5 {
+      left: 619px;
+      top: 468px;
+      width: 353px;
+      height: 256px;
+    }
+    .ph-5 .bento-card {
+      border-radius: 28px;
+      padding: 26px 24px;
+      justify-content: flex-start;
+    }
+    .ph-5 .card-title {
+      font-size: 19px;
+      margin-bottom: 8px;
+    }
+    .ph-5 .card-desc {
+      font-size: 13px;
+      max-width: 95%;
+      line-height: 1.5;
+    }
+
+    /* CARD 6 (ph-6): 3 Cartoon Busts Artwork Card */
+    .ph-6 {
+      left: 792px;
+      top: 756px;
+      width: 353px;
+      height: 246px;
+    }
+    .ph-6 .bento-card {
+      border-radius: 28px;
+      padding: 16px 14px;
+      justify-content: center;
+      align-items: center;
+    }
+    .cartoon-busts-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      width: 100%;
+      height: 100%;
+    }
+    .cartoon-bust-img {
+      height: 180px;
+      width: auto;
+      object-fit: contain;
+      filter: drop-shadow(0 6px 14px rgba(0,0,0,0.6));
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .cartoon-bust-img:hover {
+      transform: translateY(-4px) scale(1.06);
+    }
+
+    /* CARD 7 (ph-7): Retention - Figma | Photoshop | Affinity */
+    .ph-7 {
+      left: 991px;
+      top: 482px;
+      width: 233px;
+      height: 179px;
+    }
+    .ph-7 .bento-card {
+      border-radius: 24px;
+      justify-content: flex-start;
+      padding: 20px 18px;
+      position: relative;
+    }
+    .ph-7 .card-title {
+      font-size: 14px;
+      line-height: 1.3;
+    }
+    .ph-7 .card-desc {
+      font-size: 10px;
+      max-width: 65%;
+    }
+    .tools-icons-cluster {
+      position: absolute;
+      right: 14px;
+      bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      pointer-events: none;
+    }
+    .tool-icon-img {
+      width: 26px;
+      height: 26px;
+      object-fit: contain;
+      filter: drop-shadow(0 3px 6px rgba(0,0,0,0.5));
+      transition: transform 0.25s ease;
+    }
+    .ph-7 .bento-card:hover .tool-icon-img {
+      transform: translateY(-3px) scale(1.1);
+    }
+
+    /* CARD 8 (ph-8): Walking Character Card */
+    .ph-8 {
+      left: 1241px;
+      top: 334px;
+      width: 176px;
+      height: 189px;
+    }
+    .ph-8 .bento-card {
+      border-radius: 24px;
+      padding: 0 8px 2px 8px;
+      align-items: center;
+      justify-content: flex-end;
+      position: relative;
+      overflow: hidden;
+    }
+    .char-walking-img {
+      height: 178px;
+      width: auto;
+      object-fit: contain;
+      /* Exact Figma Drop Shadow: X: 3px, Y: 2px, Blur: 18px, Spread: 0, Color: #CDFC8A @ 49% */
+      filter: drop-shadow(3px 2px 18px rgba(205, 252, 138, 0.49));
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), filter 0.3s ease;
+    }
+    .ph-8 .bento-card:hover .char-walking-img {
+      transform: scale(1.05);
+      filter: drop-shadow(3px 2px 22px rgba(205, 252, 138, 0.72));
+    }
+
+    /* CARD 9 (ph-9): System Lime & Purple (above cylinder) */
+    .ph-9 {
+      left: 1246px;
+      top: 544px;
+      width: 176px;
+      height: 225px;
+    }
+    .ph-9 .bento-card {
+      border-radius: 24px;
+      justify-content: flex-start;
+      padding: 20px 16px;
+    }
+    .ph-9 .card-title {
+      font-size: 16px;
+      margin-top: 6px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="viewport-stage" id="stage">
+    <div class="canvas-container" id="canvasContainer">
+
+      <!-- =================================================================== -->
+      <!-- 3D DECORATIVE LAYER                                                 -->
+      <!-- =================================================================== -->
+      <div class="decor-layer">
+
+        <!-- 3D SVG Spheres (Left-Top) -->
+        <div class="decor-spheres-left">
+          <svg width="100%" height="100%" viewBox="0 0 340 340" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <radialGradient id="sphereMainGrad" cx="35%" cy="30%" r="65%">
+                <stop offset="0%" stop-color="#D68DFF" />
+                <stop offset="30%" stop-color="#992BE3" />
+                <stop offset="70%" stop-color="#5B0594" />
+                <stop offset="100%" stop-color="#270046" />
+              </radialGradient>
+              <radialGradient id="sphereSecGrad" cx="30%" cy="25%" r="70%">
+                <stop offset="0%" stop-color="#BB66FF" />
+                <stop offset="40%" stop-color="#7B15BD" />
+                <stop offset="85%" stop-color="#41036B" />
+                <stop offset="100%" stop-color="#1D0033" />
+              </radialGradient>
+              <filter id="sphereDropShadow" x="-10%" y="-10%" width="130%" height="130%">
+                <feDropShadow dx="12" dy="16" stdDeviation="14" flood-color="#1A0033" flood-opacity="0.38" />
+              </filter>
+            </defs>
+
+            <!-- Secondary sphere behind -->
+            <circle cx="225" cy="95" r="85" fill="url(#sphereSecGrad)" filter="url(#sphereDropShadow)" />
+            <ellipse cx="198" cy="70" rx="20" ry="11" fill="#FFFFFF" opacity="0.32" transform="rotate(-25 198 70)" />
+
+            <!-- Main primary sphere -->
+            <circle cx="115" cy="115" r="130" fill="url(#sphereMainGrad)" filter="url(#sphereDropShadow)" />
+            <ellipse cx="78" cy="72" rx="34" ry="20" fill="#FFFFFF" opacity="0.4" transform="rotate(-25 78 72)" />
+          </svg>
+        </div>
+
+        <!-- 3D Decor PNGs -->
+        <img src="./assets/collection/assets/moon.png" alt="Moon 3D Decor" class="decor-el decor-donut" />
+        <img src="./assets/collection/assets/stair.png" alt="Stairs 3D Decor" class="decor-el decor-stairs" />
+        <img src="./assets/collection/assets/lego-stair.png" alt="Lego Stair 3D Decor" class="decor-el decor-lego" />
+        <img src="./assets/collection/assets/cilinder.png" alt="Cylinder 3D Decor" class="decor-el decor-cylinder" />
+      </div>
+
+      <!-- =================================================================== -->
+      <!-- BACK BUTTON & CATEGORY TITLE PILL                                   -->
+      <!-- =================================================================== -->
+      <a href="./collection-of-work.html" class="back-btn nav-link" title="Back to Collection of My Work">
+        &larr; Back
+      </a>
+
+      <div class="category-title-pill">
+        Branding
+      </div>
+
+      <!-- =================================================================== -->
+      <!-- BENTO CARDS (9 CARDS - EXACT REPLICA OF branding-page.png)          -->
+      <!-- =================================================================== -->
+
+      <!-- CARD 1: Style Library (10+ Visual styles) -->
+      <div class="ph-wrapper ph-1">
+        <div class="bento-card">
+          <span class="card-tag tag-lime">STYLE LIBRARY</span>
+          <div class="card-body">
+            <h2 class="card-title">50+ Visual styles</h2>
+          </div>
+          <img src="./assets/collection/assets/char3-bk-remove.png" alt="Character Walking" class="card-char-walking" />
+        </div>
+      </div>
+
+      <!-- CARD 2: Consistency (Character engine) -->
+      <div class="ph-wrapper ph-2">
+        <div class="bento-card">
+          <span class="card-tag tag-dark">CONSISNTECY</span>
+          <div class="card-body">
+            <h2 class="card-title">Character engine</h2>
+            <p class="card-desc">Same face, same style, same vibe,across every generated scene.</p>
+          </div>
+          <!-- 3 Character Poses (Crouching, Standing Arms Crossed, Standing Gesturing) -->
+          <div class="chars-engine-row">
+            <img src="./assets/collection/assets/char-bk-remove.png" alt="Pose 1 Crouching" class="char-engine-item item-crouch" />
+            <img src="./assets/collection/assets/cggcgcg.png" alt="Pose 2 Standing Arms Crossed" class="char-engine-item item-stand" />
+            <img src="./assets/collection/assets/char4-bk-remove.png" alt="Pose 3 Standing Gesturing" class="char-engine-item item-gesture" />
+          </div>
+        </div>
+      </div>
+
+      <!-- CARD 3: Motion (Style-Consistent Video -> See content) -->
+      <div class="ph-wrapper ph-3">
+        <div class="bento-card">
+          <div>
+            <span class="card-tag tag-lime">Motion</span>
+            <div class="card-body">
+              <h2 class="card-title">Style-Consistent Video</h2>
+              <p class="card-desc">Keeping visual identity locked across every frame, not just every image.</p>
+            </div>
+          </div>
+          <!-- Clickable button opening Workflow Storyboard -->
+          <a href="page4-workflow.html" class="see-content-btn nav-link" title="See Storyboard and Videos">
+            <span>See content</span>
+            <span class="see-content-arrow">&#10140;</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- CARD 4: 3D Pedestal Artwork Image Card -->
+      <div class="ph-wrapper ph-4">
+        <div class="bento-card">
+          <img src="./assets/collection/assets/pedestal-object.jpg" alt="Purple 3D Object on Pedestal" class="pedestal-img" />
+        </div>
+      </div>
+
+      <!-- CARD 5: Deployment (Production Pipeline) -->
+      <div class="ph-wrapper ph-5">
+        <div class="bento-card">
+          <span class="card-tag tag-lime">DEPLOYMENT</span>
+          <div class="card-body">
+            <h2 class="card-title">Production Pipeline</h2>
+            <p class="card-desc">Workflows deployed and tested on Replicate and cloud GPU environments.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- CARD 6: 3 Cartoon Busts Artwork Card -->
+      <div class="ph-wrapper ph-6">
+        <div class="bento-card">
+          <div class="cartoon-busts-row">
+            <img src="./assets/collection/assets/cartoon-char1.png" alt="Cartoon Character 1" class="cartoon-bust-img" />
+            <img src="./assets/collection/assets/cartoon-char2.png" alt="Cartoon Character 2" class="cartoon-bust-img" />
+            <img src="./assets/collection/assets/cartoon-char3.png" alt="Cartoon Character 3" class="cartoon-bust-img" />
+          </div>
+        </div>
+      </div>
+
+      <!-- CARD 7: Retention (Figma | Photoshop | Affinity) -->
+      <div class="ph-wrapper ph-7">
+        <div class="bento-card">
+          <span class="card-tag tag-dark">Retention</span>
+          <div class="card-body">
+            <h2 class="card-title"><span class="highlight-purple">Figma</span> | <span class="highlight-purple">Photoshop</span> | <span class="highlight-purple">Affinity</span></h2>
+            <p class="card-desc">Concept to production-ready assets.</p>
+          </div>
+          <div class="tools-icons-cluster">
+            <img src="./assets/collection/assets/stilou.png" alt="Pen Tool" class="tool-icon-img" />
+            <img src="./assets/collection/assets/layers.png" alt="Layers Tool" class="tool-icon-img" />
+            <img src="./assets/collection/assets/picatura.png" alt="Droplet Tool" class="tool-icon-img" />
+          </div>
+        </div>
+      </div>
+
+      <!-- CARD 8: Walking Character Card with Figma Neon Lime Drop Shadow -->
+      <div class="ph-wrapper ph-8">
+        <div class="bento-card">
+          <img src="./assets/collection/assets/char8.png" alt="Character Walking" class="char-walking-img" />
+        </div>
+      </div>
+
+      <!-- CARD 9: System (Lime & Purple) -->
+      <div class="ph-wrapper ph-9">
+        <div class="bento-card">
+          <span class="card-tag tag-dark">SYSTEM</span>
+          <div class="card-body">
+            <h2 class="card-title"><span class="highlight-lime">Lime</span> & <span class="highlight-purple">Purple</span></h2>
+            <p class="card-desc">Signature bento design aesthetic. Bold neon on deep navy.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ======================================================================= -->
+  <!-- JAVASCRIPT: RESPONSIVE CANVAS & SMOOTH PAGE TRANSITIONS                -->
+  <!-- ======================================================================= -->
+  <script>
+    (function () {
+      'use strict';
+
+      const canvas = document.getElementById('canvasContainer');
+      const stage = document.getElementById('stage');
+      const BASE_WIDTH = 1440;
+      const BASE_HEIGHT = 1024;
+
+      // Responsive Canvas Scaling to Viewport
+      function resizeCanvas() {
+        const vw = window.innerWidth;
+        const vh = window.innerHeight;
+        const scaleX = vw / BASE_WIDTH;
+        const scaleY = vh / BASE_HEIGHT;
+        canvas.style.transform = `scale(${scaleX}, ${scaleY})`;
+      }
+
+      window.addEventListener('resize', resizeCanvas);
+      window.addEventListener('orientationchange', resizeCanvas);
+      resizeCanvas();
+
+      // Smooth Page Navigation Transition
+      const navLinks = document.querySelectorAll('.nav-link');
+      navLinks.forEach(link => {
+        link.addEventListener('click', function (e) {
+          const targetUrl = this.getAttribute('href');
+          if (!targetUrl || targetUrl.startsWith('#')) return;
+
+          e.preventDefault();
+          stage.classList.add('page-leave');
+
+          setTimeout(() => {
+            window.location.href = targetUrl;
+          }, 300);
+        });
+      });
+    })();
+  </script>
+</body>
+</html>

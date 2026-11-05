@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Social Media — AI Portfolio Showcase</title>
+
+  <!-- Google Fonts: Syne, Outfit, Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;700;800&family=Syne:wght@700;800&display=swap"
+    rel="stylesheet"
+  />
+
+  <style>
+    /* ==========================================================================
+       DESIGN SYSTEM VARIABLES & TYPOGRAPHY MATCHING PROJECT STANDARD
+       ========================================================================== */
+    @font-face {
+      font-family: 'Affinik';
+      src: local('Affinik'), local('Syne-Bold'), url('https://fonts.gstatic.com/s/syne/v22/8nFl6YnB45AX243Q-A.woff2') format('woff2');
+      font-weight: normal;
+      font-style: normal;
+    }
+
+    @font-face {
+      font-family: 'CF Oliviera Demo';
+      src: local('CF Oliviera Demo'), local('Outfit-Bold'), url('https://fonts.gstatic.com/s/outfit/v11/Q1dbZXZC8-_9W42CgA.woff2') format('woff2');
+      font-weight: bold;
+    }
+
+    :root {
+      --color-dark: #020024;
+      --color-card-bg: rgba(13, 11, 45, 0.65);
+      --color-card-border: rgba(204, 185, 219, 0.35);
+      --color-accent: #cdfc8a; /* Signature Neon Lime */
+      --color-purple: #c77dff;
+      --color-purple-glow: rgba(199, 125, 255, 0.85);
+      --color-purple-shadow: rgba(138, 68, 168, 0.85);
+      --color-lime-glow: rgba(205, 252, 138, 0.63);
+
+      --font-hero: 'Affinik', 'Syne', sans-serif;
+      --font-body: 'Outfit', 'Plus Jakarta Sans', sans-serif;
+      --font-pill: 'CF Oliviera Demo', 'Outfit', sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    html, body {
+      width: 100vw;
+      height: 100vh;
+      background-color: var(--color-dark);
+      overflow: hidden;
+      font-family: var(--font-body);
+      color: #ffffff;
+      user-select: none;
+    }
+
+    /* ==========================================================================
+       VIEWPORT & 1440x1024 FIXED STAGE SCALING WITH SEAMLESS BLENDING
+       ========================================================================== */
+    .viewport-stage {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: var(--color-dark);
+      overflow: hidden;
+      opacity: 0;
+      animation: pageFadeIn 0.4s ease forwards;
+    }
+
+    @keyframes pageFadeIn {
+      to { opacity: 1; }
+    }
+
+    .viewport-stage.page-leave {
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .canvas-container {
+      position: relative;
+      width: 1440px;
+      height: 1024px;
+      flex: 0 0 1440px;
+      background-color: var(--color-dark);
+      background-image:
+        radial-gradient(circle at 18% 25%, rgba(120, 25, 200, 0.20) 0%, transparent 40%),
+        radial-gradient(circle at 82% 70%, rgba(60, 15, 140, 0.22) 0%, transparent 40%),
+        radial-gradient(circle at 50% 50%, rgba(2, 0, 36, 1) 0%, #020024 100%);
+      overflow: hidden;
+      transform-origin: center center;
+      transition: opacity 0.35s ease;
+      /* Soft top and bottom edge fade so the canvas blends seamlessly into the viewport */
+      -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 25px, black calc(100% - 25px), transparent 100%);
+      mask-image: linear-gradient(to bottom, transparent 0%, black 25px, black calc(100% - 25px), transparent 100%);
+    }
+
+    /* Page Exit Fade */
+    .canvas-container.page-leave {
+      opacity: 0;
+      transform: scale(0.985);
+      transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+
+    /* ==========================================================================
+       3D DECORATIVE ELEMENTS (IDENTICAL TO PORTFOLIO DESIGN SYSTEM)
+       ========================================================================== */
+    .decor-layer {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .decor-el {
+      position: absolute;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    /* Top Left 3D Spheres SVG - Feathered top edge to blend seamlessly */
+    .decor-spheres-left {
+      position: absolute;
+      left: -40px;
+      top: -15px;
+      width: 320px;
+      height: 320px;
+      z-index: 2;
+      animation: floatSlow 7s ease-in-out infinite;
+      -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 35px, black 100%);
+      mask-image: linear-gradient(to bottom, transparent 0%, black 35px, black 100%);
+    }
+
+    /* Top Right Moon / Donut - Feathered top edge so no crop line exists */
+    .decor-donut {
+      right: -20px;
+      top: -5px;
+      width: 250px;
+      height: 310px;
+      filter: drop-shadow(0 15px 35px rgba(0, 0, 0, 0.65));
+      animation: floatSlow 8s ease-in-out infinite;
+      -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 35px, black 100%);
+      mask-image: linear-gradient(to bottom, transparent 0%, black 35px, black 100%);
+    }
+
+    /* Center-Top Stairs Decor - Aligned with high title pill */
+    .decor-stairs {
+      left: 573px;
+      top: 15px;
+      width: 294px;
+      height: 248px;
+      z-index: 4;
+      filter: drop-shadow(0 18px 30px rgba(0, 0, 0, 0.6));
+      animation: floatStair 7s ease-in-out infinite;
+    }
+
+    /* Bottom Left Lego Stair - Aligned with bottom line matching other pages */
+    .decor-lego {
+      left: -20px;
+      bottom: -25px;
+      width: 290px;
+      height: 200px;
+      filter: drop-shadow(0 -10px 30px rgba(0, 0, 0, 0.7));
+    }
+
+    /* Bottom Right Cylinder - Feathered bottom edge so no crop line exists */
+    .decor-cylinder {
+      right: -25px;
+      bottom: -2px;
+      width: 200px;
+      height: 235px;
+      filter: drop-shadow(0 -10px 25px rgba(0, 0, 0, 0.6));
+      -webkit-mask-image: linear-gradient(to top, transparent 0%, black 30px, black 100%);
+      mask-image: linear-gradient(to top, transparent 0%, black 30px, black 100%);
+    }
+
+    @keyframes floatSlow {
+      0%, 100% { transform: translateY(0); }
+      50%      { transform: translateY(-12px); }
+    }
+
+    @keyframes floatStair {
+      0%, 100% { transform: translateY(0); }
+      50%      { transform: translateY(-8px); }
+    }
+
+    /* ==========================================================================
+       CINEMATIC PAGE ENTRANCE KEYFRAMES
+       ========================================================================== */
+    @keyframes headerSlideIn {
+      0% {
+        opacity: 0;
+        transform: translateY(-24px) scale(0.95);
+        filter: blur(6px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        filter: blur(0px);
+      }
+    }
+
+    @keyframes pillPopIn {
+      0% {
+        opacity: 0;
+        transform: translateY(-28px) scale(0.9);
+        filter: blur(8px);
+      }
+      70% {
+        opacity: 1;
+        transform: translateY(2px) scale(1.02);
+        filter: blur(0px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        filter: blur(0px);
+      }
+    }
+
+    @keyframes cardEntrance {
+      0% {
+        opacity: 0;
+        transform: translateY(35px) scale(0.94);
+        filter: blur(8px);
+      }
+      60% {
+        opacity: 1;
+        filter: blur(0px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        filter: blur(0px);
+      }
+    }
+
+    /* ==========================================================================
+       BACK BUTTON (NAVIGATES TO ./collection-of-work.html)
+       ========================================================================== */
+    .back-btn {
+      position: absolute;
+      left: 78px;
+      top: 68px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 10px 24px;
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      border-radius: 40px;
+      background: rgba(14, 12, 42, 0.45);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      color: #ffffff;
+      font-family: var(--font-body);
+      font-size: 15px;
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+      z-index: 100;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      animation: headerSlideIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.1s both;
+    }
+
+    .back-btn:hover {
+      background: var(--color-accent);
+      color: #000000;
+      border-color: var(--color-accent);
+      transform: translateX(-4px);
+      box-shadow: 0 0 20px rgba(205, 252, 138, 0.45);
+    }
+
+    /* ==========================================================================
+       CATEGORY TITLE PILL ("Social Media") - WITH EXACT CF OLIVIERA DEMO FONT
+       ========================================================================== */
+    .category-title-pill {
+      position: absolute;
+      left: 519px;
+      top: 135px;
+      width: 402px;
+      height: 51px;
+      background: var(--color-accent);
+      border-radius: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #000000;
+      font-family: var(--font-pill);
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: 0.2px;
+      box-shadow: 0 4px 14px rgba(255, 255, 255, 0.85), 0 0 30px rgba(205, 252, 138, 0.55);
+      z-index: 6;
+      border: 1.5px solid rgba(255, 255, 255, 0.75);
+      animation: pillPopIn 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.18s both;
+    }
+
+    /* ==========================================================================
+       16:9 LANDSCAPE VIDEO CARDS
+       Dimensions: 340px width x 191.25px height (16:9 widescreen)
+       ========================================================================== */
+    .video-card-16-9 {
+      width: 340px;
+      height: 191.25px; /* Perfect 16:9 ratio */
+      background: var(--color-card-bg);
+      border: 1px solid var(--color-card-border);
+      border-radius: 26px;
+      overflow: hidden;
+      position: absolute;
+      z-index: 5;
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.55);
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease, border-color 0.35s ease;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Hover effect: purple/lime glow like ads & branding */
+    .video-card-16-9:hover {
+      transform: translateY(-8px) scale(1.02);
+      border-color: rgba(199, 125, 255, 0.85);
+      box-shadow: 0 14px 34px var(--color-purple-shadow), 0 0 24px var(--color-purple-glow);
+    }
+
+    /* Ambient gradient overlay inside card */
+    .video-card-16-9::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at center, rgba(14, 12, 42, 0.25) 0%, rgba(2, 0, 36, 0.65) 100%);
+      z-index: 1;
+      pointer-events: none;
+      transition: opacity 0.35s ease;
+    }
+
+    .video-card-16-9:hover::before {
+      opacity: 0.2;
+    }
+
+    /* Video element */
+    .card-video {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: inherit;
+      display: block;
+      z-index: 0;
+      transition: transform 0.35s ease;
+    }
+
+    .video-card-16-9:hover .card-video {
+      transform: scale(1.04);
+    }
+
+    /* Sleek placeholder if no video loaded */
+    .placeholder-content {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      z-index: 2;
+      pointer-events: none;
+      background: linear-gradient(135deg, rgba(20, 16, 50, 0.78) 0%, rgba(8, 6, 26, 0.88) 100%);
+      padding-bottom: 24px;
+    }
+
+    .placeholder-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px dashed rgba(205, 252, 138, 0.35);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--color-accent);
+      transition: transform 0.3s ease;
+    }
+
+    .video-card-16-9:hover .placeholder-icon {
+      transform: scale(1.1);
+      border-color: var(--color-accent);
+      box-shadow: 0 0 15px rgba(205, 252, 138, 0.4);
+    }
+
+    .placeholder-label {
+      font-family: var(--font-body);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.55);
+    }
+
+    .placeholder-ratio {
+      font-family: var(--font-body);
+      font-size: 10px;
+      color: rgba(205, 252, 138, 0.85);
+      font-weight: 600;
+      letter-spacing: 0.8px;
+    }
+
+    /* ==========================================================================
+       SINGLE PLAY BUTTON AT BOTTOM OF EACH CARD (IDENTICAL TO ADS PAGE)
+       ========================================================================== */
+    .player-play-btn {
+      position: absolute;
+      bottom: 16px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 104px;
+      height: 28px;
+      background: rgba(22, 20, 50, 0.88);
+      border: 1px solid rgba(255, 255, 255, 0.28);
+      border-radius: 35px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      color: #ffffff;
+      font-family: var(--font-body);
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      z-index: 5;
+      cursor: pointer;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.45);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .player-play-btn svg {
+      width: 10px;
+      height: 10px;
+      fill: currentColor;
+    }
+
+    .video-card-16-9:hover .player-play-btn,
+    .player-play-btn:hover {
+      background: var(--color-accent);
+      color: #000000;
+      border-color: var(--color-accent);
+      transform: translateX(-50%) scale(1.06);
+      box-shadow: 0 0 16px rgba(205, 252, 138, 0.65);
+    }
+
+    /* ==========================================================================
+       AUDIO / UNMUTE TOGGLE BUTTON (TOP-RIGHT OF EACH CARD)
+       ========================================================================== */
+    .player-audio-btn {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      width: 32px;
+      height: 32px;
+      background: rgba(14, 12, 42, 0.75);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ffffff;
+      z-index: 6;
+      cursor: pointer;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .player-audio-btn svg {
+      width: 15px;
+      height: 15px;
+      stroke: currentColor;
+      transition: transform 0.2s ease;
+    }
+
+    .player-audio-btn:hover {
+      background: var(--color-accent);
+      color: #000000;
+      border-color: var(--color-accent);
+      transform: scale(1.1);
+      box-shadow: 0 0 16px rgba(205, 252, 138, 0.65);
+    }
+
+    .player-audio-btn.unmuted {
+      background: var(--color-accent);
+      color: #000000;
+      border-color: var(--color-accent);
+      box-shadow: 0 0 14px rgba(205, 252, 138, 0.55);
+    }
+
+    /* ==========================================================================
+       CARD POSITIONS: 5 CARDS IN BALANCED 2-TIER COMPOSITION
+       Top row: 3 cards (Left, Middle, Right) at top: 380px
+       Bottom row: 2 cards at top: 645px with 66px gap between them
+       ========================================================================== */
+    /* Card 1: Top-Left */
+    .card-pos-1 {
+      left: 90px;
+      top: 380px;
+      animation: cardEntrance 0.85s cubic-bezier(0.16, 1, 0.3, 1) 0.30s both;
+    }
+
+    /* Card 2: Top-Middle (Added in the center of top row) */
+    .card-pos-2 {
+      left: 550px;
+      top: 380px;
+      animation: cardEntrance 0.85s cubic-bezier(0.16, 1, 0.3, 1) 0.38s both;
+    }
+
+    /* Card 3: Top-Right */
+    .card-pos-3 {
+      left: 1010px;
+      top: 380px;
+      animation: cardEntrance 0.85s cubic-bezier(0.16, 1, 0.3, 1) 0.46s both;
+    }
+
+    /* Card 4: Bottom Mid-Left (Separated by 66px from Card 5, moved 30px down to 645px) */
+    .card-pos-4 {
+      left: 347px;
+      top: 645px;
+      animation: cardEntrance 0.85s cubic-bezier(0.16, 1, 0.3, 1) 0.54s both;
+    }
+
+    /* Card 5: Bottom Mid-Right (Separated by 66px from Card 4, moved 30px down to 645px) */
+    .card-pos-5 {
+      left: 753px;
+      top: 645px;
+      animation: cardEntrance 0.85s cubic-bezier(0.16, 1, 0.3, 1) 0.62s both;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="viewport-stage" id="stage">
+    <div class="canvas-container" id="canvasContainer">
+
+      <!-- =================================================================== -->
+      <!-- 3D DECORATIVE LAYER                                                 -->
+      <!-- =================================================================== -->
+      <div class="decor-layer">
+
+        <!-- 3D Spheres (Top-Left) -->
+        <div class="decor-spheres-left">
+          <svg width="100%" height="100%" viewBox="0 0 340 340" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <radialGradient id="smSphereMainGrad" cx="35%" cy="30%" r="65%">
+                <stop offset="0%" stop-color="#D68DFF" />
+                <stop offset="30%" stop-color="#992BE3" />
+                <stop offset="70%" stop-color="#5B0594" />
+                <stop offset="100%" stop-color="#270046" />
+              </radialGradient>
+              <radialGradient id="smSphereSecGrad" cx="30%" cy="25%" r="70%">
+                <stop offset="0%" stop-color="#BB66FF" />
+                <stop offset="40%" stop-color="#7B15BD" />
+                <stop offset="85%" stop-color="#41036B" />
+                <stop offset="100%" stop-color="#1D0033" />
+              </radialGradient>
+              <filter id="smSphereDropShadow" x="-10%" y="-10%" width="130%" height="130%">
+                <feDropShadow dx="12" dy="16" stdDeviation="14" flood-color="#1A0033" flood-opacity="0.38" />
+              </filter>
+            </defs>
+
+            <!-- Secondary sphere behind -->
+            <circle cx="225" cy="95" r="85" fill="url(#smSphereSecGrad)" filter="url(#smSphereDropShadow)" />
+            <ellipse cx="198" cy="70" rx="20" ry="11" fill="#FFFFFF" opacity="0.32" transform="rotate(-25 198 70)" />
+
+            <!-- Main primary sphere -->
+            <circle cx="115" cy="115" r="130" fill="url(#smSphereMainGrad)" filter="url(#smSphereDropShadow)" />
+            <ellipse cx="78" cy="72" rx="34" ry="20" fill="#FFFFFF" opacity="0.4" transform="rotate(-25 78 72)" />
+          </svg>
+        </div>
+
+        <!-- 3D Decor PNGs -->
+        <img src="./assets/collection/assets/moon.png" alt="Moon Decor" class="decor-el decor-donut" />
+        <img src="./assets/collection/assets/stair.png" alt="Stairs Decor" class="decor-el decor-stairs" />
+        <img src="./assets/collection/assets/lego-stair.png" alt="Lego Stair Decor" class="decor-el decor-lego" />
+        <img src="./assets/collection/assets/cilinder.png" alt="Cylinder Decor" class="decor-el decor-cylinder" />
+      </div>
+
+      <!-- =================================================================== -->
+      <!-- TOP NAVIGATION: BACK TO MAIN PAGE                                  -->
+      <!-- =================================================================== -->
+      <a href="./collection-of-work.html" class="back-btn" id="backBtn" title="Back to Collection">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="19" y1="12" x2="5" y2="12"></line>
+          <polyline points="12 19 5 12 12 5"></polyline>
+        </svg>
+        <span>Back</span>
+      </a>
+
+      <!-- =================================================================== -->
+      <!-- CATEGORY TITLE PILL ("Social Media")                                -->
+      <!-- =================================================================== -->
+      <div class="category-title-pill">
+        Social Media
+      </div>
+
+      <!-- =================================================================== -->
+      <!-- 16:9 LANDSCAPE VIDEO CARDS (5 CARDS WITH POSTER & AUDIO TOGGLE)     -->
+      <!-- =================================================================== -->
+
+      <!-- Video Card 1 (Top-Left) -->
+      <div class="video-card-16-9 card-pos-1" id="socialCard1" data-video="./assets/collection/social-assets-video/vid-showcase01.mp4">
+        <video class="card-video" loop muted playsinline preload="auto" poster="./assets/collection/social-assets-video/poster-showcase01.jpg">
+          <source src="./assets/collection/social-assets-video/vid-showcase01.mp4" type="video/mp4" />
+        </video>
+        <button class="player-audio-btn" type="button" aria-label="Toggle Sound" title="Unmute sound">
+          <svg class="icon-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+            <line x1="23" y1="9" x2="17" y2="15"></line>
+            <line x1="17" y1="9" x2="23" y2="15"></line>
+          </svg>
+          <svg class="icon-unmuted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+            <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+          </svg>
+        </button>
+        <button class="player-play-btn" type="button" aria-label="Play Video 1">
+          <svg viewBox="0 0 24 24">
+            <polygon points="5 3 19 12 5 21 5 3"></polygon>
+          </svg>
+          <span>Play</span>
+        </button>
+      </div>
+
+      <!-- Video Card 2 (Top-Middle) -->
+      <div class="video-card-16-9 card-pos-2" id="socialCard2" data-video="./assets/collection/social-assets-video/vid-showcase02.mp4">
+        <video class="card-video" loop muted playsinline preload="auto" poster="./assets/collection/social-assets-video/poster-showcase02.jpg">
+          <source src="./assets/collection/social-assets-video/vid-showcase02.mp4" type="video/mp4" />
+        </video>
+        <button class="player-audio-btn" type="button" aria-label="Toggle Sound" title="Unmute sound">
+          <svg class="icon-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+            <line x1="23" y1="9" x2="17" y2="15"></line>
+            <line x1="17" y1="9" x2="23" y2="15"></line>
+          </svg>
+          <svg class="icon-unmuted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+            <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+          </svg>
+        </button>
+        <button class="player-play-btn" type="button" aria-label="Play Video 2">
+          <svg viewBox="0 0 24 24">
+            <polygon points="5 3 19 12 5 21 5 3"></polygon>
+          </svg>
+          <span>Play</span>
+        </button>
+      </div>
+
+      <!-- Video Card 3 (Top-Right) -->
+      <div class="video-card-16-9 card-pos-3" id="socialCard3" data-video="./assets/collection/social-assets-video/vid-showcase03.mp4">
+        <video class="card-video" loop muted playsinline preload="auto" poster="./assets/collection/social-assets-video/poster-showcase03.jpg">
+          <source src="./assets/collection/social-assets-video/vid-showcase03.mp4" type="video/mp4" />
+        </video>
+        <button class="player-play-btn" type="button" aria-label="Play Video 3">
+          <svg viewBox="0 0 24 24">
+            <polygon points="5 3 19 12 5 21 5 3"></polygon>
+          </svg>
+          <span>Play</span>
+        </button>
+      </div>
+
+      <!-- Video Card 4 (Bottom Mid-Left) -->
+      <div class="video-card-16-9 card-pos-4" id="socialCard4" data-video="./assets/collection/social-assets-video/vid-showcase04.mp4">
+        <video class="card-video" loop muted playsinline preload="auto" poster="./assets/collection/social-assets-video/poster-showcase04.jpg">
+          <source src="./assets/collection/social-assets-video/vid-showcase04.mp4" type="video/mp4" />
+        </video>
+        <button class="player-play-btn" type="button" aria-label="Play Video 4">
+          <svg viewBox="0 0 24 24">
+            <polygon points="5 3 19 12 5 21 5 3"></polygon>
+          </svg>
+          <span>Play</span>
+        </button>
+      </div>
+
+      <!-- Video Card 5 (Bottom Mid-Right) -->
+      <div class="video-card-16-9 card-pos-5" id="socialCard5" data-video="./assets/collection/social-assets-video/vid-showcase05.mp4">
+        <video class="card-video" loop muted playsinline preload="auto" poster="./assets/collection/social-assets-video/poster-showcase05.jpg">
+          <source src="./assets/collection/social-assets-video/vid-showcase05.mp4" type="video/mp4" />
+        </video>
+        <button class="player-audio-btn" type="button" aria-label="Toggle Sound" title="Unmute sound">
+          <svg class="icon-muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+            <line x1="23" y1="9" x2="17" y2="15"></line>
+            <line x1="17" y1="9" x2="23" y2="15"></line>
+          </svg>
+          <svg class="icon-unmuted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;">
+            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+            <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+          </svg>
+        </button>
+        <button class="player-play-btn" type="button" aria-label="Play Video 5">
+          <svg viewBox="0 0 24 24">
+            <polygon points="5 3 19 12 5 21 5 3"></polygon>
+          </svg>
+          <span>Play</span>
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    /* ==========================================================================
+       RESPONSIVE AUTO-SCALING FOR 1440x1024 FIXED STAGE
+       ========================================================================== */
+    const canvasContainer = document.getElementById('canvasContainer');
+    const BASE_WIDTH = 1440;
+    const BASE_HEIGHT = 1024;
+
+    function handleResize() {
+      const scaleX = window.innerWidth / BASE_WIDTH;
+      const scaleY = window.innerHeight / BASE_HEIGHT;
+      const scale = Math.min(scaleX, scaleY);
+      canvasContainer.style.transform = `scale(${scale})`;
+    }
+
+    window.addEventListener('resize', handleResize);
+    window.addEventListener('DOMContentLoaded', handleResize);
+    handleResize();
+
+    /* ==========================================================================
+       SMOOTH PAGE TRANSITION FOR BACK BUTTON
+       ========================================================================== */
+    const backBtn = document.getElementById('backBtn');
+    if (backBtn) {
+      backBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const targetHref = backBtn.getAttribute('href');
+        canvasContainer.classList.add('page-leave');
+        setTimeout(() => {
+          window.location.href = targetHref;
+        }, 320);
+      });
+    }
+
+    /* ==========================================================================
+       VIDEO PREVIEW PLAYBACK, AUDIO UNMUTE & CARD CONTROLS
+       ========================================================================== */
+    const videoCards = document.querySelectorAll('.video-card-16-9');
+
+    const PLAY_SVG = '<svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg><span>Play</span>';
+    const PAUSE_SVG = '<svg viewBox="0 0 24 24"><rect x="6" y="4" width="4" height="16"></rect><rect x="14" y="4" width="4" height="16"></rect></svg><span>Pause</span>';
+
+    videoCards.forEach(card => {
+      const video = card.querySelector('video');
+      const playBtn = card.querySelector('.player-play-btn');
+      const audioBtn = card.querySelector('.player-audio-btn');
+      const iconMuted = audioBtn ? audioBtn.querySelector('.icon-muted') : null;
+      const iconUnmuted = audioBtn ? audioBtn.querySelector('.icon-unmuted') : null;
+
+      if (!video) return;
+
+      // Update sound button UI
+      function updateAudioUI() {
+        if (!audioBtn) return;
+        if (video.muted) {
+          audioBtn.classList.remove('unmuted');
+          audioBtn.setAttribute('title', 'Unmute sound');
+          if (iconMuted) iconMuted.style.display = 'block';
+          if (iconUnmuted) iconUnmuted.style.display = 'none';
+        } else {
+          audioBtn.classList.add('unmuted');
+          audioBtn.setAttribute('title', 'Mute sound');
+          if (iconMuted) iconMuted.style.display = 'none';
+          if (iconUnmuted) iconUnmuted.style.display = 'block';
+        }
+      }
+
+      // Sync button label with video play/pause states
+      video.addEventListener('play', () => {
+        if (playBtn) playBtn.innerHTML = PAUSE_SVG;
+      });
+
+      video.addEventListener('pause', () => {
+        if (playBtn) playBtn.innerHTML = PLAY_SVG;
+      });
+
+      video.addEventListener('volumechange', updateAudioUI);
+
+      // Audio Unmute / Mute Toggle Button
+      if (audioBtn) {
+        audioBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+
+          // Mute and pause sound on all other videos
+          videoCards.forEach(otherCard => {
+            if (otherCard !== card) {
+              const otherVideo = otherCard.querySelector('video');
+              if (otherVideo) {
+                otherVideo.muted = true;
+                const otherAudioBtn = otherCard.querySelector('.player-audio-btn');
+                if (otherAudioBtn) {
+                  otherAudioBtn.classList.remove('unmuted');
+                  const m = otherAudioBtn.querySelector('.icon-muted');
+                  const u = otherAudioBtn.querySelector('.icon-unmuted');
+                  if (m) m.style.display = 'block';
+                  if (u) u.style.display = 'none';
+                }
+              }
+            }
+          });
+
+          video.muted = !video.muted;
+          if (!video.muted) {
+            video.volume = 1.0;
+            if (video.paused) {
+              video.play().catch(() => {});
+            }
+          }
+          updateAudioUI();
+        });
+      }
+
+      // Hover to preview video (muted preview)
+      card.addEventListener('mouseenter', () => {
+        if (video.paused) {
+          video.play().catch(() => {});
+        }
+      });
+
+      card.addEventListener('mouseleave', () => {
+        // Pause on leave if video is in preview / muted mode
+        if (video.muted) {
+          video.pause();
+        }
+      });
+
+      // Click card or play button to toggle play/pause
+      card.addEventListener('click', (e) => {
+        if (e.target.closest('.player-audio-btn')) return;
+
+        if (video.paused) {
+          // Pause other playing videos
+          videoCards.forEach(otherCard => {
+            if (otherCard !== card) {
+              const otherVideo = otherCard.querySelector('video');
+              if (otherVideo && !otherVideo.paused) {
+                otherVideo.pause();
+              }
+            }
+          });
+          video.play().catch(() => {});
+        } else {
+          video.pause();
+        }
+      });
+    });
+  </script>
+</body>
+</html>

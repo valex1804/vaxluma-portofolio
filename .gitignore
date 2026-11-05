@@ -1,0 +1,21 @@
+# Source assets archive (raw dump folder - 1.7GB)
+assets/Selected-work-Assets/
+
+# Temporary and backup files
+*.bak
+*.tmp
+*.swp
+*~
+Thumbs.db
+ehthumbs.db
+.DS_Store
+
+# IDE & Editor folders
+.vscode/
+.idea/
+
+# Python cache (if local helper scripts are used)
+__pycache__/
+*.py[cod]
+*$py.class
+

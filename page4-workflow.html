@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portfolio - Storyboard & Video Results</title>
+
+  <!-- Google Fonts: Syne, Outfit, Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;700;800&family=Syne:wght@700;800&display=swap"
+    rel="stylesheet">
+
+  <style>
+    /* ==========================================================================
+       DESIGN SYSTEM & TYPOGRAPHY
+       ========================================================================== */
+    @font-face {
+      font-family: 'CF Oliviera Demo';
+      src: local('CF Oliviera Demo'), local('Outfit-Bold'), url('https://fonts.gstatic.com/s/outfit/v11/Q1dbZXZC8-_9W42CgA.woff2') format('woff2');
+      font-weight: bold;
+    }
+
+    :root {
+      --color-lime: #CDFC8A;
+      --color-purple: #C77DFF;
+      --color-btn-purple: #4B1C93;
+
+      /* Aurora backdrop system (matches --color-dark on page4-main / page4-branding) */
+      --color-dark: #020024;
+      --aurora-speed: 5;              /* master tempo: 0.5 = half speed, 2 = double */
+      --aurora-intensity: 3;          /* master opacity multiplier for the whole field */
+      --font-title: 'Syne', sans-serif;
+      --font-body: 'Outfit', 'Plus Jakarta Sans', sans-serif;
+      --font-button: 'CF Oliviera Demo', 'Syne', 'Outfit', sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    body {
+      background-color: var(--color-dark);
+      color: #ffffff;
+      font-family: var(--font-body);
+      overflow: hidden;
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Page transition wrapper */
+    .viewport-stage {
+      width: 100vw;
+      height: 100vh;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      /* Base atmosphere: lit from the TOP-LEFT to agree with the card's 135deg
+         gradient and its radial bloom at 0% 0%, fading to deep navy bottom-right. */
+      background:
+        radial-gradient(130% 110% at 18% 8%, #1a0b3e 0%, #0d0524 38%, #050216 68%, var(--color-dark) 100%);
+      opacity: 1;
+      transform: scale(1);
+      transition: opacity 0.35s ease, transform 0.35s ease;
+    }
+
+    .viewport-stage.page-leave {
+      opacity: 0;
+      transform: scale(0.985);
+    }
+
+    /* Scaling anchor container */
+    .stage-scale-wrapper {
+      position: absolute;
+      z-index: 1;               /* keeps the card stack above .aurora-field (z-index 0) */
+      width: 1440px;
+      height: 1024px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transform-origin: center center; 
+      overflow: hidden;
+    }
+
+    /* ==========================================================================
+       AURORA DRIFT BACKDROP
+       Soft nebula blobs that breathe and drift behind the card. Everything is
+       transform/opacity only (GPU-composited), blurred far past any hard edge,
+       and clipped by .viewport-stage. Tune globally with --aurora-speed and
+       --aurora-intensity in :root.
+       ========================================================================== */
+    .aurora-field {
+      position: absolute;
+      inset: -15%;              /* overscan so drifting blobs never expose an edge */
+      z-index: 0;               /* card sits at z-index 5, so always behind it */
+      pointer-events: none;
+      overflow: hidden;
+      opacity: var(--aurora-intensity);
+      /* Lighten blending makes the blobs read as emitted light, not painted shapes */
+      mix-blend-mode: screen;
+      will-change: transform;
+    }
+
+    .aurora-blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(90px);
+      will-change: transform, opacity;
+      transform-origin: center center;
+    }
+
+    /* Blob 1: primary violet mass, upper-left -- reinforces the card's light source */
+    .aurora-blob.blob-violet {
+      width: 920px;
+      height: 820px;
+      left: -60px;
+      top: -140px;
+      background: radial-gradient(circle at 42% 40%,
+          rgba(124, 58, 212, 0.55) 0%,
+          rgba(88, 34, 168, 0.32) 42%,
+          rgba(46, 16, 92, 0) 72%);
+      animation: auroraDriftA calc(42s / var(--aurora-speed)) ease-in-out infinite alternate;
+    }
+
+    /* Blob 2: magenta-lavender counterweight, lower-right */
+    .aurora-blob.blob-lavender {
+      width: 860px;
+      height: 760px;
+      right: -120px;
+      bottom: -180px;
+      background: radial-gradient(circle at 55% 50%,
+          rgba(199, 125, 255, 0.34) 0%,
+          rgba(138, 74, 214, 0.20) 45%,
+          rgba(58, 24, 110, 0) 74%);
+      animation: auroraDriftB calc(53s / var(--aurora-speed)) ease-in-out infinite alternate;
+    }
+
+    /* Blob 3: deep indigo mass drifting through the centre for parallax depth */
+    .aurora-blob.blob-indigo {
+      width: 1100px;
+      height: 680px;
+      left: 22%;
+      top: 14%;
+      background: radial-gradient(ellipse at 50% 50%,
+          rgba(67, 35, 160, 0.30) 0%,
+          rgba(40, 18, 102, 0.16) 50%,
+          rgba(16, 6, 46, 0) 76%);
+      animation: auroraDriftC calc(100s / var(--aurora-speed)) ease-in-out infinite alternate;
+    }
+
+    /* Blob 4: faint lime accent -- ties the backdrop to the pencil-ring colour.
+       Kept very low opacity so it reads as a cool highlight, never as green fog. */
+    .aurora-blob.blob-lime {
+      width: 620px;
+      height: 520px;
+      right: 8%;
+      top: 8%;
+      background: radial-gradient(circle at 50% 50%,
+          rgba(205, 252, 138, 0.10) 0%,
+          rgba(170, 220, 120, 0.05) 40%,
+          rgba(120, 180, 90, 0) 70%);
+      filter: blur(110px);
+      animation: auroraDriftD calc(78s / var(--aurora-speed)) ease-in-out infinite alternate;
+    }
+
+    @keyframes auroraDriftA {
+      0%   { transform: translate3d(0, 0, 0) scale(1);          opacity: 0.85; }
+      50%  { transform: translate3d(70px, 48px, 0) scale(1.12); opacity: 1;    }
+      100% { transform: translate3d(28px, 96px, 0) scale(1.04); opacity: 0.78; }
+    }
+
+    @keyframes auroraDriftB {
+      0%   { transform: translate3d(0, 0, 0) scale(1.05);         opacity: 0.70; }
+      50%  { transform: translate3d(-84px, -56px, 0) scale(1.18); opacity: 0.95; }
+      100% { transform: translate3d(-34px, -104px, 0) scale(1.02); opacity: 0.68; }
+    }
+
+    @keyframes auroraDriftC {
+      0%   { transform: translate3d(-50%, -50%, 0) scale(1) rotate(0deg);       opacity: 0.62; }
+      50%  { transform: translate3d(-44%, -56%, 0) scale(1.15) rotate(8deg);    opacity: 0.88; }
+      100% { transform: translate3d(-54%, -46%, 0) scale(1.06) rotate(-6deg);   opacity: 0.58; }
+    }
+
+    @keyframes auroraDriftD {
+      0%   { transform: translate3d(0, 0, 0) scale(1);            opacity: 0.55; }
+      50%  { transform: translate3d(-60px, 70px, 0) scale(1.22);  opacity: 0.9;  }
+      100% { transform: translate3d(22px, 120px, 0) scale(1.08);  opacity: 0.5;  }
+    }
+
+    /* Accessibility: hold a static composition for motion-sensitive users */
+    @media (prefers-reduced-motion: reduce) {
+      .aurora-blob {
+        animation: none !important;
+      }
+      .aurora-blob.blob-indigo {
+        transform: translate3d(-50%, -50%, 0);
+      }
+    }
+
+    /* ==========================================================================
+       FLOATING PURPLE CARD (SEAMLESS 135° GRADIENT FROM TOP-LEFT APEX)
+       ========================================================================== */
+    .floating-purple-card {
+      width: 1180px;
+      /* [KNOB] CARD HEIGHT = the total vertical budget for everything inside
+         (header + 2 image rows + header + video cards). Content is top-driven
+         and `overflow: hidden`, so growing images/cards without shrinking the
+         margins eventually clips the bottom of the video cards. Raise this
+         (and .stage-scale-wrapper stays 1024px tall) if you need more room. */
+      height: 820px;
+      position: relative;
+      top: -58px;
+      border-radius: 50px;
+      background: 
+        radial-gradient(circle at 0% 0%, rgba(138, 43, 226, 0.45) 0%, rgba(88, 28, 175, 0.25) 28%, rgba(30, 10, 65, 0) 65%),
+        linear-gradient(135deg, 
+          #2c0d58 0%, 
+          #210943 14%, 
+          #180632 28%, 
+          #110424 45%, 
+          #0b0217 65%, 
+          #04010a 85%, 
+          #020005 100%
+        );
+      /* Edge legibility against the aurora: an inset rim-light draws a crisp 1px
+         highlight around the silhouette, while the dark outer shadow separates the
+         card from the glowing field. This is what keeps the SHAPE readable even
+         where the backdrop brightens to a similar value. */
+      box-shadow:
+        0 0 48px 10px rgba(2, 0, 18, 0.72),
+        0 0 150px 30px rgba(92, 40, 172, 0.42),
+        0 35px 90px rgba(2, 0, 20, 0.85),
+        inset 0 1px 0 rgba(255, 255, 255, 0.14),
+        inset 0 0 0 1px rgba(190, 150, 255, 0.07);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 0 40px;
+      z-index: 5;
+    }
+
+    /* Top glass gradient reflection */
+    .floating-purple-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 100px;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0) 100%);
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    /* ==========================================================================
+       WATERMARKS LAYER: DECREASING OPACITY (0.60 -> 0.38 -> 0.20) ALONG DIAGONAL
+       ========================================================================== */
+    .watermarks-layer {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+      overflow: hidden;
+    }
+
+    .watermark-poly {
+      position: absolute;
+      pointer-events: none;
+      filter: drop-shadow(0 0 16px rgba(168, 85, 247, 0.2));
+      transition: opacity 0.3s ease;
+    }
+
+    /* Top-left pattern (primary origin): 0.60 opacity */
+    .watermark-poly.poly-top-left {
+      left: 65px;
+      top: 45px;
+      width: 235px;
+      height: auto;
+      opacity: 0.1;
+    }
+
+    /* Top-right pattern (second in sequence along gradient): 0.38 opacity */
+    .watermark-poly.poly-top-right {
+      left: 450px;
+      top: 45px;
+      width: 235px;
+      height: auto;
+      opacity: 0.38;
+    }
+
+    /* Bottom-center pattern (third in sequence fading along diagonal): 0.20 opacity */
+    .watermark-poly.poly-bottom-center {
+      left: 220px;
+      top: 255px;
+      width: 195px;
+      height: auto;
+      opacity: 0.20;
+    }
+
+    /* ==========================================================================
+       TOP-LEFT: ASYMMETRICAL WORKFLOW BUTTON WITH THICK ARROW
+       ========================================================================== */
+    .workflow-btn {
+      position: absolute;
+      left: 70px;
+      top: 42px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      width: 176px;
+      height: 56px;
+      border-radius: 18px 52px 52px 40px;
+      background: linear-gradient(180deg, #5C22B5 0%, #4B1C93 100%);
+      border: none;
+      outline: none;
+      color: #ffffff;
+      font-family: var(--font-button);
+      font-size: 21px;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+      text-decoration: none;
+      box-shadow:
+        0 14px 34px rgba(75, 28, 147, 0.85),
+        inset 0 1px 1px rgba(255, 255, 255, 0.4);
+      cursor: pointer;
+      z-index: 20;
+      transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+        box-shadow 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+        filter 0.22s ease;
+    }
+
+    .workflow-btn:hover {
+      transform: scale(1.04);
+      box-shadow: 0 16px 40px rgba(110, 45, 210, 0.95), inset 0 1px 2px rgba(255, 255, 255, 0.6);
+      filter: brightness(1.08);
+    }
+
+    .workflow-btn:active {
+      transform: scale(0.98);
+    }
+
+    /* Thick back arrow icon in button */
+    .workflow-arrow-svg {
+      width: 20px;
+      height: 20px;
+      stroke: #ffffff;
+      stroke-width: 3.5;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      fill: none;
+      display: block;
+      flex-shrink: 0;
+      transition: transform 0.2s ease;
+    }
+
+    .workflow-btn:hover .workflow-arrow-svg {
+      transform: translateX(-4px);
+    }
+
+    /* ==========================================================================
+       VERTICAL LAYOUT HIERARCHY (SPACIOUS, CENTERED & BREATHING)
+       ========================================================================== */
+
+    /* ############################################################################
+       ##  TUNING GUIDE -- search this file for "[KNOB]" to jump straight to a knob.
+       ##  ---------------------------------------------------------------------------
+       ##  A) MOVE A HEADER (up / down)
+       ##     "Storyboard"    -> .storyboard-title    : margin-top (from the button) /
+       ##                                              margin-bottom (to the images)
+       ##     "Video results" -> .video-results-title : margin-bottom (+ add a margin-top)
+       ##     Both headers are plain children of a flex column (.floating-purple-card),
+       ##     so ONLY margins move them. `top:` / `left:` do nothing unless you also add
+       ##     `position: relative` (then `top: -12px` etc. works as a fine nudge).
+       ##     Move sideways: change `text-align`, or add `align-self: flex-start;`
+       ##     plus a `margin-left`.
+       ##
+       ##  B) MAKE THE STORYBOARD IMAGES BIGGER
+       ##     Width  -> .storyboard-wrapper { max-width: 640px }  (raise to 760 / 860px)
+       ##     Height -> .storyboard-strip   { height: 52px }      (strongest lever; x2 rows)
+       ##     Row gap -> .storyboard-wrapper { gap: 10px }
+       ##     Crop behaviour -> .storyboard-img { object-fit }
+       ##     Keep .videos-grid { max-width } equal to the new wrapper width if you want
+       ##     the video cards to stay edge-aligned under the filmstrip.
+       ##
+       ##  C) MAKE THE VIDEO PLACEHOLDERS SMALLER
+       ##     .video-card-container { width / height } -- the actual box size
+       ##     .videos-grid { grid-template-columns: repeat(2, 305px) } -- MUST equal the
+       ##        card width above, otherwise the grid fights the card and clips it.
+       ##     .videos-grid { gap: 30px }               -- space between the two cards
+       ##     .video-inner-box { inset: 5px }          -- black bezel around the clip
+       ##     !! The lime pencil ring is an SVG with HARD-CODED numbers in the <body>
+       ##        markup (viewBox + rect x/y/width/height/rx + stroke-width). Resize the
+       ##        card and you must rewrite those too -- see "[KNOB: pencil ring]" notes.
+       ##
+       ##  D) VERTICAL BUDGET
+       ##     .floating-purple-card is a FIXED 1180 x 820 box with overflow: hidden.
+       ##     Content stack ~= title margin-top + 34 + 24 + (52+10+52 rows) + 28 + 22 +
+       ##     24 + 205 cards. With title margin-top = 112 that is ~563px used of 820,
+       ##     i.e. ~255px of slack. Enlarging the images is safe; enlarging everything
+       ##     at once starts clipping the bottom of the video cards.
+       ## ############################################################################ */
+
+    /* 1. Clean H1 title - centered, with breathing space below button level */
+    .storyboard-title {
+      font-family: var(--font-title);
+      font-size: 34px;         /* [KNOB] "Storyboard" header text size */
+      font-weight: 700;
+      color: #ffffff;
+      letter-spacing: -0.4px;
+      /* [KNOB] HEADER POSITION -- the two lines below are the only way to move this
+         header. margin-top = distance DOWN from the Workflow button row (smaller
+         value = higher up). margin-bottom = gap to the first image row.
+         Moving "Storyboard" up by 20px without disturbing anything else:
+         margin-top: 92px (was 112px). */
+      margin-top: 110px;
+      margin-bottom: 50px;     /* [KNOB] gap between "Storyboard" and image row 1 */
+      text-align: left;
+      align-self: auto;
+      margin-left: -60px;
+      z-index: 10;
+      text-shadow: none;
+      filter: none;
+    }
+
+    /* 2. Storyboard Image Rows (Compact & Elegant Filmstrip) */
+    .storyboard-wrapper {
+      width: 100%;
+      /* [KNOB] IMAGE WIDTH -- this is the single place that sets how wide both
+         filmstrip rows are. 640 -> 760/860px to make the images bigger.
+         (Also bump .videos-grid { max-width } to the same value to keep the
+         video cards aligned underneath the strip.) */
+      max-width: 860px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      /* [KNOB] vertical gap between image row 1 and row 2. */
+      gap: 15px;
+      z-index: 10;
+      /* [KNOB] distance from the last image row down to the "Video results" header. */
+      margin-bottom: 28px;
+    }
+
+    .storyboard-strip {
+      width: 100%;
+      /* [KNOB] IMAGE ROW HEIGHT -- strongest lever for "bigger images".
+         52px = thin letterbox filmstrip; 90-120px = readable frames.
+         Each extra 10px costs 20px of vertical space (there are 2 rows). */
+      height: 75px;
+      border-radius: 4px;
+      overflow: hidden;
+      background: #000000;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.75);
+      transition: transform 0.25s ease;
+    }
+
+    .storyboard-strip:hover {
+      transform: scale(1.015);
+    }
+
+    .storyboard-img {
+      width: 100%;
+      height: 100%;
+      /* [KNOB] `cover` fills the strip and crops the overflow off the sides.
+         If you make .storyboard-strip much taller and want the whole frame
+         visible instead, switch this to `contain` (adds black bars). */
+      object-fit: cover;
+      display: block;
+    }
+
+    /* 3. Video Results Title (Clean, Purple, Generous Spacing) */
+    .video-results-title {
+      font-family: var(--font-title);
+      font-size: 25px;         /* [KNOB] header text size ("Video results") */
+      font-weight: 700;
+      color: var(--color-purple);
+      letter-spacing: -0.3px;
+      /* [KNOB] HEADER POSITION: this header has no margin-top today (the 28px on
+         .storyboard-wrapper does the spacing). To move "Video results" independently
+         of the images, add e.g. `margin-top: 12px;` here and lower margin-bottom
+         by the same amount to keep the cards where they are. */
+      margin-top: 40px;
+      margin-bottom: 50px;     /* [KNOB] gap between "Video results" and the video cards */
+      text-align: left;
+      align-self: flex-start;
+      margin-left: 450px;
+      z-index: 10;
+      text-shadow: none;
+      filter: none;
+    }
+
+    /* 4. Compact Dual Video Cards (Sized slightly smaller to let UI breathe) */
+    .videos-grid {
+      display: grid;
+      /* [KNOB] TRACK WIDTH = card width. Change it TOGETHER with
+         .video-card-container { width } below -- they must stay identical.
+         Smaller cards: 305 -> 260px. Bigger: 305 -> 360px. */
+      grid-template-columns: repeat(2, 325px);
+      /* [KNOB] horizontal space between the two video cards. */
+      gap: 30px;
+      justify-content: center;
+      position: relative;
+      left: 35px;
+      width: 100%;
+      /* [KNOB] grid ceiling = (2 x card width) + gap. 325+325+30 = 680.
+         If you widen the cards, raise this too or the cards get squeezed/clipped.
+         Set it to `none` to let the cards define their own width. */
+      max-width: 700px;
+      z-index: 10;
+    }
+
+    .video-card-container {
+      /* [KNOB] VIDEO PLACEHOLDER SIZE -- this is the box you shrink/grow.
+         Keep the ~1.49 aspect ratio (305/205) or the posters and clips will
+         crop harder. Examples:
+           smaller -> width: 260px; height: 175px;
+           bigger  -> width: 360px; height: 242px;
+         Remember: .videos-grid track + both pencil-ring SVGs must follow. */
+      width: 325px;
+      height: 219px;
+      position: relative;
+      border-radius: 26px;
+      background: #000000;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.9);
+      cursor: pointer;
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
+        box-shadow 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .video-card-container:hover {
+      transform: translateY(-4px) scale(1.02);
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.95);
+    }
+
+    /* Inner Video Clip Wrapper */
+    .video-inner-box {
+      position: absolute;
+      /* [KNOB] thickness of the black bezel between the card edge and the actual
+         video/poster. 5px = current look; 0 = edge-to-edge clip; 10px = chunky frame.
+         The pencil ring is drawn at the same 5px offset in the markup, so keep the
+         rect x/y in <svg class="pencil-stroke-svg"> equal to this value. */
+      inset: 7px;
+      /* [KNOB] inner corner radius = .video-card-container { border-radius: 26px } - inset. */
+      border-radius: 21px;
+      overflow: hidden;
+      background: #000000;
+      z-index: 2;
+    }
+
+    .video-element {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      background: #000000;
+    }
+
+    /* Hand-drawn Organic Pencil Stroke Overlay */
+    /* NOTE: this rule only stretches the SVG over the card. The SHAPE lives in the
+       <body> markup: <svg viewBox="0 0 325 219"><rect x="7" y="7" width="311"
+       height="205" rx="26" stroke-width="7">. Those five numbers are hard-coded and
+       are the real knobs for the lime ring -- grep for "[KNOB: pencil ring]" below. */
+    .pencil-stroke-svg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 4;
+      overflow: visible;
+    }
+
+    /* Interactive Play Overlay with "PLAY" Button */
+    .play-overlay {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: rgba(0, 0, 0, 0.30);
+      transition: opacity 0.28s ease;
+      z-index: 3;
+    }
+
+    .play-circle-btn {
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      background: var(--color-lime);
+      color: #000000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 18px rgba(205, 252, 138, 0.65);
+      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .play-circle-btn svg {
+      width: 18px;
+      height: 18px;
+      fill: #000000;
+      transform: translateX(2px);
+    }
+
+    .play-text-badge {
+      font-family: var(--font-body);
+      font-size: 11px;
+      font-weight: 800;
+      color: var(--color-lime);
+      background: rgba(14, 10, 36, 0.88);
+      padding: 3px 12px;
+      border-radius: 999px;
+      border: 1px solid rgba(205, 252, 138, 0.4);
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+    }
+
+    .video-card-container:hover .play-circle-btn {
+      transform: scale(1.14);
+    }
+
+    .video-card-container.is-playing .play-overlay {
+      opacity: 0;
+      pointer-events: none;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Shared SVG Pencil Texture Filter definition -->
+  <svg width="0" height="0" style="position: absolute;">
+    <defs>
+      <filter id="pencilStrokeFilter" x="-10%" y="-10%" width="120%" height="120%">
+        <!-- Fractal noise creating hand-drawn charcoal/pencil roughness -->
+        <feTurbulence type="fractalNoise" baseFrequency="0.045" numOctaves="3" result="roughNoise" />
+        <feDisplacementMap in="SourceGraphic" in2="roughNoise" scale="3.2" xChannelSelector="R" yChannelSelector="G" />
+      </filter>
+    </defs>
+  </svg>
+
+  <div class="viewport-stage" id="stage">
+
+    <!-- =================================================================== -->
+    <!-- AURORA DRIFT BACKDROP (behind everything, non-interactive)          -->
+    <!-- =================================================================== -->
+    <div class="aurora-field" aria-hidden="true">
+      <div class="aurora-blob blob-violet"></div>
+      <div class="aurora-blob blob-lavender"></div>
+      <div class="aurora-blob blob-indigo"></div>
+      <div class="aurora-blob blob-lime"></div>
+    </div>
+
+    <div class="stage-scale-wrapper" id="canvasContainer">
+
+      <!-- =================================================================== -->
+      <!-- FLOATING PURPLE CARD (BALANCED HIERARCHY & GENEROUS BREATHING SPACE) -->
+      <!-- =================================================================== -->
+      <div class="floating-purple-card">
+
+        <!-- Watermarks Layer: 3 Poly Line Patterns from Figma -->
+        <div class="watermarks-layer">
+          <img src="./assets/collection/assets/poly-line-purple.png" class="watermark-poly poly-top-left" alt="" />
+          <img src="./assets/collection/assets/poly-line-purple.png" class="watermark-poly poly-top-right" alt="" />
+          <img src="./assets/collection/assets/poly-line-purple.png" class="watermark-poly poly-bottom-center" alt="" />
+        </div>
+
+        <!-- Top-Left: Asymmetrical Branding Button with Thick Back Arrow -->
+        <a href="./index.html#section-branding" class="workflow-btn nav-link" title="Back to Branding">
+          <svg class="workflow-arrow-svg" viewBox="0 0 24 24">
+            <path d="M19 12H5M12 19l-7-7 7-7" />
+          </svg>
+          <span>Branding</span>
+        </a>
+
+        <!-- Hierarchy 1: Storyboard Title (Centered, Below Button level)
+             >> Move this header: .storyboard-title { margin-top / margin-bottom } -->
+        <h1 class="storyboard-title">Storyboard</h1>
+
+        <!-- Hierarchy 2: Storyboard Filmstrip Image Rows (640px wide)
+             >> Make these images bigger: .storyboard-wrapper { max-width } (width)
+                and .storyboard-strip { height } (height) -->
+        <div class="storyboard-wrapper">
+          <!-- Row 1: KTM Adventure frames -->
+          <div class="storyboard-strip">
+            <img src="./assets/collection/assets/storyboard-row1.png" alt="Storyboard Row 1 KTM Production" class="storyboard-img" />
+          </div>
+
+          <!-- Row 2: Triumph Highway frames -->
+          <div class="storyboard-strip">
+            <img src="./assets/collection/assets/storyboard-row2.png" alt="Storyboard Row 2 Triumph Highway" class="storyboard-img" />
+          </div>
+        </div>
+
+        <!-- Hierarchy 3: Video Results Heading (Clean Purple)
+             >> Move this header: .video-results-title { margin-bottom } (+ a margin-top) -->
+        <h2 class="video-results-title">Video results</h2>
+
+        <!-- Hierarchy 4: Dual Video Cards (325x219 each, 680px grid, shifted right 35px)
+             >> Shrink/grow the placeholders: .video-card-container { width, height }
+                + .videos-grid { grid-template-columns, gap, max-width }
+                + the two pencil-ring SVGs right below each card -->
+        <div class="videos-grid">
+
+          <!-- Video 1: Freedom_MotorBike-V2.mp4 with freedom-preview.jpg poster -->
+          <div class="video-card-container" id="cardContainer1">
+            <div class="video-inner-box">
+              <video class="video-element" id="video1" loop playsinline preload="metadata"
+                poster="./assets/collection/assets/freedom-scene-poster.jpg">
+                <source src="./assets/collection/assets/videos/Freedom_MotorBike-V2.mp4" type="video/mp4" />
+              </video>
+              <div class="play-overlay">
+                <div class="play-circle-btn">
+                  <svg viewBox="0 0 24 24">
+                    <path d="M8 5v14l11-7z" />
+                  </svg>
+                </div>
+                <span class="play-text-badge">Play</span>
+              </div>
+            </div>
+
+            <!-- Hand-drawn pencil-looking stroke overlay: #CDFC8A @ 84%, weight 7px -->
+            <!-- [KNOB: pencil ring] CARD 1. These numbers are hard-coded and follow the
+                 card size. If you change .video-card-container to W x H, rewrite:
+                   viewBox="0 0 W H"
+                   rect x/y = .video-inner-box inset (7)
+                   rect width/height = W-14 / H-14   (311 / 205 today)
+                   rx/ry = card border-radius (26)
+                   stroke-width = ring thickness (7) -->
+            <svg class="pencil-stroke-svg" viewBox="0 0 325 219">
+              <rect x="7" y="7" width="311" height="205" rx="26" ry="26" fill="none" stroke="rgba(205, 252, 138, 0.84)"
+                stroke-width="7" filter="url(#pencilStrokeFilter)" />
+            </svg>
+          </div>
+
+          <!-- Video 2: Hook-WTF-I-MADE.mp4 with hook-preview.jpg poster -->
+          <div class="video-card-container" id="cardContainer2">
+            <div class="video-inner-box">
+              <video class="video-element" id="video2" loop playsinline preload="metadata"
+                poster="./assets/collection/assets/hook-scene-poster.jpg">
+                <source src="./assets/collection/assets/videos/Hook-WTF-I-MADE.mp4" type="video/mp4" />
+              </video>
+              <div class="play-overlay">
+                <div class="play-circle-btn">
+                  <svg viewBox="0 0 24 24">
+                    <path d="M8 5v14l11-7z" />
+                  </svg>
+                </div>
+                <span class="play-text-badge">Play</span>
+              </div>
+            </div>
+
+            <!-- Hand-drawn pencil-looking stroke overlay: #CDFC8A @ 84%, weight 7px -->
+            <!-- [KNOB: pencil ring] CARD 2 -- same hard-coded shape as card 1, keep the
+                 two identical. See the formula in the comment above card 1. -->
+            <svg class="pencil-stroke-svg" viewBox="0 0 325 219">
+              <rect x="7" y="7" width="311" height="205" rx="26" ry="26" fill="none" stroke="rgba(205, 252, 138, 0.84)"
+                stroke-width="7" filter="url(#pencilStrokeFilter)" />
+            </svg>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ======================================================================= -->
+  <!-- JAVASCRIPT: RESPONSIVE CANVAS, DUAL VIDEO CONTROLS & SMOOTH NAV        -->
+  <!-- ======================================================================= -->
+  <script>
+    (function () {
+      'use strict';
+
+      const canvas = document.getElementById('canvasContainer');
+      const stage = document.getElementById('stage');
+      const BASE_WIDTH = 1440;
+      const BASE_HEIGHT = 1024;
+
+      // Responsive Canvas Scaling to Viewport
+      function resizeCanvas() {
+        const vw = window.innerWidth;
+        const vh = window.innerHeight;
+        const scale = Math.min(vw / BASE_WIDTH, vh / BASE_HEIGHT);
+        canvas.style.transform = `scale(${scale})`;
+      }
+
+      window.addEventListener('resize', resizeCanvas);
+      window.addEventListener('orientationchange', resizeCanvas);
+      resizeCanvas();
+
+      // Video Play / Pause Interaction (mutually exclusive)
+      function setupVideoCard(containerId, videoId) {
+        const container = document.getElementById(containerId);
+        const video = document.getElementById(videoId);
+        if (!container || !video) return;
+
+        container.addEventListener('click', () => {
+          if (video.paused) {
+            // Pause any other playing video
+            document.querySelectorAll('video').forEach(v => {
+              if (v !== video) {
+                v.pause();
+                v.closest('.video-card-container')?.classList.remove('is-playing');
+              }
+            });
+            video.play();
+            container.classList.add('is-playing');
+          } else {
+            video.pause();
+            container.classList.remove('is-playing');
+          }
+        });
+
+        video.addEventListener('ended', () => {
+          container.classList.remove('is-playing');
+        });
+      }
+
+      setupVideoCard('cardContainer1', 'video1');
+      setupVideoCard('cardContainer2', 'video2');
+
+      // Smooth Page Navigation Transition
+      const navLinks = document.querySelectorAll('.nav-link');
+      navLinks.forEach(link => {
+        link.addEventListener('click', function (e) {
+          const targetUrl = this.getAttribute('href');
+          if (!targetUrl || targetUrl.startsWith('#')) return;
+
+          e.preventDefault();
+          stage.classList.add('page-leave');
+
+          setTimeout(() => {
+            window.location.href = targetUrl;
+          }, 300);
+        });
+      });
+    })();
+  </script>
+</body>
+
+</html>
