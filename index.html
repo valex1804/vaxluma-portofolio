@@ -3215,9 +3215,15 @@
     }
 
     @media (max-width: 768px) {
+      :root {
+        --header-h: 56px;
+      }
       /* Mobile Navbar */
       .master-header {
-        padding: 12px 0;
+        height: 56px;
+        padding: 0;
+        display: flex;
+        align-items: center;
       }
       .master-header-inner {
         padding: 0 18px;
@@ -3231,6 +3237,11 @@
       .master-nav-link {
         font-size: 13px;
         padding: 4px 0;
+      }
+
+      /* Push hero section below the fixed mobile navbar so character head is completely clear */
+      #hero {
+        margin-top: 56px;
       }
 
       /* Mobile Lightbox Modal */
