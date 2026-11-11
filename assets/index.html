@@ -373,7 +373,7 @@
     .card-media-wrap {
       position: relative;
       width: 100%;
-      background: #000;
+      background: rgba(14, 12, 42, 0.7);
       overflow: hidden;
       display: flex;
       align-items: center;
@@ -383,9 +383,10 @@
     .card-media-wrap img,
     .card-media-wrap video {
       width: 100%;
-      height: auto;
+      height: 100%;
+      object-fit: cover;
       display: block;
-      transition: transform 0.4s ease;
+      transition: transform 0.4s ease, opacity 0.3s ease;
     }
 
     .asset-card:hover .card-media-wrap img {
@@ -892,13 +893,12 @@
           const posterSrc = item.poster || item.src;
 
           card.innerHTML = `
-            <div class="card-media-wrap">
+            <div class="card-media-wrap" style="aspect-ratio: ${item.aspectRatio || '16/9'};">
               <span class="${tagClass}">${item.folderTag}</span>
               <div class="card-type-pill" title="${item.type === 'video' ? 'Video Motion' : 'Visual Still'}">
                 ${typeIcon}
               </div>
-              <img src="${posterSrc}" alt="${item.title}" loading="lazy">
-              ${item.type === 'video' ? `<video src="${item.src}" loop muted playsinline preload="none"></video>` : ''}
+              <img src="${posterSrc}" alt="${item.title}" loading="lazy" decoding="async">
             </div>
             <div class="card-info">
               <div style="min-width: 0; flex: 1;">
@@ -911,17 +911,28 @@
             </div>
           `;
 
-          // Video hover interaction
+          // Video hover interaction: lazy load video element only on hover
           if (item.type === 'video') {
-            const vid = card.querySelector('video');
+            let vid = null;
             card.addEventListener('mouseenter', () => {
+              const wrap = card.querySelector('.card-media-wrap');
+              if (!vid) {
+                vid = document.createElement('video');
+                vid.src = item.src;
+                vid.loop = true;
+                vid.muted = true;
+                vid.playsInline = true;
+                wrap.appendChild(vid);
+              }
               card.classList.add('playing');
               vid.play().catch(() => {});
             });
             card.addEventListener('mouseleave', () => {
               card.classList.remove('playing');
-              vid.pause();
-              vid.currentTime = 0;
+              if (vid) {
+                vid.pause();
+                vid.currentTime = 0;
+              }
             });
           }
 
